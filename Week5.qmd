@@ -5,7 +5,7 @@ title: "Simulating Confidence Intervals"
 First, let's bring my hospital dataset into R.
 
 ```{webr-r}
-dat <- read.csv('/Users/ryderfried/Documents/2025-2026/Spring/STATS200Q/transmission_pairs_covid_v2.csv')
+dat <- read.csv('transmission_pairs_covid_v2.csv')
 ```
 
 Now, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values).

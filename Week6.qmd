@@ -6,9 +6,6 @@ First, let's bring my hospital dataset into R.
 
 ```{webr-r}
 dat <- read.csv('transmission_pairs_covid_v2.csv')
-```
-
-```{webr-r}
 x <- as.vector(table(dat$infector_id)) - 1
 ```
 

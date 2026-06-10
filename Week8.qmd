@@ -5,10 +5,7 @@ title: "Bayesian Hypothesis Testing"
 First, let's bring my hospital dataset into R.
 
 ```{webr-r}
-dat <- read.csv('/Users/ryderfried/Documents/2025-2026/Spring/STATS200Q/transmission_pairs_covid_v2.csv')
-```
-
-```{webr-r}
+dat <- read.csv('transmission_pairs_covid_v2.csv')
 x <- as.vector(table(dat$infector_id)) - 1
 ```
 
