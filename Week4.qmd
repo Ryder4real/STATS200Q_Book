@@ -37,7 +37,7 @@ $$
 
 Going back to my hospital dataset:
 
-```{web-r}
+```{webr-r}
 dat <- read.csv('"https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv"')
 x <- as.vector(table(dat$infector_id)) - 1
 x_bar = mean(x)
@@ -93,7 +93,7 @@ This is unfortunately not cleanly solvable for $p$, but we can graph it. If we s
 
 For this sample, let's go back to the dataset I started with, where $\bar{x} = 0.7435, n=807$. Let's fix $r = 0.5$.
 
-```{web-r}
+```{webr-r}
 r <- 0.5      
 
 p_hat <- r / (r + x_bar)
@@ -136,7 +136,7 @@ Unfortunately, we can't solve for LB and RB by hand. However, the computer can s
 
 Again, we will use the same values from my hospital dataset, as before.
 
-```{web-r}
+```{webr-r}
 r <- 0.5
 sum_xi <- x_bar * n 
 credible_range <- 0.95
