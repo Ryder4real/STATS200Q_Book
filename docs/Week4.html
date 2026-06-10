@@ -272,7 +272,7 @@ window.Quarto = {
 \end{aligned}
 \]</span></p>
 <p>Going back to my hospital dataset:</p>
-<pre class="{web-r}"><code>dat &lt;- read.csv('/Users/ryderfried/Documents/2025-2026/Spring/STATS200Q/transmission_pairs_covid_v2.csv')
+<pre class="{web-r}"><code>dat &lt;- read.csv('"https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv"')
 x &lt;- as.vector(table(dat$infector_id)) - 1
 x_bar = mean(x)
 n = length(x)
