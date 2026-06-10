@@ -1,0 +1,272 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Stats200Q Book",
+    "section": "",
+    "text": "1 Introduction\nEach chapter is specified in a separate .qmd file. The ordering of the chapters is specified in _quarto.yml. The table of contents in the sidebar is automatically generated from the _quarto.yml file.\nTo render the book, you run quarto render in the Terminal while you are in this directory. This will generate a new folder called _book, which contains the HTML files that you should upload to your web host.\nYou can include citations by adding the BibTex to references.bib and citing the item by its key. (Knuth 1984)\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. (USA) 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "Week1.html",
+    "href": "Week1.html",
+    "title": "2  MLE & Posterior Mean",
+    "section": "",
+    "text": "2.1 Maximum Likelihood Estimation\n\\(X_1,...,X_n \\sim \\text{NegBin}(r, p)\\)\n\\[\n\\begin{aligned}\n    P(X=x) &= \\binom{x + r- 1}{x} p^r (1 - p)^x \\\\\n    L_{x_1,...,x_n}(p) &= \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i} \\\\\n    L_{x_1,...,x_n}(p) &= p^{rn} \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i}  (1 - p)^{x_i} \\\\\n    L_{x_1,...,x_n}(p) &= p^{rn} \\Bigg(\\prod_{i=1}^n \\binom{x_i + r- 1}{x_i} \\Bigg) (1 - p)^{\\sum_{i=1}^n x_i} \\\\\n    l_{x_1,...,x_n}(p) &= rn \\log(p) + \\sum_{i=1}^n \\log \\left(\\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\\right) + \\left(\\sum_{i=1}^n x_i\\right) \\log(1 - p) \\\\\n    \\frac{d}{dp} l_{x_1,...,x_n}(p) &= \\frac{d}{dp} \\left( rn\\log(p) + \\sum_{i=1}^n \\log \\left(\\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\\right) + \\left(\\sum_{i=1}^n x_i\\right) \\log(1 - p) \\right) \\\\\n    \\frac{d}{dp} l_{x_1,...,x_n}(p) &= \\left(\\frac{rn}{p} - \\frac{\\sum_{i=1}^n x_i}{1 - p} \\right) \\\\\n    0 &= \\frac{rn}{p} - \\frac{\\sum_{i=1}^n x_i}{1-p} \\\\\n    \\frac{rn}{p} &= \\frac{\\sum_{i=1}^n x_i}{1-p}  \\\\\n    \\frac{1-p}{p} &= \\frac{\\sum_{i=1}^n x_i}{rn} \\\\\n    \\frac{1}{p} - 1 &= \\frac{\\bar{x}}{r} \\\\\n    \\hat{p} &= \\frac{r}{r + \\bar{x}}\n\\end{aligned}\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>MLE & Posterior Mean</span>"
+    ]
+  },
+  {
+    "objectID": "Week1.html#posterior-mean",
+    "href": "Week1.html#posterior-mean",
+    "title": "2  MLE & Posterior Mean",
+    "section": "2.2 Posterior Mean",
+    "text": "2.2 Posterior Mean\nWith a Beta Prior. Let’s set \\(\\alpha=1, \\beta = 1\\). (So this is actually just a uniform).\n\\[\n\\begin{aligned}\n    f(p | x) &= \\frac{f(p)f(x_1,...,x_n|p)}{f(x_1,...,x_n)}  \\\\\n    f(p | x) &= \\frac{\\frac{\\Gamma(\\alpha + \\beta)}{\\Gamma(\\alpha)\\Gamma(\\beta)} p^{\\alpha - 1} (1-p)^{\\beta - 1} \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i}}{f(x_1,...,x_n)} \\\\\n    f(p | x) &\\propto p^{\\alpha + nr - 1} (1-p)^{\\beta + \\sum x_i - 1}\n\\end{aligned}\n\\]\nThis results in \\(f(p | x) \\sim \\text{Beta}(\\alpha + nr, \\beta + \\sum_{i=1}^n x_i)\\).\n\\[\n\\begin{aligned}\n    \\mathbb{E}[P] &= \\frac{\\alpha + nr}{\\alpha + \\beta + nr + \\sum_{i=1}^n x_i} \\\\\n    \\mathbb{E}[P] &= \\frac{1 + nr}{2 + nr + \\sum_{i=1}^n x_i}\n\\end{aligned}\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>MLE & Posterior Mean</span>"
+    ]
+  },
+  {
+    "objectID": "Week1.html#my-dataset",
+    "href": "Week1.html#my-dataset",
+    "title": "2  MLE & Posterior Mean",
+    "section": "2.3 My Dataset",
+    "text": "2.3 My Dataset\nIn my dataset, \\(\\bar{x} = 0.7435, n=807, \\sum(x) = 600\\).\n\\[\n\\begin{aligned}\n    \\hat{p}_{MLE} &= \\frac{r}{r + 0.7435} \\\\\n    \\hat{p}_{posterior} &= \\frac{1 + 807r}{2 + 807r + 600}\n\\end{aligned}\n\\]\nIf we assume \\(r = 0.5\\):\n\\[\n\\begin{aligned}\n    \\hat{p}_{MLE} &= \\frac{0.5}{0.5 + 0.7435} = 0.402 \\\\\n    \\hat{p}_{posterior} &= \\frac{1 + 807(0.5)}{2 + 807(0.5) + 600} = 0.401\n\\end{aligned}\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>MLE & Posterior Mean</span>"
+    ]
+  },
+  {
+    "objectID": "Week1.html#bias-and-variance",
+    "href": "Week1.html#bias-and-variance",
+    "title": "2  MLE & Posterior Mean",
+    "section": "2.4 Bias and Variance",
+    "text": "2.4 Bias and Variance\nLet’s say true \\(p\\) is 0.4.\nAfter 10,000 simulations, the bias and variance of our estimators is:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\\(\\hat{p}_{MLE}\\) has positive bias while \\(\\hat{p}_{PM}\\) is biased toward the prior distribution.\n\\(\\hat{p}_{PM}\\) has less variance. This is more apparent if you make n_obs smaller in the code.\nHere is the histogram for \\(\\hat{p}_{MLE}\\).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nHere is the histogram for \\(\\hat{p}_{PM}\\).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>MLE & Posterior Mean</span>"
+    ]
+  },
+  {
+    "objectID": "Week2.html",
+    "href": "Week2.html",
+    "title": "3  Quick Proof & Evaluating Estimators",
+    "section": "",
+    "text": "3.1 Proving \\(\\text{Var}(\\ell'(\\theta)) = -\\mathbb{E}[\\ell''(\\theta)]\\)\nFor any PDF \\(f_\\theta(x)\\), the log-likelihood of \\(x\\) can be written as \\(\\ell_x(\\theta)\\).\nThe Score is defined as \\(\\mathbb{E}[\\ell'_\\theta(x)]\\).\n\\[\n\\mathbb{E}[\\ell'_x(\\theta)] = \\int_{-\\infty}^\\infty \\ell'_x(\\theta)f_\\theta(x) dx\n\\]\nNow, let’s solve for \\(\\ell'_x(\\theta)\\):\n\\[\n\\begin{aligned}\nL_x(\\theta) &= f_\\theta(x) \\\\\n\\ell_x(\\theta) &= \\log(f_\\theta(x)) \\\\\n\\frac{d}{d \\theta} \\ell_x(\\theta) &= \\frac{\\frac{d}{d \\theta} f_\\theta(x)}{f_\\theta(x)} \\\\\n\\ell'_x(\\theta) &= \\frac{\\frac{d}{d \\theta} f_\\theta(x)}{f_\\theta(x)}\n\\end{aligned}\n\\]\nSubbing this into our expectation:\n\\[\n\\begin{aligned}\n\\mathbb{E}[\\ell'_x(\\theta)] &= \\int_{-\\infty}^\\infty \\frac{\\frac{d}{d \\theta} f_\\theta(x)}{f_\\theta(x)} f_\\theta(x) dx \\\\\n&= \\int_{-\\infty}^\\infty \\frac{d}{d \\theta} f_\\theta(x) dx \\\\\n&= \\frac{d}{d \\theta} \\int_{-\\infty}^\\infty f_\\theta(x) dx \\\\\n&= \\frac{d}{d \\theta} (1) = 0\n\\end{aligned}\n\\]\nNow, solving for \\(\\text{Var}(\\ell'(\\theta))\\). We know: \\(\\text{Var}(\\ell'(\\theta)) = \\mathbb{E}[(\\ell'(\\theta))^2] - (\\mathbb{E}[\\ell'(\\theta)])^2\\).\nSince \\(\\mathbb{E}[\\ell'_x(\\theta)] = 0\\):\n\\[\n\\text{Var}(\\ell'(\\theta)) = \\mathbb{E}[(\\ell'(\\theta))^2] = \\int_{-\\infty}^\\infty (\\ell'_x(\\theta))^2 f_\\theta(x) dx\n\\]\nNext, we relate \\((\\ell'_x(\\theta))^2\\) to the second derivative:\n\\[\n\\begin{aligned}\n\\ell''_x(\\theta) = \\frac{d}{d \\theta} \\left[ \\frac{\\frac{d}{d \\theta} f_\\theta(x)}{f_\\theta(x)} \\right] &= \\frac{f_\\theta(x) \\frac{d^2}{d \\theta^2} f_\\theta(x) - (\\frac{d}{d \\theta} f_\\theta(x))^2}{(f_\\theta(x))^2} \\\\\n\\ell''_x(\\theta) &= \\frac{\\frac{d^2}{d \\theta^2} f_\\theta(x)}{f_\\theta(x)} - \\left( \\frac{\\frac{d}{d \\theta} f_\\theta(x)}{f_\\theta(x)} \\right)^2 \\\\\n\\ell''_x(\\theta)&= \\frac{\\frac{d^2}{d \\theta^2} f_\\theta(x)}{f_\\theta(x)} - (\\ell'_x(\\theta))^2\n\\end{aligned}\n\\]\nRearranging gives \\((\\ell'_x(\\theta))^2 = \\frac{\\frac{d^2}{d \\theta^2} f_\\theta(x)}{f_\\theta(x)} - \\ell''_x(\\theta)\\). Integrating this against the PDF:\n\\[\n\\begin{aligned}\n\\text{Var}(\\ell'(\\theta)) &= \\int_{-\\infty}^\\infty f_\\theta(x) \\left( \\frac{\\frac{d^2}{d \\theta^2} f_\\theta(x)}{f_\\theta(x)} - \\ell''_x(\\theta) \\right) dx \\\\\n&= \\int_{-\\infty}^\\infty \\frac{d^2}{d \\theta^2} f_\\theta(x) -  \\ell''_x(\\theta) f_\\theta(x) dx \\\\\n&= \\int_{-\\infty}^\\infty \\frac{d^2}{d \\theta^2} f_\\theta(x)  dx - \\int_{-\\infty}^\\infty \\ell''_x(\\theta) f_\\theta(x) dx \\\\\n&= \\frac{d^2}{d\\theta^2} \\int_{-\\infty}^\\infty f_\\theta(x) dx- \\mathbb{E}[\\ell''_x(\\theta)] \\\\\n&= \\frac{d^2}{d\\theta^2} (1) - \\mathbb{E}[\\ell''_x(\\theta)] \\\\\n&= - \\mathbb{E}[\\ell''_x(\\theta)]\n\\end{aligned}\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Quick Proof & Evaluating Estimators</span>"
+    ]
+  },
+  {
+    "objectID": "Week2.html#mse",
+    "href": "Week2.html#mse",
+    "title": "3  Quick Proof & Evaluating Estimators",
+    "section": "3.2 MSE",
+    "text": "3.2 MSE\nIn PSET 1, I derived that if \\(X \\sim \\text{NegBin}(r, p)\\), then: \\(\\hat{p}_{MLE} = \\frac{r}{r + \\bar{x}}\\) and \\(\\hat{p}_{PM}\\) = \\(\\frac{1 + nr}{2 + nr + \\sum x_i}\\).\nTo show their different curves MSE for different \\(p\\), below is a simulation that prints out Mean Squared Error for different \\(p\\), for when \\(n=50\\) and \\(r=0.5\\).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Quick Proof & Evaluating Estimators</span>"
+    ]
+  },
+  {
+    "objectID": "Week2.html#cramer-rao-lower-bound",
+    "href": "Week2.html#cramer-rao-lower-bound",
+    "title": "3  Quick Proof & Evaluating Estimators",
+    "section": "3.3 Cramer-Rao Lower Bound",
+    "text": "3.3 Cramer-Rao Lower Bound\nThe CRLB for unbiased estimators is \\(\\frac{1}{-\\mathbb{E}[\\ell''(\\theta)]}\\). For \\(X \\sim \\text{NegBin}(r, p)\\):\n\\[\n\\begin{aligned}\n\\mathbb{E}\\left[\\frac{d^2}{dp^2} \\ell(p)\\right] &= -\\left(\\frac{rn}{p^2} + \\frac{\\mathbb{E}[\\sum x]}{(1-p)^2} \\right) \\\\\n&= -\\left(\\frac{rn}{p^2} + \\frac{rn(1-p)}{p(1-p)^2} \\right) \\\\\n&= -\\frac{rn}{p^2(1-p)}\n\\end{aligned}\n\\]\nThe lowest possible variance for an unbiased estimator is \\(\\frac{p^2(1-p)}{rn}\\).\nHowever, in Week 1, we established from simulation that \\(\\hat{p}_{MLE}\\) is positively biased. Additionally, in class we learned that the \\(\\hat{p}_{PM}\\) is always biased toward the prior. Since the MLE and Posterior Mean are both biased, the CRLB does not provide a strict lower bound for their variance.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Quick Proof & Evaluating Estimators</span>"
+    ]
+  },
+  {
+    "objectID": "Week3.html",
+    "href": "Week3.html",
+    "title": "4  Asymptotic Distribution of MLE",
+    "section": "",
+    "text": "4.1 Simulating Distribution\nLet’s say \\(X_1, ...,X_n \\sim \\text{NegBin}(r, p)\\), where \\(r=0.5\\) and \\(p = 0.4\\).\nWe derived in PSET 1 that \\(\\hat{p}_{MLE} = \\frac{r}{r + \\bar{x}}\\). Below is a histogram of \\(\\hat{p}_{MLE}\\) as \\(n\\) grows large, in this case to \\(10,000\\).",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Asymptotic Distribution of MLE</span>"
+    ]
+  },
+  {
+    "objectID": "Week3.html#simulating-distribution",
+    "href": "Week3.html#simulating-distribution",
+    "title": "4  Asymptotic Distribution of MLE",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Asymptotic Distribution of MLE</span>"
+    ]
+  },
+  {
+    "objectID": "Week3.html#asymptotic-calculation",
+    "href": "Week3.html#asymptotic-calculation",
+    "title": "4  Asymptotic Distribution of MLE",
+    "section": "4.2 Asymptotic Calculation",
+    "text": "4.2 Asymptotic Calculation\nFrom class, we determined that the asymptotic variance of \\(\\hat{p}_{MLE}\\) is \\(\\frac{1}{\\text{Var}(\\ell^\\prime_{x_1}(\\theta))}\\).\nTaking the score from PSET 1, we have:\n\\[\n\\frac{d}{dp} \\ell_{x_1,...,x_n}(p) = \\left(\\frac{rn}{p} - \\frac{\\sum x}{1 - p} \\right)\n\\]\nAs we only want to work with one observation now, we will set \\(n=1\\).\n\\[\n\\ell ^\\prime_{x_1} (p) = \\left(\\frac{r}{p} - \\frac{x}{1 - p} \\right)\n\\]\nWe established in PSET 2 that \\(\\text{Var}(\\ell'(\\theta)) = -\\mathbb{E}[\\ell''(\\theta)]\\). This means that that the asymptotic variance of \\(\\hat{p}_{MLE}\\) is \\(\\frac{1}{-\\mathbb{E}[\\ell''(\\theta)]}\\). So, let’s solve for \\(-\\mathbb{E}[\\ell''(\\theta)]\\).\n\\[\n\\begin{aligned}\n\\ell ^\\prime_{x_1} (p) &= \\frac{r}{p} - \\frac{x}{1 - p}  \\\\\n\\frac{d^2}{dp^2} \\ell_{x_1} (p) &= \\frac{-r}{p^2} - \\frac{x}{(1 - p)^2} \\\\\n-\\mathbb{E}[\\ell ^{\\prime \\prime}_{x_1} (p)] &= \\frac{r}{p^2} + \\frac{\\mathbb{E}[x]}{(1 - p)^2} \\\\\n-\\mathbb{E}[\\ell ^{\\prime \\prime}_{x_1} (p)] &= \\frac{r}{p^2} + \\frac{\\Big(\\frac{r(1-p)}{p}\\Big)}{(1 - p)^2} \\\\\n-\\mathbb{E}[\\ell ^{\\prime \\prime}_{x_1} (p)] &= \\frac{r}{p^2} + \\frac{r}{p(1 - p)} \\\\\n-\\mathbb{E}[\\ell ^{\\prime \\prime}_{x_1} (p)] &= \\frac{r(1-p)}{p^2(1-p)} + \\frac{rp}{p^2(1 - p)} \\\\\n-\\mathbb{E}[\\ell ^{\\prime \\prime}_{x_1} (p)] &= \\frac{r(1-p) + rp}{p^2(1-p)}  \\\\\n-\\mathbb{E}[\\ell ^{\\prime \\prime}_{x_1} (p)] &= \\frac{r(1 - p + p)}{p^2(1-p)}  \\\\\n-\\mathbb{E}[\\ell ^{\\prime \\prime}_{x_1} (p)] &= \\frac{r}{p^2(1-p)}  \\\\\n\\end{aligned}\n\\]\nSo, the asymptotic variance of \\(\\hat{p}_{MLE}\\) is \\(\\frac{p^2(1-p)}{r}\\).\nBased on the CLT, which we showed in class:\n\\[\n  \\sqrt{n} (\\hat{p}_{MLE} - p) \\sim N\\left(0, \\frac{p^2(1-p)}{r}\\right)\n\\]\nNow, isolating for \\(\\hat{p}_{MLE}\\), we have:\n\\[\n\\hat{p}_{MLE} \\overset{\\cdot}{\\sim} N\\left(p, \\frac{p^2(1-p)}{nr} \\right)\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Asymptotic Distribution of MLE</span>"
+    ]
+  },
+  {
+    "objectID": "Week3.html#graphing-asymptotic-mle-curve",
+    "href": "Week3.html#graphing-asymptotic-mle-curve",
+    "title": "4  Asymptotic Distribution of MLE",
+    "section": "4.3 Graphing Asymptotic MLE Curve",
+    "text": "4.3 Graphing Asymptotic MLE Curve\nBelow is a curve with the distribution of \\(\\hat{p}_{MLE}\\) with \\(r=0.5\\), \\(p=0.4\\), and large \\(n\\) (10,000), behind a red curve displaying the asymptotically normal distribution of \\(\\hat{p}_{MLE}\\).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Asymptotic Distribution of MLE</span>"
+    ]
+  },
+  {
+    "objectID": "Week4.html",
+    "href": "Week4.html",
+    "title": "5  Confidence and Credible Intervals",
+    "section": "",
+    "text": "5.1 Confidence Interval\nTo remember, in Homework 1, we solved that for \\(X_1,...,X_n \\sim \\text{NegBin}(r, p)\\) \\(\\hat{p}_{MLE} = \\frac{r}{r + \\bar{x}}\\).\nIn Homework #3, we established both that\n\\[\n  \\sqrt{n} (\\hat{p}_{MLE} - p) \\sim N\\left(0, \\frac{p^2(1-p)}{r}\\right)\n\\]\nand\n\\[\n\\hat{p}_{MLE} \\overset{\\cdot}{\\sim} N\\left(p, \\frac{p^2(1-p)}{nr} \\right)\n\\]This means that as the number of data points approaches infinity, \\(\\hat{p}_{MLE}\\) is approximately Normal, with a mean of \\(p\\) and a variance of \\(\\frac{p^2(1-p)}{nr}\\).\nTherefore, an approximate 95% confidence interval for \\(p\\) is : \\(\\hat{p}_{MLE} \\pm 2 \\sqrt{\\frac{p^2(1-p)}{nr}}\\). However, we do not know the true value of \\(p\\), so we have two options in how we can proceed.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Confidence and Credible Intervals</span>"
+    ]
+  },
+  {
+    "objectID": "Week4.html#confidence-interval",
+    "href": "Week4.html#confidence-interval",
+    "title": "5  Confidence and Credible Intervals",
+    "section": "",
+    "text": "5.1.1 Plug-In\nWe can try plugging in \\(\\hat{p}_{MLE}\\) for \\(p\\) in this equation. This means that the approximate 95% confidence interval is:\n\\[\n\\begin{aligned}\n\\hat{p} \\pm 2 \\sqrt{\\frac{\\hat{p}_{MLE}^2(1-\\hat{p}_{MLE})}{nr}}\n&= \\hat{p} \\pm 2 \\sqrt{\\frac{\\left( \\frac{r}{r + \\bar{x}} \\right)^2 \\left( 1-\\frac{r}{r + \\bar{x}} \\right)}{nr}} \\\\\n&= \\hat{p} \\pm 2 \\sqrt{\\frac{\\left( \\frac{r}{r + \\bar{x}} \\right)^2 \\left( \\frac{r + \\bar{x}}{r + \\bar{x}}-\\frac{r}{r + \\bar{x}} \\right)}{nr}} \\\\\n&= \\hat{p} \\pm 2 \\sqrt{\\frac{\\left( \\frac{r}{r + \\bar{x}} \\right)^2 \\left( \\frac{\\bar{x}}{r + \\bar{x}} \\right)}{nr}} \\\\\n&= \\hat{p} \\pm 2 \\sqrt{\\frac{r^2\\bar{x}}{nr(r + \\bar{x})^3}} \\\\\n&= \\hat{p} \\pm 2 \\sqrt{\\frac{r\\bar{x}}{n(r + \\bar{x})^3}}\n\\end{aligned}\n\\]\nGoing back to my hospital dataset:\ndat &lt;- read.csv('/Users/ryderfried/Documents/2025-2026/Spring/STATS200Q/transmission_pairs_covid_v2.csv')\nx &lt;- as.vector(table(dat$infector_id)) - 1\nx_bar = mean(x)\nn = length(x)\nprint(c(x_bar, n))\nI had \\(\\bar{x} \\approx 0.7435, n=807\\). Let’s say \\(r = 0.5\\).\nI then have:\n\\[\n\\begin{aligned}\n\\hat{p} \\pm 2 \\sqrt{\\frac{r\\bar{x}}{n(r + \\bar{x})^3}} \\\\\n\\frac{r}{r+\\bar{x}} \\pm 2 \\sqrt{\\frac{r\\bar{x}}{n(r + \\bar{x})^3}} \\\\\n\\frac{0.5}{0.5+0.7435} \\pm 2 \\sqrt{\\frac{(0.5)(0.7435)}{807(0.5 + 0.7435)^3}} \\\\\n0.4021 \\pm 2 \\sqrt{0.00023958}\n\\end{aligned}\n\\]\nSo, the approximate plug-in 95% confidence interval for \\(p\\) is \\([0.3711, 0.4331]\\).\n\n\n5.1.2 Direct Computation\nInstead of plugging in \\(\\hat{p}_{MLE}\\) for \\(p\\), we can try to solve for what values of \\(p\\) make up the confidence interval.\nWe established earlier that:\n\\(\\sqrt{n} (\\hat{p}_{MLE} - p) \\sim N\\left(0, \\frac{p^2(1-p)}{r}\\right)\\)\nThis means that: \\(\\hat{p}_{MLE} - p \\sim N\\left(0, \\frac{p^2(1-p)}{nr}\\right)\\).\nFurthermore, we can say that:\n\\(\\frac{\\hat{p}_{MLE} - p}{\\sqrt{ \\frac{p^2(1-p)}{nr}}} \\sim N(0, 1)\\)\nAs this has a standard deviation of 1, we can set up a 95% confidence interval to be:\n\\(-2 \\leq \\frac{\\hat{p}_{MLE} - p}{\\sqrt{ \\frac{p^2(1-p)}{nr}}} \\leq 2\\)\n\\[\n\\begin{aligned}\n\\Bigg( \\frac{\\hat{p}_{MLE} - p}{\\sqrt{ \\frac{p^2(1-p)}{nr}}} \\Bigg)^2 &\\leq 4 \\\\\n\\frac{(\\hat{p}_{MLE} - p)^2}{ \\frac{p^2(1-p)}{nr}} &\\leq 4 \\\\\n\\frac{nr(\\hat{p}_{MLE} - p)^2}{p^2(1-p)} &\\leq 4 \\\\\n\\hat{p}_{MLE}^2 -2\\hat{p}_{MLE}p + p^2 &\\leq \\frac{4}{nr}p^2(1-p) \\\\\n\\hat{p}_{MLE}^2 -2\\hat{p}_{MLE}p + p^2- \\frac{4p^2}{nr} + \\frac{4p^3}{nr} &\\leq 0 \\\\\n\\frac{4}{nr}p^3 + (1- \\frac{4}{nr})p^2 - 2\\hat{p}_{MLE}p + \\hat{p}_{MLE}^2&\\leq 0\n\\end{aligned}\n\\]\nThis is unfortunately not cleanly solvable for \\(p\\), but we can graph it. If we say that \\(f(p) = \\frac{4}{nr}p^3 + (1- \\frac{4}{nr})p^2 - 2\\hat{p}_{MLE}p + \\hat{p}_{MLE}^2\\), we can look at the zeros to see the values of \\(p\\) at the edge of the confidence intervals.\nFor this sample, let’s go back to the dataset I started with, where \\(\\bar{x} = 0.7435, n=807\\). Let’s fix \\(r = 0.5\\).\nr &lt;- 0.5      \n\np_hat &lt;- r / (r + x_bar)\n\n# f(p)\ncubic_f &lt;- function(p) {\n  a &lt;- 4 / (n * r)\n  (a * p^3) + (1 - a) * p^2 - (2 * p_hat) * p + p_hat^2\n}\n\n# ind roots of f(p) in two windown [0, p_hat] and [p_hat, 1]\nlower_bound &lt;- uniroot(cubic_f, interval = c(0, p_hat))$root\nupper_bound &lt;- uniroot(cubic_f, interval = c(p_hat, 1))$root\n\n\ncat(\"95% Confidence Interval: [\", round(lower_bound, 4), \",\", round(upper_bound, 4), \"]\\n\")\nFrom the computation in the code above, we are approximately 95% confident that \\(p\\) is in \\([0.3727, 0.4346]\\)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Confidence and Credible Intervals</span>"
+    ]
+  },
+  {
+    "objectID": "Week4.html#credible-interval",
+    "href": "Week4.html#credible-interval",
+    "title": "5  Confidence and Credible Intervals",
+    "section": "5.2 Credible Interval",
+    "text": "5.2 Credible Interval\nIn Homework 1, I solved that given a Beta\\((\\alpha, \\beta)\\) prior, the posterior distribution for \\(p\\) is:\n\\(f(p | x_1,..,x_n) \\sim \\text{Beta}(\\alpha + nr, \\beta + \\sum_{i=1}^n x_i)\\).\nIn Homework 1, I used a uniform prior, meaning \\(\\alpha =1, \\beta=1\\). This means the posterior distribution given a uniform prior is:\n\\(f(p | x_1,..,x_n) \\sim \\text{Beta}(1 + nr, 1 + \\sum_{i=1}^n x_i)\\).\nFor our 95% credible interval, we want the interval to cover 95% of the distribution with symmetric tails.\nSo, we need a left bound (LB) and right bound (RB), such that:\n\\(\\int_{0}^{LB} \\frac{p^{(1+nr)-1} (1-p)^{(1+\\sum x_i)-1}}{B(1+nr, 1+\\sum x_i)} dp = 0.025\\)\n\\(\\int_{RB}^{1} \\frac{p^{(1+nr)-1} (1-p)^{(1+\\sum x_i)-1}}{B(1+nr, 1+\\sum x_i)} dp = 0.025\\)\nUnfortunately, we can’t solve for LB and RB by hand. However, the computer can solve it for us, using the ‘qbeta’ function.\nAgain, we will use the same values from my hospital dataset, as before.\nr &lt;- 0.5\nsum_xi &lt;- x_bar * n \ncredible_range &lt;- 0.95\n\n# Posterior Parameters based on f(p | x) ~ Beta(1 + nr, 1 + sum x_i)\nalpha_post &lt;- 1 + (n * r)\nbeta_post  &lt;- 1 + sum_xi\n\n# Calculate Tail Areas\nalpha_level &lt;- 1 - credible_range\ntail_area   &lt;- alpha_level / 2\n\n# 4. Solve for Credible Interval Bounds\nLB &lt;- qbeta(tail_area, \n            shape1 = alpha_post, \n            shape2 = beta_post, \n            lower.tail = TRUE)\n\nRB &lt;- qbeta(tail_area, \n            shape1 = alpha_post, \n            shape2 = beta_post, \n            lower.tail = FALSE)\n\ncredible_interval &lt;- c(LB, RB)\nnames(credible_interval) &lt;- c(\"Left Bound\", \"Right Bound\")\n\nprint(credible_interval)\nFrom the computation in the code above, conditional on my uniform prior, the credible interval states that there is a 95% chance \\(p\\) is in \\([0.3722, 0.4328]\\).",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Confidence and Credible Intervals</span>"
+    ]
+  },
+  {
+    "objectID": "Week5.html",
+    "href": "Week5.html",
+    "title": "6  Simulating Confidence Intervals",
+    "section": "",
+    "text": "6.1 Bootstrapping\nFirst, let’s bring my hospital dataset into R.\nNow, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values).",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Simulating Confidence Intervals</span>"
+    ]
+  },
+  {
+    "objectID": "Week5.html#bootstrapping",
+    "href": "Week5.html#bootstrapping",
+    "title": "6  Simulating Confidence Intervals",
+    "section": "",
+    "text": "6.1.1 Parametric Bootstrap\nIf we say \\(X \\sim \\text{NegBin}(p, r)\\), and we have \\(r = 0.5\\), then as I calculated in Homework 1, \\(\\hat{p}_{MLE} = \\frac{r}{r + \\bar{x}} = \\frac{0.5}{0.5 + 0.7435} = 0.402\\).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nSo, using a parametric bootstrap, we can simulate:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nSo, our approximate 95% confidence interval for \\(p\\) using Parametric Bootstrapping is about \\([0.3738, 0.4336]\\), depending on the simulation.\n\n\n6.1.2 Nonparametric Bootstrap\nHere, we will just re-sample from our sample.\nSo, using a nonparametric bootstrap, we can simulate:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nSo, our approximate 95% confidence interval for \\(p\\) using Nonparametric Bootstrapping is about \\([0.3714, 0.4360]\\), depending on the simulation.\n\n\n6.1.3 Comparing Confidence Intervals\nCombining last week and this week, I have now computed four different 95% confidence intervals for \\(p\\).\nThey are listed below:\n\nUsing CLT with \\(\\hat{p}\\) plug in for \\(p\\) in \\(I(p)\\): \\([0.3711, 0.4331]\\)\nUsing CLT with direct computation for \\(p\\) in \\(I(p)\\): \\([0.3727, 0.4346]\\)\nParametric Bootstrap: \\([0.3738, 0.4336]\\)\nNonparametric Bootstrap: \\([0.3714, 0.4360]\\)\n\nComputing for the range of the 95% confidence interval, we have:\nUsing CLT with \\(p_hat\\) plug in for \\(p\\) in \\(I(p)\\): \\(0.0620\\)\nUsing CLT with direct computation for \\(p\\) in \\(I(p)\\): \\(0.0619\\)\nParametric Bootstrap: \\(0.0598\\)\nNonparametric Bootstrap: \\(0.0646\\)\nThe parametric bootstrap 95% confidence interval has the smallest range, while the nonparametric bootstrap has the largest range.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Simulating Confidence Intervals</span>"
+    ]
+  },
+  {
+    "objectID": "Week5.html#metropolis-hastings",
+    "href": "Week5.html#metropolis-hastings",
+    "title": "6  Simulating Confidence Intervals",
+    "section": "6.2 Metropolis Hastings",
+    "text": "6.2 Metropolis Hastings\nIn Homework 1, I calculated a Bayesian posterior mean for my data using a Beta\\((1,1)\\) (Uniform) prior. I solved that:\n\\(f(p | x) \\propto p^{\\alpha + nr - 1} (1-p)^{\\beta + \\sum x_i - 1}\\).\nFor my uniform prior, this means that:\n\\(f(p | x) \\propto p^{1 + nr - 1} (1-p)^{1 + \\sum x_i - 1}\\)\n\\(f(p | x) \\propto p^{nr} (1-p)^{\\sum x_i}\\).\nInstead of recognizing the beta distribution, let’s instead run the Metropolis Hastings Algorithm.\nTo avoid numerical underflow, we will compute \\(e^{log(f(p | x))}\\).\n\\(f(p | x) \\propto e^{ nr \\log (p) + {\\sum x_i} \\log (1-p) + C}\\).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nHere, my Metropolis-Hastings posterior mean is around \\(0.401\\), depending on the simulation.\nIn Homework 1, instead of using a simulation, I recognized the \\(\\text{Beta}(1 + nr, 1+ \\sum_{i=1}^n x_i)\\) distribution. In that situation, my posterior mean was \\(0.401\\).\nNow, let’s look at the distribution of my Metropolis-Hastings \\(\\hat{p}\\).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nHere, my Metropolis-Hastings approximate 95% credible interval is around \\([0.3701, 0.4283]\\), depending on the simulation.\nWhen I did this from the Beta function in Homework 4 using the ‘qbeta’ function, my 95% credible interval was \\([0.3722, 0.4328]\\).\nHere are some statistics about these 95% credible intervals:\nRange:\nMetropolis-Hastings: \\(0.0582\\)\nDirect computation of the posterior distribution: \\(0.0606\\)\nSo, my approximate M-H 95% credible interval has a slightly smaller spread.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Simulating Confidence Intervals</span>"
+    ]
+  },
+  {
+    "objectID": "Week6.html",
+    "href": "Week6.html",
+    "title": "7  Hypothesis Testing",
+    "section": "",
+    "text": "7.1 Hypothesis Testing\nFirst, let’s bring my hospital dataset into R.\nIn my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting \\(E[X] = 0.5\\) feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that \\(\\mathbb{E}[X] = \\frac{r(1-p)}{p} = 0.5\\).\nIsolating for \\(p\\), we get:\n\\[\n\\begin{aligned}\n\\mathbb{E}[X] &= \\frac{r(1-p)}{p} \\\\\n\\frac{p}{1-p} &= \\frac{r}{\\mathbb{E}[X]} \\\\\n\\frac{1-p}{p} &= \\frac{\\mathbb{E}[X]}{r} \\\\\n\\frac{1}{p} - 1 &= \\frac{\\mathbb{E}[X]}{r} \\\\\n\\frac{1}{p} &= \\frac{\\mathbb{E}[X] + r}{r} \\\\\np &= \\frac{r}{\\mathbb{E}[X] + r}\n\\end{aligned}\n\\]\nSo, we set \\(\\mathbb{E}\\) to be 0.5. Let’s say for the sake of this example that we set \\(r\\) to be \\(0.75\\). In this scenario, we get \\(p = \\frac{0.75}{0.5+0.75} = 0.6\\).\nLet’s say our null hypothesis is \\(H_0\\) :\\(p = 0.6\\). Now, we are curious if maybe COVID is more infectious than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that \\(E[X]\\) is greater than 0.5, and as \\(\\mathbb{E}[X] = \\frac{r(1-p)}{p}\\), a smaller \\(p\\) leads to a larger \\(E[X]\\).\nThis means that:\n\\(H_0\\) :\\(p = 0.6\\)\n\\(H_A\\) :\\(p &lt; 0.6\\)\nAs we learned in class, to figure out the best X values to reject when \\(p&lt;0.6\\), all we need to do is choose one \\(p&lt;0.6\\), and the same will hold true for rest. Let’s proceed with \\(p=0.3\\).\nAgain, let’s proceed with \\(r=0.75\\).\nNegBin\\((p, r)\\) follows the distribution \\(\\binom{x + r - 1}{x} p^r (1 - p)^x\\):\nSo, our \\(H_0\\) gives us NegBin\\((p=0.6, r)\\), which follows the distribution: \\(f_0(x) = \\prod \\binom{x + r - 1}{x} 0.6^r (1 - 0.6)^x\\).\nOur \\(H_A\\) gives us NegBin\\((p=0.3, r)\\), which follows the distribution: \\(f_A(x) = \\prod \\binom{x + r - 1}{x} 0.3^r (1 - 0.3)^x\\).\nWe want to to maximize \\(\\frac{f_A(x)}{f_0(x)} = \\prod\\frac{\\binom{x + r - 1}{x} 0.3^r (1 - 0.3)^x}{ \\prod\\binom{x + r - 1}{x} 0.6^r (1 - 0.6)^x}\\), as these are the \\(X\\) values that we maximize our \\(\\frac{\\text{Power}}{\\alpha}\\). In other words, when this value ratio is maximized, we have the best ratio for decreasing the odds of a Type II Error while still protecting against Type I Errors.\nSo, let’s maximize:\n\\[\n\\begin{aligned}\n\\frac{f_A(x)}{f_0(x)} &= \\frac{\\prod _{i=1}^n \\binom{x_i + r - 1}{x} 0.3^r (1 - 0.3)^{x_i}}{ \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} 0.6^r (1 - 0.6)^{x_i}} \\\\\n\\frac{f_A(x)}{f_0(x)} &= \\frac{ \\Big( \\prod _{i=1}^n \\binom{x_i + r - 1}{x_i} \\Big) 0.3^{nr} (1 - 0.3)^{\\sum x_i}}{ \\Big( \\prod _{i=1}^n \\binom{x_i + r - 1}{x_i} \\Big) 0.6^{nr} (1 - 0.6)^{\\sum x_i}} \\\\\n&= \\frac{0.3^{nr} (1 - 0.3)^{\\sum_{i=1}^n x_i}}{ 0.6^{nr} (1 - 0.6)^{\\sum_{i=1}^n x_i}} \\\\\n&\\propto \\frac{0.7^{\\sum_{i=1}^n x_i}}{0.4^{\\sum_{i=1}^n x_i}} \\\\\n&= \\Big(\\frac{0.7}{0.4}\\Big)^ {\\sum_{i=1}^n x_i} \\\\\n\\end{aligned}\n\\]\nTo maximize, \\(\\Big(\\frac{0.7}{0.4}\\Big)^{\\sum_{i=1}^n x_i}\\), we want to reject when \\(\\sum_{i=1}^n x_i\\) is as large as possible.\nSo, we want: \\(P(\\sum_{i=1}^n x_i \\geq c) = 0.05\\).\nThe sum of many NegBin\\((p, r)\\) random variables is NegBin\\((p, n*r)\\), My COVID hospital dataset had 807 patients, so \\(n = 807\\).\nSo, we would use the qnbinom R function to set up an sum from \\(c\\) to \\(\\infty\\) over the \\(H_0\\) pdf that covers the upper \\(5\\%\\) (at most) of the distribution.\nWe then check to see how much of the density this sum has (I subtract by 1 because we want the density above whichever value is inputted into the pnbinom function):\nWe are above 0.05. So, we need to move our rejection bound up one value, to take up less of the density.\n\\(\\alpha\\) is now below \\(0.05\\)!\nSo, \\(c = 448\\)\nSo, we reject if \\(H_0\\) \\(\\sum x_i \\ge 448\\).\nNow, let’s see how often we would reject in my dataset.\nAs \\(600 &gt; c\\) (which was \\(448\\)), for my COVID hospital dataset, we reject \\(H_0\\). This implies that we accept the hypothesis that COVID is more contagious than the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least \\(1\\) person, so I do not want to extrapolate too much).",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Hypothesis Testing</span>"
+    ]
+  },
+  {
+    "objectID": "Week6.html#hypothesis-testing",
+    "href": "Week6.html#hypothesis-testing",
+    "title": "7  Hypothesis Testing",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\n\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Hypothesis Testing</span>"
+    ]
+  },
+  {
+    "objectID": "Week7.html",
+    "href": "Week7.html",
+    "title": "8  Generalized Likelihood Ratio Test",
+    "section": "",
+    "text": "8.1 Generalized Likelihood Ratio Test\nFirst, let’s bring my hospital dataset into R.\nI mention this in Homework 6, but as a reminder:\nIn my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting \\(E[X] = 0.5\\) feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that \\(\\mathbb{E}[X] = \\frac{r(1-p)}{p} = 0.5\\).\nI isolated for \\(p\\) in Homework 6, and got that \\(p = 0.6\\):\nLet’s say our null hypothesis is \\(H_0\\): \\(p = 0.6\\). Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that \\(E[X] \\neq 0.5\\), and and \\(p \\neq 0.6\\).\nSo, this gives us:\n\\(H_0\\) :\\(p = 0.6\\)\n\\(H_A\\): \\(p \\neq 0.6\\)\nAs we learned in class, for this type of hypothesis test, we try to maximize the ratio:\n\\(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)}\\)\nWe can rewrite this as:\n\\[\n\\begin{aligned}\n\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} &= \\frac{\\prod _{i=1}^n \\binom{x_i + r - 1}{x} p^r (1 - p)^{x_i}}{ \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\\\\n\\end{aligned}\n\\]\nWe know that for the numerator, the \\(p\\) that gives the greatest likelihood is \\(\\hat{p}_{MLE}\\). In Homework 1, I calculate the \\(\\hat{p}_{MLE}\\) for multiple samples of the Negative Binomial Distribution is \\(\\frac{r}{r + \\bar{x}}\\).\n\\[\n\\begin{aligned}\n\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} &= \\frac{\\prod _{i=1}^n \\binom{x_i + r - 1}{x} (\\frac{r}{r + \\bar{x}})^r (1 - \\frac{r}{r + \\bar{x}})^{x_i}}{ \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\\\\n\\end{aligned}\n\\]\nWe can simplify this to:\n\\[\n\\begin{aligned}\n\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} &= \\frac{\\prod _{i=1}^n \\binom{x_i + r - 1}{x} (\\frac{r}{r + \\bar{x}})^r (1 - \\frac{r}{r + \\bar{x}})^{x_i}}{ \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\\\\n\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} &= \\frac{(\\frac{r}{r + \\bar{x}})^{nr} (1 - \\frac{r}{r + \\bar{x}})^{\\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\\sum_{i=1}^n x_i}} \\\\\n\\end{aligned}\n\\]\nWe want to reject when \\(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} \\geq c\\), where: \\[P(\\texttt{test\\_statistic} \\geq c) = \\alpha = 0.05\\].\nHowever, this does not simplify to a distribution I recognize, so I cannot solve for \\(c\\).\nStill, we want to maximize this function. As log() is monotonic, we can take the logarithm of the fraction.\n\\[\n\\begin{aligned}\n\\log \\Big(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} \\Big) &= \\log \\Bigg( \\frac{(\\frac{r}{r + \\bar{x}})^{nr} (1 - \\frac{r}{r + \\bar{x}})^{\\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\\sum_{i=1}^n x_i}} \\Bigg)\\\\\n\\log \\Big(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} \\Big) &= nr \\log(\\frac{r}{r + \\bar{x}}) + \\sum_{i=1}^n x_i \\log(1 - \\frac{r}{r + \\bar{x}})- \\Big( nr \\log(p_0)  + \\sum_{i=1}^n x_i \\log(1 - p_0) \\Big)\\\\\n\\log \\Big(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} \\Big) &= nr \\log \\Big(\\frac{\\frac{r}{r + \\bar{x}}}{p_0}\\Big) + \\sum_{i=1}^n x_i \\log \\Big( \\frac{1-\\frac{r}{r + \\bar{x}}}{1-p_0} \\Big) \\\\\n\\log \\Big(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} \\Big) &= nr \\log \\Big(\\frac{\\frac{r}{r + \\bar{x}}}{p_0}\\Big) + \\sum_{i=1}^n x_i \\log \\Big( \\frac{1-\\frac{r}{r + \\bar{x}}}{1-p_0} \\Big)\n\\end{aligned}\n\\]\nOnce again, this also does not simplify to a distribution I recognize. So, we are left to either simulate or take the asymptotic distribution.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Generalized Likelihood Ratio Test</span>"
+    ]
+  },
+  {
+    "objectID": "Week7.html#generalized-likelihood-ratio-test",
+    "href": "Week7.html#generalized-likelihood-ratio-test",
+    "title": "8  Generalized Likelihood Ratio Test",
+    "section": "",
+    "text": "8.1.1 Simulation\nLet’s simulate our many times under the null hypothesis, and calculate \\(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)}\\) each time. For brevity, I will refer to \\(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)}\\) as \\(\\Lambda\\). Then, as we want to keep \\(\\alpha \\leq 0.05\\), we would reject if \\(\\Lambda\\) for our data is greater than the \\(95\\)th percentile of the simulated \\(\\Lambda\\)s.\nRemember: \\(\\Lambda = \\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} = \\frac{(\\frac{r}{r + \\bar{x}})^{nr} (1 - \\frac{r}{r + \\bar{x}})^{\\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\\sum_{i=1}^n x_i}}\\).\nHowever, to prevent underflow, I will take the logarithm.\n\\(\\log \\Big(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} \\Big) = nr \\log \\Big(\\frac{\\frac{r}{r + \\bar{x}}}{p_0}\\Big) + \\sum_{i=1}^n x_i \\log \\Big( \\frac{1-\\frac{r}{r + \\bar{x}}}{1-p_0} \\Big)\\)\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nSo, our test statistic is \\(\\log \\Big(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} \\Big)\\) and our \\(c\\) is about \\(1.933\\), depending on the simulation. So, if \\(\\Lambda\\) for my data is above 1.933, we reject \\(H_0\\).\nSo, let’s calculate \\(\\log (\\Lambda)\\), while setting \\(r=0.75\\).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nAs \\(\\log (\\Lambda)\\) is 23.55, which is \\(&gt;c\\), we reject \\(H_0\\).\n\n\n8.1.2 Asymptotic\nRemember, we want to reject when:\n\\(2 \\log(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)}) \\geq c\\)\nWe learned in class that under Wilks’ Theorem, for large \\(n\\):\n\\(2 \\log(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)}) \\sim \\chi^2_1\\).\nSo, this would make \\(c\\) the \\(95\\%\\) percentile of the chi-squared distribution.\nSo, let’s figure out our \\(c\\):\nWe can run this in code:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nSo, \\(c = 3.841459\\)\nNow, let’s check our data. Let’s assume \\(r = 0.75\\). Remember that Wilks’ Theorem states that for large n: \\(2 \\log(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)}) \\sim \\chi^2_1\\).\nFor our negative binomial: \\(\\log \\Big(\\frac{\\max_{p} \\mathcal{L}(p)}{\\mathcal{L}(p_0)} \\Big) = nr \\log \\Big(\\frac{\\frac{r}{r + \\bar{x}}}{p_0}\\Big) + \\sum_{i=1}^n x_i \\log \\Big( \\frac{1-\\frac{r}{r + \\bar{x}}}{1-p_0} \\Big)\\)\nLet’s proceed with \\(r=0.75\\).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nIf I just plug in the PDFs, I get the same value:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nAs \\(47.1 &gt; c\\) (which was \\(3.841459\\)), for my COVID hospital dataset, we reject \\(H_0\\). This implies that we reject the hypothesis that COVID has the same contagious level as the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least \\(1\\) person, so I do not want to extrapolate too much). Another way to say this is that we accept the hypothesis that COVID does not have the same contagious level as the flu.\nA power curve would be:\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Generalized Likelihood Ratio Test</span>"
+    ]
+  },
+  {
+    "objectID": "Week8.html",
+    "href": "Week8.html",
+    "title": "9  Bayesian Hypothesis Testing",
+    "section": "",
+    "text": "9.1 Bayesian Hypothesis Test\nFirst, let’s bring my hospital dataset into R.\nI mention this in Homework 6, but as a reminder:\nIn my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting \\(E[X] = 0.5\\) feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that \\(\\mathbb{E}[X] = \\frac{r(1-p)}{p} = 0.5\\).\nI isolated for \\(p\\) in Homework 6, and got that \\(p = 0.6\\):\nLet’s say our null hypothesis is \\(H_0\\): \\(p = 0.6\\). Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that \\(E[X] \\neq 0.5\\), and and \\(p \\neq 0.6\\).\nSo, this gives us:\n\\(H_0\\): \\(p = 0.6\\)\n\\(H_A\\): \\(p \\neq 0.6\\)\nNow, for Bayesian Hypothesis Testing, we need to assign prior probabilities to both the null hypothesis and the alternative hypothesis. As I do not really have a great intuition, let’s say both are \\(0.5\\).\nSo, we have:\n\\(P(H_0) = 0.5\\)\n\\(P(H_A) = 0.5\\)\nNext, we need to find the prior distribution for \\(p\\) in \\(H_A\\). Again, as I do not really have a great intuition, let’s say \\(p \\sim \\text{Uniform}(0,1)\\), as \\(p\\) could be anything from \\(0\\) to \\(1\\).\nSo, using Bayes’ Rule, this means that:\n\\(P(H_A|x) = \\frac{P(H_A) f(x|H_A)}{f(x)}\\)\n\\(P(H_0|x) = \\frac{P(H_0) f(x|H_0)}{f(x)}\\)\nNOTE: In the formula below, I will refer to \\(p\\) in \\(H_0\\) as \\(p_0\\). I know we set this equal to \\(0.6\\), but for clarity, I think it is easier to understand with \\(p_0\\).\nRemember that \\(f(x_1,x_2,...x_n)\\) is the product of Negative Binomial random variables.\nWhen taking their ratio, we get the Bayes Factor, which is:\n\\[\n\\begin{aligned}\n\\frac{P(H_A|x_1,...,x_n)}{P(H_0|x_1,...,x_n)} &= \\frac{\\frac{P(H_A) f(x_1,...,x_n|H_A)}{f(x_1,...,x_n)}}{\\frac{P(H_0) f(x_1,...,x_n|H_0)}{f(x_1,...,x_n)}} \\\\\n&= \\frac{P(H_A) f(x_1,...,x_n|H_A)}{P(H_0) f(x_1,...,x_n|H_0)} \\\\\n&= \\frac{P(H_A)}{P(H_0)} \\frac{f(x_1,...,x_n|H_A)}{f(x_1,...,x_n|H_0)} \\\\\n&= \\frac{0.5}{0.5} \\frac{\\int _0^1 f(p) f(x_1,...,x_n|p)dp}{\\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\\\\n&= \\frac{\\int _0^1 f(x_1,...,x_n|p)dp}{\\prod_{i=1}^n \\binom{x + r - 1}{x} (p_0)^r (1 - p_0)^{x_i}} \\\\\n&= \\frac{\\int _0^1 \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} p^r (1 - p)^{x_i} dp}{\\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\\\\n&= \\frac{\\int_0^1 \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} p^r (1 - p)^{x_i} \\, dp}{\\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\\\\n&= \\frac{\\int_0^1 \\left( \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} \\right) p^{rn} (1 - p)^{\\sum_{i=1}^n x_i} \\, dp}{\\left( \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} \\right) (p_0)^{rn} (1 - p_0)^{\\sum_{i=1}^n x_i}} \\\\\n&= \\frac{ \\left( \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} \\right) \\int_0^1 p^{rn} (1 - p)^{\\sum_{i=1}^n x_i} \\, dp}{\\left( \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i} \\right) (p_0)^{rn} (1 - p_0)^{\\sum_{i=1}^n x_i}} \\\\\n&= \\frac{\\int_0^1 p^{rn} (1 - p)^{\\sum_{i=1}^n x_i} \\, dp}{(p_0)^{rn} (1 - p_0)^{\\sum_{i=1}^n x_i}}\n\\end{aligned}\n\\]\nWe can simplify the numerator by recognizing that it has the meat of the Beta PDF over its domain.\n\\[\n\\begin{aligned}\n\\frac{P(H_A | x)}{P(H_0 | x)} &= \\frac{\\int_0^1 p^{rn} (1 - p)^{\\sum_{i=1}^n x_i} \\, dp}{(p_0)^{rn} (1 - p_0)^{\\sum_{i=1}^n x_i}} \\\\\n&= \\frac{\\frac{\\Gamma(rn + 1) \\Gamma(\\sum_{i=1}^n x_i + 1)}{\\Gamma(rn + 1 + \\sum_{i=1}^n x_i + 1) } \\int_0^1 \\frac{\\Gamma(rn + 1 + \\sum_{i=1}^n x_i + 1)}{\\Gamma(rn + 1) \\Gamma(\\sum_{i=1}^n x_i + 1)}p^{rn} (1 - p)^{\\sum_{i=1}^n x_i} \\, dp}{(p_0)^{rn} (1 - p_0)^{\\sum_{i=1}^n x_i}} \\\\\n&= \\frac{\\frac{\\Gamma(rn + 1) \\Gamma\\left(\\sum_{i=1}^n x_i + 1\\right)}{\\Gamma\\left(rn + \\sum_{i=1}^n x_i + 2\\right)}}{(p_0)^{rn} (1 - p_0)^{\\sum_{i=1}^n x_i}}\n\\end{aligned}\n\\]\nIn my hospital dataset, the data seems to fit a negative binomial distribution in which \\(r\\) is not necessarily an integer, meaning we cannot simplify this further with factorials.\nInstead, let’s plug our data this equation to find the Bayes Factor. Let’s say \\(r = 0.75\\), the same \\(r\\) value I used in Homework 7.\nUnfortunately, the denominator gets so small that the code thinks we are dividing by \\(0\\). So, let’s instead take \\(e\\) to the power of [the \\(\\log\\) of the numerator subtracted by the \\(log\\) of the denominator].\n\\[\n\\begin{aligned}\n\\frac{P(H_A | x)}{P(H_0 | x)}\n&= \\frac{\\frac{\\Gamma(rn + 1) \\Gamma\\left(\\sum_{i=1}^n x_i + 1\\right)}{\\Gamma\\left(rn + \\sum_{i=1}^n x_i + 2\\right)}}{(p_0)^{rn} (1 - p_0)^{\\sum_{i=1}^n x_i}} \\\\\n&= e^{\\log \\Bigg( \\frac{\\frac{\\Gamma(rn + 1) \\Gamma\\left(\\sum_{i=1}^n x_i + 1\\right)}{\\Gamma\\left(rn + \\sum_{i=1}^n x_i + 2\\right)}}{(p_0)^{rn} (1 - p_0)^{\\sum_{i=1}^n x_i}} \\Bigg)} \\\\\n&= e^{\\log \\Big( \\frac{\\Gamma(rn + 1) \\Gamma\\left(\\sum_{i=1}^n x_i + 1\\right)}{\\Gamma\\left(rn + \\sum_{i=1}^n x_i + 2\\right)} \\Big) - \\log\\Big( (p_0)^{rn} (1 - p_0)^{\\sum_{i=1}^n x_i} \\Big)} \\\\\n&= e^{\\log \\Big(\\Gamma(rn + 1) \\Big) + \\log \\Big( \\Gamma\\left(\\sum_{i=1}^n x_i + 1\\right)\\Big) - \\log \\Big(\\Gamma\\left(rn + \\sum_{i=1}^n x_i + 2\\right) \\Big) - \\Big(rn\\log(p_0) + {\\sum_{i=1}^n x_i}\\log(1 - p_0) \\Big)}\n\\end{aligned}\n\\]\nMy Bayes Factor is \\(607815364\\), meaning there is very strong evidence to reject the null hypothesis per the criteria in Kass and Raftery (1995).\nIn Homework 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected \\(H_0\\) (we reject the hypothesis that COVID has the same contagious level as the flu). This means that I did not encounter Lindley’s paradox.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Bayesian Hypothesis Testing</span>"
+    ]
+  },
+  {
+    "objectID": "Week8.html#bayesian-hypothesis-test",
+    "href": "Week8.html#bayesian-hypothesis-test",
+    "title": "9  Bayesian Hypothesis Testing",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Bayesian Hypothesis Testing</span>"
+    ]
+  },
+  {
+    "objectID": "Week9.html",
+    "href": "Week9.html",
+    "title": "10  Suffiency",
+    "section": "",
+    "text": "10.1 Sufficient Statistic\nIn class, we learned that for data \\(X_i,...X_n\\) and parameter \\(\\theta\\), a statistic \\(T(x_i,...x_n)\\) is sufficient if either of the following hold: \\\n1: \\(f_\\theta(x_i,...x_n) = g\\Big( \\theta, T(x_1,...,x_n)\\Big) \\cdot h(x_1,,...x_n)\\),\nwhere:\n\\(\\quad g\\Big( \\theta, T(x_1,...,x_n)\\Big)\\) depends on \\(\\theta\\) only through \\(T\\)\n\\(\\quad h(x_1,,...x_n)\\) depends only on \\((x_1,,...x_n)\\) and not on \\(\\theta\\)\nFor my Negative Binomial dataset, \\(p\\) is the parameter we are interested in estimating, so \\(p\\) will be our \\(\\theta\\).\nI will show that for my distribution, both definitions hold:",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Suffiency</span>"
+    ]
+  },
+  {
+    "objectID": "Week9.html#sufficient-statistic",
+    "href": "Week9.html#sufficient-statistic",
+    "title": "10  Suffiency",
+    "section": "",
+    "text": "\\(P(X_i=x_1,...,X_n=x_n | T = t)\\) does not depend on \\(\\theta\\).\n\n\n\n\n10.1.1 First Proof\nThe PDF of my negative Binomial Distribution: \\(X_1,...,X_n \\sim \\text{NegBin}(r, p)\\) is:\n\\[\n\\begin{aligned}\n    f_p(x_1,...,x_n) &= \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i}\n\\end{aligned}\n\\]\nWe can simplify this into:\n\\[\n\\begin{aligned}\n    f_p(x_1,...,x_n) &= \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i} \\\\\n     &= p^{rn} \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i} (1 - p)^{x_i} \\\\\n    &= p^{rn} \\Bigg( \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i} \\Bigg) (1 - p)^{\\sum_{i=1}^nx_i}\n\\end{aligned}\n\\]\nWe can re-write this as:\n\\[\n\\begin{aligned}\nf_p(x_1,...,x_n) &= p^{rn}(1 - p)^{\\sum_{i=1}^n x_i} \\cdot  \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i}\n\\end{aligned}\n\\]\nNow, as we have been doing, let’s assume \\(r\\) is fixed and \\(p\\) is the parameter we are interested in estimating.\nHere, if we set \\(T(X_1,...x_n) = \\sum_{i=1}^n x_i\\), then we can rewrite the equation as:\n\\[\n\\begin{aligned}\nf_p(x_1,...,x_n) &= p^{rn}(1 - p)^{\\sum_{i=1}^n x_i} \\cdot  \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i} \\\\\n&= p^{rn}(1 - p)^{T} \\cdot  \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i} \\\\\n&= g\\Big( p, T(x_1,...,x_n)\\Big)  \\cdot  h(x_1,,...x_n)\n\\end{aligned}\n\\]\nwhere:\n\n\\(g\\Big( p, T(x_1,...,x_n)\\Big) = p^{rn}(1 - p)^{T}\\)\n\\(h(x_1,,...x_n) = \\prod_{i=1}^n \\binom{x_i + r- 1}{x_i}\\)\n\nAs we were able to write our PDF in terms of \\(g\\Big(p, T(x_1,...,x_n)\\Big)  \\cdot  h(x_1,,...x_n)\\), then this means \\(T(x_1,...,x_n)\\) is a sufficient statistic.\nSo, for the Negative Binomial distribution, \\(\\sum_{i=1}^n x_i\\) is a sufficient statistic.\n\n\n10.1.2 Second Proof\nSimilarly, we could have also confirmed this using the other definition we learned in class, that \\(P(X_1=x_1,...,X_n=x_n | T = t)\\) does not depend on \\(p\\).\n\\[\n\\begin{aligned}\nP(X_1=x_1,...,Xn=x_n | T=t) = \\frac{P(X_1=x_1,...,X_n=x_n, T=t)}{P(T=t)}\n\\end{aligned}\n\\]\n\\(T\\) is the sum of i.i.d. \\(\\text{NegBin}(r, p)\\) random variables. So, \\(T\\) is a \\(\\text{NegBin}(nr, p)\\) random variable.\nSo, we get:\n\\[\n\\begin{aligned}\nP(X_1=x_1,...,Xn=x_n | T=t) &= \\frac{P(X_1=x_1,...,X_n=x_n, T=t)}{P(T=t)} \\\\\nP(X_1=x_1,...,Xn=x_n | T=t) &= \\frac{p^{rn}(1 - p)^{t} \\cdot  \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i}}{\\binom{t + nr- 1}{t} p^{rn} (1 - p)^{t}} \\\\\nP(X_1=x_1,...,Xn=x_n | T=t) &= \\frac{  \\prod_{i=1}^n \\binom{x_i + r - 1}{x_i}}{\\binom{t + nr - 1}{t} } \\\\\n\\end{aligned}\n\\]\nAs we can see, this does not depend on \\(p\\), proving once again that \\(T(X_1,...x_n) = \\sum_{i=1}^n x_i\\) is a sufficient statistic.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Suffiency</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. (USA) 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "References"
+    ]
+  }
+]

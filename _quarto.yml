@@ -4,6 +4,9 @@ project:
 
 engine: knitr
 
+filters:
+  - webr
+
 book:
   title: "Stats200Q Book"
   author: "Ryder Fried"
@@ -23,19 +26,20 @@ book:
 
 bibliography: references.bib
 
+# Moving filters to the top level tells Quarto how to parse
+# {webr-r} blocks globally, even when building non-HTML formats
+
+execute:
+  freeze: false
+  cache: false
+
 format:
   html:
-    theme:
-      - cosmo
-    supported-browsers: [chrome, safari, firefox, edge]
-    filters:
-      - webr  # WebR only loads for your interactive online site
+    theme: cosmo
   pdf:
     toc: true
     number-sections: true
     colorlinks: true
-    # This maps custom engine instructions so Knitr processes the blocks locally for your PDF
-    engine: knitr
     knitr:
       opts_chunk:
         dev: "pdf"
