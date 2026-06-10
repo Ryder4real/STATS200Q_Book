@@ -5,7 +5,7 @@ title: "Hypothesis Testing"
 First, let's bring my hospital dataset into R.
 
 ```{webr-r}
-dat <- read.csv('transmission_pairs_covid_v2.csv')
+dat <- read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv")
 x <- as.vector(table(dat$infector_id)) - 1
 ```
 
