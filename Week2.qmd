@@ -1,0 +1,133 @@
+---
+title: "Quick Proof & Evaluating Estimators"
+---
+
+## Proving $\text{Var}(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]$
+
+For any PDF $f_\theta(x)$, the log-likelihood of $x$ can be written as $\ell_x(\theta)$.
+
+The Score is defined as $\mathbb{E}[\ell'_\theta(x)]$.
+
+$$
+\mathbb{E}[\ell'_x(\theta)] = \int_{-\infty}^\infty \ell'_x(\theta)f_\theta(x) dx
+$$
+
+Now, let's solve for $\ell'_x(\theta)$:
+
+$$
+\begin{aligned}
+L_x(\theta) &= f_\theta(x) \\ 
+\ell_x(\theta) &= \log(f_\theta(x)) \\
+\frac{d}{d \theta} \ell_x(\theta) &= \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} \\
+\ell'_x(\theta) &= \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)}
+\end{aligned}
+$$
+
+Subbing this into our expectation:
+
+$$
+\begin{aligned}
+\mathbb{E}[\ell'_x(\theta)] &= \int_{-\infty}^\infty \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} f_\theta(x) dx \\
+&= \int_{-\infty}^\infty \frac{d}{d \theta} f_\theta(x) dx \\
+&= \frac{d}{d \theta} \int_{-\infty}^\infty f_\theta(x) dx \\
+&= \frac{d}{d \theta} (1) = 0
+\end{aligned}
+$$
+
+Now, solving for $\text{Var}(\ell'(\theta))$. We know: $\text{Var}(\ell'(\theta)) = \mathbb{E}[(\ell'(\theta))^2] - (\mathbb{E}[\ell'(\theta)])^2$.
+
+Since $\mathbb{E}[\ell'_x(\theta)] = 0$:
+
+$$
+\text{Var}(\ell'(\theta)) = \mathbb{E}[(\ell'(\theta))^2] = \int_{-\infty}^\infty (\ell'_x(\theta))^2 f_\theta(x) dx
+$$
+
+Next, we relate $(\ell'_x(\theta))^2$ to the second derivative:
+
+$$
+\begin{aligned}
+\ell''_x(\theta) = \frac{d}{d \theta} \left[ \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} \right] &= \frac{f_\theta(x) \frac{d^2}{d \theta^2} f_\theta(x) - (\frac{d}{d \theta} f_\theta(x))^2}{(f_\theta(x))^2} \\
+\ell''_x(\theta) &= \frac{\frac{d^2}{d \theta^2} f_\theta(x)}{f_\theta(x)} - \left( \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} \right)^2 \\
+\ell''_x(\theta)&= \frac{\frac{d^2}{d \theta^2} f_\theta(x)}{f_\theta(x)} - (\ell'_x(\theta))^2
+\end{aligned}
+$$
+
+Rearranging gives $(\ell'_x(\theta))^2 = \frac{\frac{d^2}{d \theta^2} f_\theta(x)}{f_\theta(x)} - \ell''_x(\theta)$. Integrating this against the PDF:
+
+$$
+\begin{aligned}
+\text{Var}(\ell'(\theta)) &= \int_{-\infty}^\infty f_\theta(x) \left( \frac{\frac{d^2}{d \theta^2} f_\theta(x)}{f_\theta(x)} - \ell''_x(\theta) \right) dx \\
+&= \int_{-\infty}^\infty \frac{d^2}{d \theta^2} f_\theta(x) -  \ell''_x(\theta) f_\theta(x) dx \\
+&= \int_{-\infty}^\infty \frac{d^2}{d \theta^2} f_\theta(x)  dx - \int_{-\infty}^\infty \ell''_x(\theta) f_\theta(x) dx \\
+&= \frac{d^2}{d\theta^2} \int_{-\infty}^\infty f_\theta(x) dx- \mathbb{E}[\ell''_x(\theta)] \\
+&= \frac{d^2}{d\theta^2} (1) - \mathbb{E}[\ell''_x(\theta)] \\
+&= - \mathbb{E}[\ell''_x(\theta)]
+\end{aligned}
+$$
+
+------------------------------------------------------------------------
+
+## MSE
+
+In PSET 1, I derived that if $X \sim \text{NegBin}(r, p)$, then: $\hat{p}_{MLE} = \frac{r}{r + \bar{x}}$ and $\hat{p}_{PM}$ = $\frac{1 + nr}{2 + nr + \sum x_i}$.
+
+To show their different curves MSE for different $p$, below is a simulation that prints out Mean Squared Error for different $p$, for when $n=50$ and $r=0.5$.
+
+```{webr-r}
+n <- 50   
+true_size <- 0.5 #r
+
+p_grid <- seq(0.01, 0.99, length.out = 40)
+mse_results <- sapply(p_grid, function(p) {
+  
+  # Run simulations for each specific p in the grid
+  temp_sims <- replicate(10000, {
+    x <- rnbinom(n = n, size = true_size, prob = p)
+    x_avg = mean(x)
+    x_sum = sum(x)
+    
+    p.mle <- true_size / (true_size + x_avg)
+    p.mod <- (1 + n * true_size) / (2 + n * true_size + x_sum)
+    
+    c(mle = p.mle, mod = p.mod)
+  })
+  
+  # Calculate MSE for this specific p
+  mse_mle_p <- mean((temp_sims["mle",] - p)^2)
+  mse_mod_p <- mean((temp_sims["mod",] - p)^2)
+  
+  c(mse_mle = mse_mle_p, mse_mod = mse_mod_p)
+})
+
+# Plotting the curve
+plot(p_grid, mse_results["mse_mle",], type = "l", col = "blue", lwd = 2,
+     main = "MSE for Different Estimators", 
+     xlab = "True p", 
+     ylab = "MSE",
+     cex.main = 0.9,  
+     cex.lab = 0.8,   
+     cex.axis = 0.7)
+
+lines(p_grid, mse_results["mse_mod",], col = "red", lwd = 2, lty = 2)
+legend("topright", 
+       legend = c("MLE", "Posterior Mean"), 
+       col = c("blue", "red"), 
+       lty = 1:2,
+       cex = 0.6)
+```
+
+## Cramer-Rao Lower Bound
+
+The CRLB for unbiased estimators is $\frac{1}{-\mathbb{E}[\ell''(\theta)]}$. For $X \sim \text{NegBin}(r, p)$:
+
+$$
+\begin{aligned}
+\mathbb{E}\left[\frac{d^2}{dp^2} \ell(p)\right] &= -\left(\frac{rn}{p^2} + \frac{\mathbb{E}[\sum x]}{(1-p)^2} \right) \\
+&= -\left(\frac{rn}{p^2} + \frac{rn(1-p)}{p(1-p)^2} \right) \\
+&= -\frac{rn}{p^2(1-p)}
+\end{aligned}
+$$
+
+The lowest possible variance for an unbiased estimator is $\frac{p^2(1-p)}{rn}$.
+
+However, in Week 1, we established from simulation that $\hat{p}_{MLE}$ is positively biased. Additionally, in class we learned that the $\hat{p}_{PM}$ is always biased toward the prior. Since the MLE and Posterior Mean are both biased, the CRLB does not provide a strict lower bound for their variance.

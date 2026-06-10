@@ -1,0 +1,113 @@
+---
+title: "Bayesian Hypothesis Testing"
+---
+
+First, let's bring my hospital dataset into R.
+
+```{webr-r}
+dat <- read.csv('/Users/ryderfried/Documents/2025-2026/Spring/STATS200Q/transmission_pairs_covid_v2.csv')
+```
+
+```{webr-r}
+x <- as.vector(table(dat$infector_id)) - 1
+```
+
+## Bayesian Hypothesis Test
+
+I mention this in Homework 6, but as a reminder:
+
+In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
+
+I isolated for $p$ in Homework 6, and got that $p = 0.6$:
+
+Let's say our null hypothesis is $H_0$: $p = 0.6$. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that $E[X] \neq 0.5$, and and $p \neq 0.6$.
+
+So, this gives us:
+
+$H_0$: $p = 0.6$
+
+$H_A$: $p \neq 0.6$
+
+Now, for Bayesian Hypothesis Testing, we need to assign prior probabilities to both the null hypothesis and the alternative hypothesis. As I do not really have a great intuition, let's say both are $0.5$.
+
+So, we have:
+
+$P(H_0) = 0.5$
+
+$P(H_A) = 0.5$
+
+Next, we need to find the prior distribution for $p$ in $H_A$. Again, as I do not really have a great intuition, let's say $p \sim \text{Uniform}(0,1)$, as $p$ could be anything from $0$ to $1$.
+
+So, using Bayes' Rule, this means that:
+
+$P(H_A|x) = \frac{P(H_A) f(x|H_A)}{f(x)}$
+
+$P(H_0|x) = \frac{P(H_0) f(x|H_0)}{f(x)}$
+
+NOTE: In the formula below, I will refer to $p$ in $H_0$ as $p_0$. I know we set this equal to $0.6$, but for clarity, I think it is easier to understand with $p_0$.
+
+Remember that $f(x_1,x_2,...x_n)$ is the product of Negative Binomial random variables.
+
+When taking their ratio, we get the Bayes Factor, which is:
+
+$$
+\begin{aligned}
+\frac{P(H_A|x_1,...,x_n)}{P(H_0|x_1,...,x_n)} &= \frac{\frac{P(H_A) f(x_1,...,x_n|H_A)}{f(x_1,...,x_n)}}{\frac{P(H_0) f(x_1,...,x_n|H_0)}{f(x_1,...,x_n)}} \\
+&= \frac{P(H_A) f(x_1,...,x_n|H_A)}{P(H_0) f(x_1,...,x_n|H_0)} \\
+&= \frac{P(H_A)}{P(H_0)} \frac{f(x_1,...,x_n|H_A)}{f(x_1,...,x_n|H_0)} \\
+&= \frac{0.5}{0.5} \frac{\int _0^1 f(p) f(x_1,...,x_n|p)dp}{\prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
+&= \frac{\int _0^1 f(x_1,...,x_n|p)dp}{\prod_{i=1}^n \binom{x + r - 1}{x} (p_0)^r (1 - p_0)^{x_i}} \\
+&= \frac{\int _0^1 \prod_{i=1}^n \binom{x_i + r - 1}{x_i} p^r (1 - p)^{x_i} dp}{\prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
+&= \frac{\int_0^1 \prod_{i=1}^n \binom{x_i + r - 1}{x_i} p^r (1 - p)^{x_i} \, dp}{\prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
+&= \frac{\int_0^1 \left( \prod_{i=1}^n \binom{x_i + r - 1}{x_i} \right) p^{rn} (1 - p)^{\sum_{i=1}^n x_i} \, dp}{\left( \prod_{i=1}^n \binom{x_i + r - 1}{x_i} \right) (p_0)^{rn} (1 - p_0)^{\sum_{i=1}^n x_i}} \\
+&= \frac{ \left( \prod_{i=1}^n \binom{x_i + r - 1}{x_i} \right) \int_0^1 p^{rn} (1 - p)^{\sum_{i=1}^n x_i} \, dp}{\left( \prod_{i=1}^n \binom{x_i + r - 1}{x_i} \right) (p_0)^{rn} (1 - p_0)^{\sum_{i=1}^n x_i}} \\
+&= \frac{\int_0^1 p^{rn} (1 - p)^{\sum_{i=1}^n x_i} \, dp}{(p_0)^{rn} (1 - p_0)^{\sum_{i=1}^n x_i}}
+\end{aligned}
+$$
+
+We can simplify the numerator by recognizing that it has the meat of the Beta PDF over its domain.
+
+$$
+\begin{aligned}
+\frac{P(H_A | x)}{P(H_0 | x)} &= \frac{\int_0^1 p^{rn} (1 - p)^{\sum_{i=1}^n x_i} \, dp}{(p_0)^{rn} (1 - p_0)^{\sum_{i=1}^n x_i}} \\
+&= \frac{\frac{\Gamma(rn + 1) \Gamma(\sum_{i=1}^n x_i + 1)}{\Gamma(rn + 1 + \sum_{i=1}^n x_i + 1) } \int_0^1 \frac{\Gamma(rn + 1 + \sum_{i=1}^n x_i + 1)}{\Gamma(rn + 1) \Gamma(\sum_{i=1}^n x_i + 1)}p^{rn} (1 - p)^{\sum_{i=1}^n x_i} \, dp}{(p_0)^{rn} (1 - p_0)^{\sum_{i=1}^n x_i}} \\
+&= \frac{\frac{\Gamma(rn + 1) \Gamma\left(\sum_{i=1}^n x_i + 1\right)}{\Gamma\left(rn + \sum_{i=1}^n x_i + 2\right)}}{(p_0)^{rn} (1 - p_0)^{\sum_{i=1}^n x_i}}
+\end{aligned}
+$$
+
+In my hospital dataset, the data seems to fit a negative binomial distribution in which $r$ is not necessarily an integer, meaning we cannot simplify this further with factorials.
+
+Instead, let's plug our data this equation to find the Bayes Factor. Let's say $r = 0.75$, the same $r$ value I used in Homework 7.
+
+Unfortunately, the denominator gets so small that the code thinks we are dividing by $0$. So, let's instead take $e$ to the power of \[the $\log$ of the numerator subtracted by the $log$ of the denominator\].
+
+$$
+\begin{aligned}
+\frac{P(H_A | x)}{P(H_0 | x)}
+&= \frac{\frac{\Gamma(rn + 1) \Gamma\left(\sum_{i=1}^n x_i + 1\right)}{\Gamma\left(rn + \sum_{i=1}^n x_i + 2\right)}}{(p_0)^{rn} (1 - p_0)^{\sum_{i=1}^n x_i}} \\
+&= e^{\log \Bigg( \frac{\frac{\Gamma(rn + 1) \Gamma\left(\sum_{i=1}^n x_i + 1\right)}{\Gamma\left(rn + \sum_{i=1}^n x_i + 2\right)}}{(p_0)^{rn} (1 - p_0)^{\sum_{i=1}^n x_i}} \Bigg)} \\
+&= e^{\log \Big( \frac{\Gamma(rn + 1) \Gamma\left(\sum_{i=1}^n x_i + 1\right)}{\Gamma\left(rn + \sum_{i=1}^n x_i + 2\right)} \Big) - \log\Big( (p_0)^{rn} (1 - p_0)^{\sum_{i=1}^n x_i} \Big)} \\
+&= e^{\log \Big(\Gamma(rn + 1) \Big) + \log \Big( \Gamma\left(\sum_{i=1}^n x_i + 1\right)\Big) - \log \Big(\Gamma\left(rn + \sum_{i=1}^n x_i + 2\right) \Big) - \Big(rn\log(p_0) + {\sum_{i=1}^n x_i}\log(1 - p_0) \Big)}
+\end{aligned}
+$$
+
+```{webr-r}
+r = 0.75
+sum_x = sum(x)
+n = length(x)
+p_0 = 0.6
+
+first_term = lgamma(r * n+1)
+second_term = lgamma(sum_x + 1)
+third_term = lgamma(r * n + sum_x + 2)
+fourth_term = r * n * log(p_0) + sum_x * log(1-p_0)
+
+exponent = first_term + second_term - third_term - fourth_term
+
+bayes_factor = exp(exponent)
+bayes_factor
+```
+
+My Bayes Factor is $607815364$, meaning there is very strong evidence to reject the null hypothesis per the criteria in Kass and Raftery (1995).
+
+In Homework 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected $H_0$ (we reject the hypothesis that COVID has the same contagious level as the flu). This means that I did not encounter Lindley's paradox.

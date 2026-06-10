@@ -1,0 +1,95 @@
+---
+title: "Suffiency"
+---
+
+## Sufficient Statistic
+
+In class, we learned that for data $X_i,...X_n$ and parameter $\theta$, a statistic $T(x_i,...x_n)$ is sufficient if either of the following hold: \\
+
+1: $f_\theta(x_i,...x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,,...x_n)$,
+
+where:
+
+$\quad g\Big( \theta, T(x_1,...,x_n)\Big)$ depends on $\theta$ only through $T$
+
+$\quad h(x_1,,...x_n)$ depends only on $(x_1,,...x_n)$ and not on $\theta$
+
+2.  $P(X_i=x_1,...,X_n=x_n | T = t)$ does not depend on $\theta$.
+
+For my Negative Binomial dataset, $p$ is the parameter we are interested in estimating, so $p$ will be our $\theta$.
+
+I will show that for my distribution, both definitions hold:
+
+### First Proof
+
+The PDF of my negative Binomial Distribution: $X_1,...,X_n \sim \text{NegBin}(r, p)$ is:
+
+$$
+\begin{aligned}
+    f_p(x_1,...,x_n) &= \prod_{i=1}^n \binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i}
+\end{aligned}
+$$
+
+We can simplify this into:
+
+$$
+\begin{aligned}
+    f_p(x_1,...,x_n) &= \prod_{i=1}^n \binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i} \\
+     &= p^{rn} \prod_{i=1}^n \binom{x_i + r- 1}{x_i} (1 - p)^{x_i} \\
+    &= p^{rn} \Bigg( \prod_{i=1}^n \binom{x_i + r- 1}{x_i} \Bigg) (1 - p)^{\sum_{i=1}^nx_i} 
+\end{aligned}
+$$
+
+We can re-write this as:
+
+$$
+\begin{aligned}
+ f_p(x_1,...,x_n) &= p^{rn}(1 - p)^{\sum_{i=1}^n x_i} \cdot  \prod_{i=1}^n \binom{x_i + r- 1}{x_i} 
+\end{aligned}
+$$
+
+Now, as we have been doing, let's assume $r$ is fixed and $p$ is the parameter we are interested in estimating.
+
+Here, if we set $T(X_1,...x_n) = \sum_{i=1}^n x_i$, then we can rewrite the equation as:
+
+$$
+\begin{aligned}
+ f_p(x_1,...,x_n) &= p^{rn}(1 - p)^{\sum_{i=1}^n x_i} \cdot  \prod_{i=1}^n \binom{x_i + r- 1}{x_i} \\
+&= p^{rn}(1 - p)^{T} \cdot  \prod_{i=1}^n \binom{x_i + r- 1}{x_i} \\
+&= g\Big( p, T(x_1,...,x_n)\Big)  \cdot  h(x_1,,...x_n)
+\end{aligned}
+$$
+
+where:
+
+1.  $g\Big( p, T(x_1,...,x_n)\Big) = p^{rn}(1 - p)^{T}$
+
+2.  $h(x_1,,...x_n) = \prod_{i=1}^n \binom{x_i + r- 1}{x_i}$
+
+As we were able to write our PDF in terms of $g\Big(p, T(x_1,...,x_n)\Big)  \cdot  h(x_1,,...x_n)$, then this means $T(x_1,...,x_n)$ is a sufficient statistic.
+
+So, for the Negative Binomial distribution, $\sum_{i=1}^n x_i$ is a sufficient statistic.
+
+### Second Proof
+
+Similarly, we could have also confirmed this using the other definition we learned in class, that $P(X_1=x_1,...,X_n=x_n | T = t)$ does not depend on $p$.
+
+$$
+\begin{aligned}
+P(X_1=x_1,...,Xn=x_n | T=t) = \frac{P(X_1=x_1,...,X_n=x_n, T=t)}{P(T=t)} 
+\end{aligned}
+$$
+
+$T$ is the sum of i.i.d. $\text{NegBin}(r, p)$ random variables. So, $T$ is a $\text{NegBin}(nr, p)$ random variable.
+
+So, we get:
+
+$$
+\begin{aligned}
+P(X_1=x_1,...,Xn=x_n | T=t) &= \frac{P(X_1=x_1,...,X_n=x_n, T=t)}{P(T=t)} \\
+P(X_1=x_1,...,Xn=x_n | T=t) &= \frac{p^{rn}(1 - p)^{t} \cdot  \prod_{i=1}^n \binom{x_i + r - 1}{x_i}}{\binom{t + nr- 1}{t} p^{rn} (1 - p)^{t}} \\
+P(X_1=x_1,...,Xn=x_n | T=t) &= \frac{  \prod_{i=1}^n \binom{x_i + r - 1}{x_i}}{\binom{t + nr - 1}{t} } \\
+\end{aligned}
+$$
+
+As we can see, this does not depend on $p$, proving once again that $T(X_1,...x_n) = \sum_{i=1}^n x_i$ is a sufficient statistic.

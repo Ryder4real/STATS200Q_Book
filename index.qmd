@@ -1,0 +1,14 @@
+# Introduction
+
+Each chapter is specified in a separate `.qmd` file.
+The ordering of the chapters is specified in `_quarto.yml`.
+The table of contents in the sidebar is automatically generated
+from the `_quarto.yml` file.
+
+To render the book, you run `quarto render` in the Terminal
+while you are in this directory. This will generate a new
+folder called `_book`, which contains the HTML files that you
+should upload to your web host.
+
+You can include citations by adding the BibTex to
+`references.bib` and citing the item by its key. [@knuth84]

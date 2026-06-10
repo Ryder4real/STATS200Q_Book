@@ -1,0 +1,128 @@
+---
+title: "MLE & Posterior Mean"
+---
+
+## Maximum Likelihood Estimation
+
+$X_1,...,X_n \sim \text{NegBin}(r, p)$
+
+$$
+\begin{aligned}
+    P(X=x) &= \binom{x + r- 1}{x} p^r (1 - p)^x \\
+    L_{x_1,...,x_n}(p) &= \prod_{i=1}^n \binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i} \\
+    L_{x_1,...,x_n}(p) &= p^{rn} \prod_{i=1}^n \binom{x_i + r- 1}{x_i}  (1 - p)^{x_i} \\
+    L_{x_1,...,x_n}(p) &= p^{rn} \Bigg(\prod_{i=1}^n \binom{x_i + r- 1}{x_i} \Bigg) (1 - p)^{\sum_{i=1}^n x_i} \\
+    l_{x_1,...,x_n}(p) &= rn \log(p) + \sum_{i=1}^n \log \left(\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\right) + \left(\sum_{i=1}^n x_i\right) \log(1 - p) \\
+    \frac{d}{dp} l_{x_1,...,x_n}(p) &= \frac{d}{dp} \left( rn\log(p) + \sum_{i=1}^n \log \left(\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\right) + \left(\sum_{i=1}^n x_i\right) \log(1 - p) \right) \\
+    \frac{d}{dp} l_{x_1,...,x_n}(p) &= \left(\frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1 - p} \right) \\
+    0 &= \frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1-p} \\
+    \frac{rn}{p} &= \frac{\sum_{i=1}^n x_i}{1-p}  \\
+    \frac{1-p}{p} &= \frac{\sum_{i=1}^n x_i}{rn} \\
+    \frac{1}{p} - 1 &= \frac{\bar{x}}{r} \\
+    \hat{p} &= \frac{r}{r + \bar{x}}
+\end{aligned}
+$$
+
+## Posterior Mean
+
+With a Beta Prior. Let's set $\alpha=1, \beta = 1$. (So this is actually just a uniform).
+
+$$
+\begin{aligned}
+    f(p | x) &= \frac{f(p)f(x_1,...,x_n|p)}{f(x_1,...,x_n)}  \\
+    f(p | x) &= \frac{\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} p^{\alpha - 1} (1-p)^{\beta - 1} \prod_{i=1}^n \binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i}}{f(x_1,...,x_n)} \\ 
+    f(p | x) &\propto p^{\alpha + nr - 1} (1-p)^{\beta + \sum x_i - 1}
+\end{aligned}
+$$
+
+This results in $f(p | x) \sim \text{Beta}(\alpha + nr, \beta + \sum_{i=1}^n x_i)$.
+
+$$
+\begin{aligned}
+    \mathbb{E}[P] &= \frac{\alpha + nr}{\alpha + \beta + nr + \sum_{i=1}^n x_i} \\
+    \mathbb{E}[P] &= \frac{1 + nr}{2 + nr + \sum_{i=1}^n x_i}
+\end{aligned}
+$$
+
+## My Dataset
+
+In my dataset, $\bar{x} = 0.7435, n=807, \sum(x) = 600$.
+
+$$
+\begin{aligned}
+    \hat{p}_{MLE} &= \frac{r}{r + 0.7435} \\
+    \hat{p}_{posterior} &= \frac{1 + 807r}{2 + 807r + 600}
+\end{aligned}
+$$
+
+If we assume $r = 0.5$:
+
+$$
+\begin{aligned}
+    \hat{p}_{MLE} &= \frac{0.5}{0.5 + 0.7435} = 0.402 \\
+    \hat{p}_{posterior} &= \frac{1 + 807(0.5)}{2 + 807(0.5) + 600} = 0.401
+\end{aligned}
+$$
+
+## Bias and Variance
+
+Let's say true $p$ is 0.4.
+
+After 10,000 simulations, the bias and variance of our estimators is:
+
+```{webr-r}
+n_obs <- 807  
+true_size <- 0.5 #r
+true_p <- 0.4
+
+sims <- replicate(10000, {
+  x <- rnbinom(n = n_obs, size = true_size, prob = true_p)
+  x_sum <- sum(x)
+  x_avg = mean(x)
+  p.mle <- true_size / (true_size + x_avg)
+  
+  p.mod <- (1 + n_obs * true_size) / (2 + n_obs * true_size + x_sum)
+  
+  c(mle = p.mle, mod = p.mod)
+})
+
+sims <- t(sims)
+
+bias_mle <- mean(sims[,"mle"]) - true_p
+bias_mod <- mean(sims[,"mod"]) - true_p
+
+var_mle <- var(sims[,"mle"])
+var_mod <- var(sims[,"mod"])
+
+results <- data.frame(
+  Metric = c("Bias", "Variance"),
+  MLE = c(bias_mle, var_mle),
+  Posterior_Mean = c(bias_mod, var_mod)
+)
+
+results
+```
+
+$\hat{p}_{MLE}$ has positive bias while $\hat{p}_{PM}$ is biased toward the prior distribution.
+
+$\hat{p}_{PM}$ has less variance. This is more apparent if you make `n_obs` smaller in the code.
+
+Here is the histogram for $\hat{p}_{MLE}$.
+
+```{webr-r}
+hist_mle <- hist(sims[, "mle"], 
+     breaks = 30, 
+     main = expression("Histogram of "* hat(p)[MLE]), 
+     xlab = expression(hat(p)[MLE])
+    )
+```
+
+Here is the histogram for $\hat{p}_{PM}$.
+
+```{webr-r}
+hist_mod <- hist(sims[, "mod"], 
+     breaks = 30, 
+     main = expression("Histogram of "* hat(p)[PM]), 
+     xlab = expression(hat(p)[PM])
+     )
+```

@@ -1,0 +1,97 @@
+---
+title: "Asymptotic Distribution of MLE"
+---
+
+## Simulating Distribution
+
+Let's say $X_1, ...,X_n \sim \text{NegBin}(r, p)$, where $r=0.5$ and $p = 0.4$.
+
+We derived in PSET 1 that $\hat{p}_{MLE} = \frac{r}{r + \bar{x}}$. Below is a histogram of $\hat{p}_{MLE}$ as $n$ grows large, in this case to $10,000$.
+
+```{webr-r}
+n_obs <- 10000  
+true_size <- 0.5 #r
+true_p <- 0.4
+
+sims <- replicate(1000, {
+  x <- rnbinom(n = n_obs, size = true_size, prob = true_p)
+  x_sum <- sum(x)
+  x_avg = mean(x)
+  p.mle <- true_size / (true_size + x_avg)
+  
+  p.mle
+})
+
+sims <- t(sims)
+
+hist_mle <- hist(sims, 
+     breaks = 100, 
+     main = expression("Histogram of "* hat(p)[MLE]), 
+     xlab = expression(hat(p)[MLE])
+)
+```
+
+## Asymptotic Calculation
+
+From class, we determined that the asymptotic variance of $\hat{p}_{MLE}$ is $\frac{1}{\text{Var}(\ell^\prime_{x_1}(\theta))}$.
+
+Taking the score from PSET 1, we have:
+
+$$
+\frac{d}{dp} \ell_{x_1,...,x_n}(p) = \left(\frac{rn}{p} - \frac{\sum x}{1 - p} \right)
+$$
+
+As we only want to work with one observation now, we will set $n=1$.
+
+$$
+\ell ^\prime_{x_1} (p) = \left(\frac{r}{p} - \frac{x}{1 - p} \right)
+$$
+
+We established in PSET 2 that $\text{Var}(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]$. This means that that the asymptotic variance of $\hat{p}_{MLE}$ is $\frac{1}{-\mathbb{E}[\ell''(\theta)]}$. So, let's solve for $-\mathbb{E}[\ell''(\theta)]$.
+
+$$
+\begin{aligned}
+\ell ^\prime_{x_1} (p) &= \frac{r}{p} - \frac{x}{1 - p}  \\
+\frac{d^2}{dp^2} \ell_{x_1} (p) &= \frac{-r}{p^2} - \frac{x}{(1 - p)^2} \\
+-\mathbb{E}[\ell ^{\prime \prime}_{x_1} (p)] &= \frac{r}{p^2} + \frac{\mathbb{E}[x]}{(1 - p)^2} \\
+-\mathbb{E}[\ell ^{\prime \prime}_{x_1} (p)] &= \frac{r}{p^2} + \frac{\Big(\frac{r(1-p)}{p}\Big)}{(1 - p)^2} \\
+-\mathbb{E}[\ell ^{\prime \prime}_{x_1} (p)] &= \frac{r}{p^2} + \frac{r}{p(1 - p)} \\
+-\mathbb{E}[\ell ^{\prime \prime}_{x_1} (p)] &= \frac{r(1-p)}{p^2(1-p)} + \frac{rp}{p^2(1 - p)} \\
+-\mathbb{E}[\ell ^{\prime \prime}_{x_1} (p)] &= \frac{r(1-p) + rp}{p^2(1-p)}  \\
+-\mathbb{E}[\ell ^{\prime \prime}_{x_1} (p)] &= \frac{r(1 - p + p)}{p^2(1-p)}  \\
+-\mathbb{E}[\ell ^{\prime \prime}_{x_1} (p)] &= \frac{r}{p^2(1-p)}  \\
+\end{aligned}
+$$
+
+So, the asymptotic variance of $\hat{p}_{MLE}$ is $\frac{p^2(1-p)}{r}$.
+
+Based on the CLT, which we showed in class:
+
+$$
+  \sqrt{n} (\hat{p}_{MLE} - p) \sim N\left(0, \frac{p^2(1-p)}{r}\right)
+$$
+
+Now, isolating for $\hat{p}_{MLE}$, we have:
+
+$$
+\hat{p}_{MLE} \overset{\cdot}{\sim} N\left(p, \frac{p^2(1-p)}{nr} \right)
+$$
+
+## Graphing Asymptotic MLE Curve
+
+Below is a curve with the distribution of $\hat{p}_{MLE}$ with $r=0.5$, $p=0.4$, and large $n$ (10,000), behind a red curve displaying the asymptotically normal distribution of $\hat{p}_{MLE}$.
+
+```{webr-r}
+hist_mle <- hist(sims, 
+     breaks = 100, 
+     main = expression("Histogram of "* hat(p)[MLE]), 
+     xlab = expression(hat(p)[MLE]),
+     freq=F
+)
+curve(dnorm(x, mean=true_p,
+            sd= sqrt( ( (true_p ** 2) * (1 - true_p) ) / (n_obs * true_size))),
+add=T, col="red", lwd=2)
+
+legend("topright", legend = expression("Asymptotic Normal "* hat(p)[MLE]), 
+       col="red", lwd=2, lty = 1, cex = 0.6)
+```

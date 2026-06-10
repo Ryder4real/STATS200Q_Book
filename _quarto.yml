@@ -1,0 +1,41 @@
+project:
+  type: book
+  execute-dir: project
+
+engine: knitr
+
+book:
+  title: "Stats200Q Book"
+  author: "Ryder Fried"
+  date: "6/8/2026"
+  chapters:
+    - index.qmd
+    - Week1.qmd
+    - Week2.qmd
+    - Week3.qmd
+    - Week4.qmd
+    - Week5.qmd
+    - Week6.qmd
+    - Week7.qmd
+    - Week8.qmd
+    - Week9.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+    supported-browsers: [chrome, safari, firefox, edge]
+    filters:
+      - webr  # WebR only loads for your interactive online site
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    # This maps custom engine instructions so Knitr processes the blocks locally for your PDF
+    engine: knitr
+    knitr:
+      opts_chunk:
+        dev: "pdf"

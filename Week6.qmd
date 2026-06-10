@@ -1,0 +1,117 @@
+---
+title: "Hypothesis Testing"
+---
+
+First, let's bring my hospital dataset into R.
+
+```{webr-r}
+dat <- read.csv('transmission_pairs_covid_v2.csv')
+```
+
+```{webr-r}
+x <- as.vector(table(dat$infector_id)) - 1
+```
+
+## Hypothesis Testing
+
+In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
+
+Isolating for $p$, we get:
+
+$$
+\begin{aligned}
+\mathbb{E}[X] &= \frac{r(1-p)}{p} \\
+\frac{p}{1-p} &= \frac{r}{\mathbb{E}[X]} \\
+\frac{1-p}{p} &= \frac{\mathbb{E}[X]}{r} \\
+\frac{1}{p} - 1 &= \frac{\mathbb{E}[X]}{r} \\
+\frac{1}{p} &= \frac{\mathbb{E}[X] + r}{r} \\
+p &= \frac{r}{\mathbb{E}[X] + r}
+\end{aligned}
+$$
+
+So, we set $\mathbb{E}$ to be 0.5. Let's say for the sake of this example that we set $r$ to be $0.75$. In this scenario, we get $p = \frac{0.75}{0.5+0.75} = 0.6$.
+
+Let's say our null hypothesis is $H_0$ :$p = 0.6$. Now, we are curious if maybe COVID is more infectious than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that $E[X]$ is greater than 0.5, and as $\mathbb{E}[X] = \frac{r(1-p)}{p}$, a smaller $p$ leads to a larger $E[X]$.
+
+This means that:
+
+$H_0$ :$p = 0.6$
+
+$H_A$ :$p < 0.6$
+
+As we learned in class, to figure out the best X values to reject when $p<0.6$, all we need to do is choose one $p<0.6$, and the same will hold true for rest. Let's proceed with $p=0.3$.
+
+Again, let's proceed with $r=0.75$.
+
+NegBin$(p, r)$ follows the distribution $\binom{x + r - 1}{x} p^r (1 - p)^x$:
+
+So, our $H_0$ gives us NegBin$(p=0.6, r)$, which follows the distribution: $f_0(x) = \prod \binom{x + r - 1}{x} 0.6^r (1 - 0.6)^x$.
+
+Our $H_A$ gives us NegBin$(p=0.3, r)$, which follows the distribution: $f_A(x) = \prod \binom{x + r - 1}{x} 0.3^r (1 - 0.3)^x$.
+
+We want to to maximize $\frac{f_A(x)}{f_0(x)} = \prod\frac{\binom{x + r - 1}{x} 0.3^r (1 - 0.3)^x}{ \prod\binom{x + r - 1}{x} 0.6^r (1 - 0.6)^x}$, as these are the $X$ values that we maximize our $\frac{\text{Power}}{\alpha}$. In other words, when this value ratio is maximized, we have the best ratio for decreasing the odds of a Type II Error while still protecting against Type I Errors.
+
+So, let's maximize:
+
+$$
+\begin{aligned}
+\frac{f_A(x)}{f_0(x)} &= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} 0.3^r (1 - 0.3)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} 0.6^r (1 - 0.6)^{x_i}} \\
+\frac{f_A(x)}{f_0(x)} &= \frac{ \Big( \prod _{i=1}^n \binom{x_i + r - 1}{x_i} \Big) 0.3^{nr} (1 - 0.3)^{\sum x_i}}{ \Big( \prod _{i=1}^n \binom{x_i + r - 1}{x_i} \Big) 0.6^{nr} (1 - 0.6)^{\sum x_i}} \\
+&= \frac{0.3^{nr} (1 - 0.3)^{\sum_{i=1}^n x_i}}{ 0.6^{nr} (1 - 0.6)^{\sum_{i=1}^n x_i}} \\
+&\propto \frac{0.7^{\sum_{i=1}^n x_i}}{0.4^{\sum_{i=1}^n x_i}} \\
+&= \Big(\frac{0.7}{0.4}\Big)^ {\sum_{i=1}^n x_i} \\
+\end{aligned}
+$$
+
+To maximize, $\Big(\frac{0.7}{0.4}\Big)^{\sum_{i=1}^n x_i}$, we want to reject when $\sum_{i=1}^n x_i$ is as large as possible.
+
+So, we want: $P(\sum_{i=1}^n x_i \geq c) = 0.05$.
+
+The sum of many NegBin$(p, r)$ random variables is NegBin$(p, n*r)$, My COVID hospital dataset had 807 patients, so $n = 807$.
+
+```{webr-r}
+n = length(x)
+n
+```
+
+So, we would use the qnbinom R function to set up an sum from $c$ to $\infty$ over the $H_0$ pdf that covers the upper $5\%$ (at most) of the distribution.
+
+```{webr-r}
+r = 0.75
+alpha = 0.05
+p = 0.6
+reject_val = qnbinom(1-alpha, r * n, p)
+reject_val
+```
+
+We then check to see how much of the density this sum has (I subtract by 1 because we want the density above whichever value is inputted into the pnbinom function):
+
+```{webr-r}
+1 - pnbinom(reject_val - 1, n * r, p)
+```
+
+We are above 0.05. So, we need to move our rejection bound up one value, to take up less of the density.
+
+```{webr-r}
+new_reject_val = reject_val + 1
+1 - pnbinom(new_reject_val - 1, n * r, p)
+```
+
+$\alpha$ is now below $0.05$!
+
+```{webr-r}
+new_reject_val
+```
+
+So, $c = 448$
+
+So, we reject if $H_0$ $\sum x_i \ge 448$.
+
+Now, let's see how often we would reject in my dataset.
+
+```{webr-r}
+observed_sum <- sum(x)
+observed_sum
+```
+
+As $600 > c$ (which was $448$), for my COVID hospital dataset, we reject $H_0$. This implies that we accept the hypothesis that COVID is more contagious than the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least $1$ person, so I do not want to extrapolate too much).

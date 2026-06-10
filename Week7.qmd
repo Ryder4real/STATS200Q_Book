@@ -1,0 +1,216 @@
+---
+title: "Generalized Likelihood Ratio Test"
+---
+
+First, let's bring my hospital dataset into R.
+
+```{webr-r}
+dat <- read.csv('/Users/ryderfried/Documents/2025-2026/Spring/STATS200Q/transmission_pairs_covid_v2.csv')
+```
+
+```{webr-r}
+x <- as.vector(table(dat$infector_id)) - 1
+```
+
+## Generalized Likelihood Ratio Test
+
+I mention this in Homework 6, but as a reminder:
+
+In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
+
+I isolated for $p$ in Homework 6, and got that $p = 0.6$:
+
+Let's say our null hypothesis is $H_0$: $p = 0.6$. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that $E[X] \neq 0.5$, and and $p \neq 0.6$.
+
+So, this gives us:
+
+$H_0$ :$p = 0.6$
+
+$H_A$: $p \neq 0.6$
+
+As we learned in class, for this type of hypothesis test, we try to maximize the ratio:
+
+$\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}$
+
+We can rewrite this as:
+
+$$
+\begin{aligned}
+\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} p^r (1 - p)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
+\end{aligned}
+$$
+
+We know that for the numerator, the $p$ that gives the greatest likelihood is $\hat{p}_{MLE}$. In Homework 1, I calculate the $\hat{p}_{MLE}$ for multiple samples of the Negative Binomial Distribution is $\frac{r}{r + \bar{x}}$.
+
+$$
+\begin{aligned}
+\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} (\frac{r}{r + \bar{x}})^r (1 - \frac{r}{r + \bar{x}})^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
+\end{aligned}
+$$
+
+We can simplify this to:
+
+$$
+\begin{aligned}
+\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} (\frac{r}{r + \bar{x}})^r (1 - \frac{r}{r + \bar{x}})^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
+\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &= \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}} \\
+\end{aligned}
+$$
+
+We want to reject when $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \geq c$, where: $$P(\texttt{test\_statistic} \geq c) = \alpha = 0.05$$.
+
+However, this does not simplify to a distribution I recognize, so I cannot solve for $c$.
+
+Still, we want to maximize this function. As log() is monotonic, we can take the logarithm of the fraction.
+
+$$
+\begin{aligned}
+\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= \log \Bigg( \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}} \Bigg)\\
+\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= nr \log(\frac{r}{r + \bar{x}}) + \sum_{i=1}^n x_i \log(1 - \frac{r}{r + \bar{x}})- \Big( nr \log(p_0)  + \sum_{i=1}^n x_i \log(1 - p_0) \Big)\\
+\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big) \\
+\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)
+\end{aligned}
+$$
+
+Once again, this also does not simplify to a distribution I recognize. So, we are left to either simulate or take the asymptotic distribution.
+
+### Simulation
+
+Let's simulate our many times under the null hypothesis, and calculate $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}$ each time. For brevity, I will refer to $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}$ as $\Lambda$. Then, as we want to keep $\alpha \leq 0.05$, we would reject if $\Lambda$ for our data is greater than the $95$th percentile of the simulated $\Lambda$s.
+
+Remember: $\Lambda = \frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} = \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}}$.
+
+However, to prevent underflow, I will take the logarithm.
+
+$\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)$
+
+```{webr-r}
+n = length(x)
+r = 0.75
+p_0 = 0.6
+
+sims <- replicate(10000, {
+    data <- rnbinom(n = n, size = r, prob = p_0)
+    
+    data_bar = mean(data)
+    data_sum = sum(data)
+    
+    p_mle = r / (r + data_bar)
+    
+    first_term = n * r * log(p_mle / p_0)
+    second_term = data_sum * log((1 - p_mle) / (1 - p_0))
+    
+    log_lambda = first_term + second_term
+    log_lambda
+}
+)
+quantile(sims, 0.95)
+```
+
+So, our test statistic is $\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big)$ and our $c$ is about $1.933$, depending on the simulation. So, if $\Lambda$ for my data is above 1.933, we reject $H_0$.
+
+So, let's calculate $\log (\Lambda)$, while setting $r=0.75$.
+
+```{webr-r}
+n = length(x)
+r = 0.75
+p_0 = 0.6
+
+x_bar = mean(x)
+x_sum = sum(x)
+    
+p_mle = r / (r + x_bar)
+    
+first_term = n * r * log(p_mle / p_0)
+second_term = x_sum * log((1 - p_mle) / (1 - p_0))
+    
+log_lambda = first_term + second_term
+log_lambda
+```
+
+As $\log (\Lambda)$ is 23.55, which is $>c$, we reject $H_0$.
+
+### Asymptotic
+
+Remember, we want to reject when:
+
+$2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \geq c$
+
+We learned in class that under Wilks' Theorem, for large $n$:
+
+$2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1$.
+
+So, this would make $c$ the $95\%$ percentile of the chi-squared distribution.
+
+So, let's figure out our $c$:
+
+We can run this in code:
+
+```{webr-r}
+
+alpha = 0.05
+p = 0.6
+c = qchisq(1-alpha, 1)
+c
+```
+
+So, $c = 3.841459$
+
+Now, let's check our data. Let's assume $r = 0.75$. Remember that Wilks' Theorem states that for large n: $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1$.
+
+For our negative binomial: $\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)$
+
+Let's proceed with $r=0.75$.
+
+```{webr-r}
+n = length(x)
+r = 0.75
+x_sum = sum(x)
+x_bar = mean(x)
+p_0 = 0.6
+p_mle = r / (r + x_bar)
+log_part = n * r * log(p_mle / p_0) + x_sum * log((1 - p_mle) / (1 - p_0))
+test_stat = 2 * log_part
+test_stat
+```
+
+If I just plug in the PDFs, I get the same value:
+
+```{webr-r}
+log_L_mle  <- dnbinom(x_sum, size = n * r, prob = p_mle, log = TRUE)
+log_L_null <- dnbinom(x_sum, size = n * r, prob = p_0, log = TRUE)
+
+test_stat_2 = 2 * (log_L_mle - log_L_null)
+test_stat_2
+```
+
+As $47.1 > c$ (which was $3.841459$), for my COVID hospital dataset, we reject $H_0$. This implies that we reject the hypothesis that COVID has the same contagious level as the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least $1$ person, so I do not want to extrapolate too much). Another way to say this is that we accept the hypothesis that COVID does not have the same contagious level as the flu.
+
+A power curve would be:
+
+```{webr-r}
+p_alt <- seq(0.45, 0.75, by = 0.001)
+
+lambda <- 2 * n * r * (log(p_alt / p_0) + ((1 - p_alt) / p_alt) * log((1 - p_alt) / (1 - p_0)))
+
+lambda[p_alt == p_0] <- 0
+
+power_curve <- pchisq(c, df = 1, ncp = lambda, lower.tail = FALSE)
+
+# --- 4. Plot the Power Curve ---
+plot(p_alt, power_curve, type = "l", col = "#2c3e50", lwd = 3,
+     xlab = expression(textstyle("p")),
+     ylab = "Power",
+     main = "GLR Power Curve",
+     ylim = c(0, 1), panel.first = grid(lty = "dotted", col = "gray70"))
+
+# Add visual anchors for interpretation
+abline(v = p_0, col = "#e74c3c", lty = 2, lwd = 2)   # Null Hypothesis baseline
+
+# Add a legend for clarity
+legend("bottomright", 
+       legend = c("Power Curve", "Null Hypothesis (p = 0.6)"),
+       col = c("#2c3e50", "#e74c3c", "#27ae60"), 
+       cex=0.6,
+       lty = c(1, 2, 3), lwd = c(3, 2, 2), bg = "white")
+```

@@ -1,0 +1,189 @@
+---
+title: "Simulating Confidence Intervals"
+---
+
+First, let's bring my hospital dataset into R.
+
+```{webr-r}
+dat <- read.csv('/Users/ryderfried/Documents/2025-2026/Spring/STATS200Q/transmission_pairs_covid_v2.csv')
+```
+
+Now, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values).
+
+```{webr-r}
+x <- as.vector(table(dat$infector_id)) - 1
+```
+
+## Bootstrapping
+
+### Parametric Bootstrap
+
+If we say $X \sim \text{NegBin}(p, r)$, and we have $r = 0.5$, then as I calculated in Homework 1, $\hat{p}_{MLE} = \frac{r}{r + \bar{x}} = \frac{0.5}{0.5 + 0.7435} = 0.402$.
+
+```{webr-r}
+r = 0.5
+n = length(x)
+x_bar = sum(x) / n 
+p_mle = r / (r + x_bar)
+```
+
+So, using a parametric bootstrap, we can simulate:
+
+```{webr-r}
+p.pboot <- replicate(10000, {
+    # Generate dataset
+    x.pboot = rnbinom(n, r, p_mle)
+    
+    # Calculate new MLE
+    x.pboot.bar = sum(x.pboot) / n
+    p.pboot.mle = r / (r + x.pboot.bar)
+    p.pboot.mle
+  }
+)
+
+hist(p.pboot)
+```
+
+```{webr-r}
+quantile(p.pboot, c(.025, .975))
+```
+
+So, our approximate 95% confidence interval for $p$ using Parametric Bootstrapping is about $[0.3738, 0.4336]$, depending on the simulation.
+
+### Nonparametric Bootstrap
+
+Here, we will just re-sample from our sample.
+
+So, using a nonparametric bootstrap, we can simulate:
+
+```{webr-r}
+p.npboot <- replicate(10000, {
+  
+    # Generate new sample (with replacement) from our above sample
+    x.npboot <- sample(x, size=n, replace=TRUE)
+    
+    # Calculate new MLE
+    x.npboot.bar = sum(x.npboot) / n
+    p.npboot.mle = r / (r + x.npboot.bar)
+    p.npboot.mle
+  }
+)
+
+hist(p.npboot)
+```
+
+```{webr-r}
+quantile(p.npboot, c(.025, .975))
+```
+
+So, our approximate 95% confidence interval for $p$ using Nonparametric Bootstrapping is about $[0.3714, 0.4360]$, depending on the simulation.
+
+### Comparing Confidence Intervals
+
+Combining last week and this week, I have now computed four different 95% confidence intervals for $p$.
+
+They are listed below:
+
+1.  Using CLT with $\hat{p}$ plug in for $p$ in $I(p)$: $[0.3711, 0.4331]$
+2.  Using CLT with direct computation for $p$ in $I(p)$: $[0.3727, 0.4346]$
+3.  Parametric Bootstrap: $[0.3738, 0.4336]$
+4.  Nonparametric Bootstrap: $[0.3714, 0.4360]$
+
+Computing for the **range** of the 95% confidence interval, we have:
+
+Using CLT with $p_hat$ plug in for $p$ in $I(p)$: $0.0620$
+
+Using CLT with direct computation for $p$ in $I(p)$: $0.0619$
+
+Parametric Bootstrap: $0.0598$
+
+Nonparametric Bootstrap: $0.0646$
+
+The parametric bootstrap 95% confidence interval has the smallest range, while the nonparametric bootstrap has the largest range.
+
+## Metropolis Hastings
+
+In Homework 1, I calculated a Bayesian posterior mean for my data using a Beta$(1,1)$ (Uniform) prior. I solved that:
+
+$f(p | x) \propto p^{\alpha + nr - 1} (1-p)^{\beta + \sum x_i - 1}$.
+
+For my uniform prior, this means that:
+
+$f(p | x) \propto p^{1 + nr - 1} (1-p)^{1 + \sum x_i - 1}$
+
+$f(p | x) \propto p^{nr} (1-p)^{\sum x_i}$.
+
+Instead of recognizing the beta distribution, let's instead run the Metropolis Hastings Algorithm.
+
+To avoid numerical underflow, we will compute $e^{log(f(p | x))}$.
+
+$f(p | x) \propto e^{ nr \log (p) + {\sum x_i} \log (1-p) + C}$.
+
+```{webr-r}
+
+# This function calculates the posterior probability (without accounting for the constant term).
+# To avoid numerical underflow, we will first calculate the log, and then do e ^ (log(prob))
+post <- function(p) {
+  # calculate log posterior (for numerical stability)
+  log.p.post <- log(p) * (n * r) +  sum(x) * log(1-p)
+  exp(log.p.post)
+}
+
+# Start with an arbitrary value of p.
+p.post <- c(0.5)
+
+# Run Metropolis-Hastings for 15000 steps
+for(i in 1:15000) {
+
+  p.curr <- p.post[length(p.post)]
+  
+  # Propose a new value of p. Let's choose from uniform(0,1). Let's call this q.
+  p.prop <- runif(1)
+  
+  # calculate probability of choosing new_p.
+  # This is (post(new) * q(old)) / (post(old) ( q(new)))
+  prob <- min(1,
+    (post(p.prop) * dunif(p.curr, 0, 1) /
+      (post(p.curr) * dunif(p.prop, 0, 1)))
+  )
+
+  # add new p value to list
+  p.new <- sample(c(p.prop, p.curr),
+                      size=1, prob=c(prob, 1-prob))
+  p.post <- c(p.post, p.new)
+}
+
+# Keep the latter 10,000 samples
+late.p.post <- p.post[5001:15000]
+
+# We can estimate the posterior mean by taking the mean of these samples.
+mean(late.p.post)
+```
+
+Here, my Metropolis-Hastings posterior mean is around $0.401$, depending on the simulation.
+
+In Homework 1, instead of using a simulation, I recognized the $\text{Beta}(1 + nr, 1+ \sum_{i=1}^n x_i)$ distribution. In that situation, my posterior mean was $0.401$.
+
+Now, let's look at the distribution of my Metropolis-Hastings $\hat{p}$.
+
+```{webr-r}
+hist(late.p.post)
+```
+
+```{webr-r}
+quantile(late.p.post, c(.025, .975))
+```
+
+Here, my Metropolis-Hastings approximate 95% credible interval is around $[0.3701, 0.4283]$, depending on the simulation.
+
+When I did this from the Beta function in Homework 4 using the 'qbeta' function, my 95% credible interval was $[0.3722, 0.4328]$.
+
+Here are some statistics about these 95% credible intervals:
+
+**Range**:
+
+Metropolis-Hastings: $0.0582$
+
+Direct computation of the posterior distribution: $0.0606$
+
+So, my approximate M-H 95% credible interval has a slightly smaller spread.
