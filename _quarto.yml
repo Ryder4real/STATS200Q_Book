@@ -2,6 +2,11 @@ project:
   type: book
   output-dir: docs
 
+engine: knitr
+
+filters:
+  - webr
+
 book:
   chapters:
     - index.qmd
