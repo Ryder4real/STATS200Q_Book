@@ -182,9 +182,6 @@
 
 \KOMAoption{captions}{tableheading}
 \makeatletter
-\@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
-\makeatother
-\makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
 \ifdefined\contentsname
@@ -249,8 +246,6 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-
-\bookmarksetup{startatroot}
 
 \chapter{Introduction}\label{introduction}
 
@@ -367,7 +362,9 @@ As a quick note, for this class, we mianly focused on analyzing one
 parameter. So, for many of these chapters, I will fix \(r\), and analyze
 \(p\).
 
-\bookmarksetup{startatroot}
+\part{Introduction}
+
+\part{Statistical Content}
 
 \chapter{MLE \& Posterior Mean}\label{mle-posterior-mean}
 
@@ -551,8 +548,6 @@ Here is the histogram for \(\hat{p}_{PM}\).
 \NormalTok{     )}
 \end{Highlighting}
 \end{Shaded}
-
-\bookmarksetup{startatroot}
 
 \chapter{Futher Evaluating
 Estimators}\label{futher-evaluating-estimators}
@@ -744,8 +739,6 @@ learned that the \(\hat{p}_{PM}\) is always biased toward the prior.
 Since the MLE and Posterior Mean are both biased, the CRLB does not
 provide a strict lower bound for their variance.
 
-\bookmarksetup{startatroot}
-
 \chapter{Asymptotic Distribution of
 MLE}\label{asymptotic-distribution-of-mle}
 
@@ -872,8 +865,6 @@ curve displaying the asymptotically normal distribution of
 \NormalTok{       col="red", lwd=2, lty = 1, cex = 0.6)}
 \end{Highlighting}
 \end{Shaded}
-
-\bookmarksetup{startatroot}
 
 \chapter{Confidence and Credible
 Intervals}\label{confidence-and-credible-intervals}
@@ -1100,8 +1091,6 @@ Again, we will use the same values from my hospital dataset, as before.
 From the computation in the code above, conditional on my uniform prior,
 the credible interval states that there is a 95\% chance \(p\) is in
 \([0.3722, 0.4328]\).
-
-\bookmarksetup{startatroot}
 
 \chapter{Simulating Confidence
 Intervals}\label{simulating-confidence-intervals}
@@ -1412,8 +1401,6 @@ Metropolis-Hastings: \(0.0582\)
 So, my approximate M-H 95\% credible interval has a slightly smaller
 spread.
 
-\bookmarksetup{startatroot}
-
 \chapter{Hypothesis Testing}\label{hypothesis-testing}
 
 \section{Background}\label{background-6}
@@ -1648,8 +1635,6 @@ reject \(H_0\). This implies that we accept the hypothesis that COVID is
 more contagious than the flu (though this dataset is not perfect as it
 only consists of people already in the hospital who infected at least
 \(1\) person, so I do not want to extrapolate too much).
-
-\bookmarksetup{startatroot}
 
 \chapter{Generalized Likelihood Ratio
 Test}\label{generalized-likelihood-ratio-test}
@@ -2030,8 +2015,6 @@ A power curve using Wilk's Theorem would be:
 I recommend going back in the code and seeing how changing \(n\) can
 effect your power curve.
 
-\bookmarksetup{startatroot}
-
 \chapter{Bayesian Hypothesis Testing}\label{bayesian-hypothesis-testing}
 
 \section{Background}\label{background-8}
@@ -2183,8 +2166,6 @@ conclusion, in that we rejected \(H_0\) (we reject the hypothesis that
 COVID has the same contagious level as the flu). This means that I did
 not encounter Lindley's paradox.
 
-\bookmarksetup{startatroot}
-
 \chapter{Suffiency}\label{suffiency}
 
 \section{Sufficient Statistic}\label{sufficient-statistic}
@@ -2304,8 +2285,6 @@ P(X_1=x_1,...,Xn=x_n | T=t) &= \frac{  \prod_{i=1}^n \binom{x_i + r - 1}{x_i}}{\
 
 As we can see, this does not depend on \(p\), proving once again that
 \(T(X_1,...x_n) = \sum_{i=1}^n x_i\) is a sufficient statistic.
-
-\bookmarksetup{startatroot}
 
 \chapter*{References}\label{references}
 \addcontentsline{toc}{chapter}{References}
