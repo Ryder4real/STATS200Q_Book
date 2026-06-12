@@ -576,28 +576,30 @@ Estimators}\label{further-evaluating-estimators}
 
 This chapter covers a variety of topics. First, I will dive into some
 cool properties regarding the score, which is the derivative of the log
-likelihood. One integration technique I will use for this in
+likelihood. One integration technique I will use for this is
 ``Differentiation Under the Integral Sign''. It is a cool trick that
 allows you to move a derivative outside of the integral.
 
-I will then dive into another way to evaluate estimators. In Chapter 1,
-we looked at the bias and variance of \(\hat{p}_{MLE}\) and
-\(\hat{p}_{PM}\), but this time I will use frequentist Mean Squared
-Error to compare them. This is defined as MSE =
-\(\mathbb{E}[(\hat{\theta} - \theta)^2]\). The MSE can famously be
-decomposed as the (Bias\(^2\) + Variance). So, while last chapter we
-looked at bias and variance, MSE serves as an all-encompassing metric.
-So, I will compare the MSE of my MLE and Posterior Mean from Chapter 1.
+Then, we will take a nice short break from proofs, and I will then dive
+into another way to evaluate estimators. In Chapter 1, we looked at the
+bias and variance of \(\hat{p}_{MLE}\) and \(\hat{p}_{PM}\), but this
+time I will use frequentist Mean Squared Error to compare them. This is
+defined as MSE = \(\mathbb{E}[(\hat{\theta} - \theta)^2]\). The MSE can
+famously be decomposed as the (Bias\(^2\) + Variance). So, while last
+chapter we looked at bias and variance, MSE serves as an
+all-encompassing metric. So, I will compare the MSE of my MLE and
+Posterior Mean from Chapter 1.
 
-Next, I will prove the Cramer-Rao Lower Bound (CRLB), evaluate the
-Cramer-Rao Lower Bound (CRLB) for my distribution, and see if it is
-relevant to the MLE and Posterior Mean I calculated in Chapter 1. In
-class, we learned that the CRLB is a lower bound to the variance of an
-unbiased estimator. This means of all unbiased estimators, if one
-reaches the CRLB, then it is the best unbiased estimator. This is very
-insightful. It means once we've reached that bound, there is no point
-evaluating other unbiased estimators, as there cannot be a unbiased
-estimator with a lower variance that the one that reaches the CRLB.
+Alas, after discussing MSE, our short break from proofs will have
+concluded. I will next prove the Cramer-Rao Lower Bound (CRLB), evaluate
+the CRLB for my distribution, and see if it is relevant to the MLE and
+Posterior Mean I calculated in Chapter 1. In class, we learned that the
+CRLB is a lower bound to the variance of an unbiased estimator. This
+means of all unbiased estimators, if one reaches the CRLB, then it is
+the best unbiased estimator. This is very insightful. It means once
+we've reached that bound, there is no point evaluating other unbiased
+estimators, as there cannot be a unbiased estimator with a lower
+variance that the one that reaches the CRLB.
 
 As an extra note, the CRLB is defined as \(\frac{1}{I(\theta)}\), where
 \(I(\theta)\) is defined as the variance of the score (which is the
@@ -744,7 +746,8 @@ Error for different \(p\), for when \(n=50\) and \(r=0.5\).
 \pandocbounded{\includegraphics[keepaspectratio]{Week2_files/figure-pdf/unnamed-chunk-1-1.pdf}}
 
 As we can see, at different true \(p\) values, one estimator may be
-better than the other.
+better than the other. This is an interesting result, as we cannot
+declare one estimator to be better than the other using frequentist MSE.
 
 \section{Proving the Cramer-Rao Lower
 Bound}\label{proving-the-cramer-rao-lower-bound}
@@ -2378,8 +2381,8 @@ denominator{]}.
 \end{Shaded}
 
 My Bayes Factor is \(607815364\), meaning there is very strong evidence
-to reject the null hypothesis per the criteria in Kass and Raftery
-(1995).
+to reject the null hypothesis per the criteria in
+(\citeproc{ref-Kass1995}{\textbf{Kass1995?}}).
 
 In Chapter 7, using Frequentist Hypothesis Testing methods, I also
 rejected the null hypothesis. So, both methods reached the same

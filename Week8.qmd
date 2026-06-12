@@ -6,7 +6,7 @@ title: "Bayesian Hypothesis Testing"
 
 In the previous two chapters, we have talked about frequentist hypothesis testing. We now turn our heads to Bayesian hypothesis testing. For Bayesian hypothesis testing, we can compare the posterior likelihoods of $H_0$ and $H_A$. This is called the Bayes Factor. If the Bayes Factor is above 20, then we are considered to have "strong evidence" to reject the null.
 
-Similar to our previous Bayesian metrics, we first need some priors. There are three priors we will need to come up with. The first two are the prior likelihoods of $H_0$ and $H_A$, which naturally need to sum to 1. The third is a prior distribution for $\theta$. 
+Similar to our previous Bayesian metrics, we first need some priors. There are three priors we will need to come up with. The first two are the prior likelihoods of $H_0$ and $H_A$, which naturally need to sum to 1. The third is a prior distribution for $\theta$.
 
 ## Bayesian Hypothesis Test
 
@@ -111,6 +111,6 @@ bayes_factor = exp(exponent)
 bayes_factor
 ```
 
-My Bayes Factor is $607815364$, meaning there is very strong evidence to reject the null hypothesis per the criteria in Kass and Raftery (1995).
+My Bayes Factor is $607815364$, meaning there is very strong evidence to reject the null hypothesis per the criteria in @Kass1995.
 
 In Chapter 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected $H_0$ (we reject the hypothesis that COVID has the same contagious level as the flu). As my Bayesian and frequenist hypothesis tests both come to the same conclusion, I did not encounter Lindley's paradox.
