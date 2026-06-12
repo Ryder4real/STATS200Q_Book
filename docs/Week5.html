@@ -2131,11 +2131,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>Nonparametric Bootstrap: <span class="math inline">\([0.3714, 0.4360]\)</span> (with volatility depending on simulation)</li>
 </ol>
 <p>Computing for the <strong>range</strong> of the 95% confidence interval, we have:</p>
-<p>Using CLT with <span class="math inline">\(p_hat\)</span> plug in for <span class="math inline">\(p\)</span> in <span class="math inline">\(I(p)\)</span>: <span class="math inline">\(0.0620\)</span></p>
+<p>Using CLT with <span class="math inline">\(\hat{p}_{MLE}\)</span> plug in for <span class="math inline">\(p\)</span> in <span class="math inline">\(I(p)\)</span>: <span class="math inline">\(0.0620\)</span></p>
 <p>Using CLT with direct computation for <span class="math inline">\(p\)</span> in <span class="math inline">\(I(p)\)</span>: <span class="math inline">\(0.0619\)</span></p>
 <p>Parametric Bootstrap: <span class="math inline">\(0.0598\)</span></p>
 <p>Nonparametric Bootstrap: <span class="math inline">\(0.0646\)</span></p>
-<p>The parametric bootstrap 95% confidence interval has the smallest range, while the nonparametric bootstrap has the largest range.</p>
+<p>So, on the simulation I originally tested on, the parametric bootstrap 95% confidence interval had the smallest range, while the nonparametric bootstrap had the largest range. I am not sure if these mean anything, as this may have been strictly due to a weird simulation.</p>
 </section>
 </section>
 <section id="metropolis-hastings" class="level2" data-number="6.3">

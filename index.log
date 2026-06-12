@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.21.0 (TeX Live 2025)  (format=lualatex 2025.3.8)  12 JUN 2026 00:58
+This is LuaHBTeX, Version 1.21.0 (TeX Live 2025)  (format=lualatex 2025.3.8)  12 JUN 2026 01:30
  restricted system commands enabled.
 **index.tex
 (./index.tex
@@ -1028,24 +1028,69 @@ chapter 1.
 
 ]
 
-! Package amsmath Error: \begin{aligned} allowed only in math mode.
+[4]
 
-See the amsmath package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.309     P
-         (X=x) &= \binom{x + r- 1}{x} p^r (1 - p)^x \\
+[5]
+chapter 2.
+
+
+[6
+
+]
+
+[7]
+
+[8]
+
+[9]
+
+[10]
+chapter 3.
+
+
+[11
+
+]
+
+[12]
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 675.
+
+
+[13]
+<Week2_files/figure-pdf/unnamed-chunk-1-1.pdf, id=80, 363.3575pt x 211.79124pt>
+
+File: Week2_files/figure-pdf/unnamed-chunk-1-1.pdf Graphic file (type pdf)
+<use Week2_files/figure-pdf/unnamed-chunk-1-1.pdf>
+Package luatex.def Info: Week2_files/figure-pdf/unnamed-chunk-1-1.pdf  used on 
+input line 714.
+(luatex.def)             Requested size: 363.3566pt x 211.79073pt.
+
+
+[14<./Week2_files/figure-pdf/unnamed-chunk-1-1.pdf>]
+
+[15]
+chapter 4.
+
+
+[16
+
+]
+! Extra }, or forgotten $.
+l.806 ...or \(\text{Var}(\ell^\prime_{x_1}(\theta))}
+                                                  \).
 
 Here is how much of LuaTeX's memory you used:
- 25015 strings out of 475506
+ 25114 strings out of 475506
  100000,1373583 words of node,token memory allocated
- 2279 words of node memory still in use:
-   11 hlist, 1 vlist, 2 rule, 12 disc, 2 local_par, 1 dir, 45 glue, 15 kern, 4 p
-enalty, 4 margin_kern, 162 glyph, 11 attribute, 68 glue_spec, 11 attribute_list,
- 1 if_stack nodes
-   avail lists: 1:2,2:148,3:90,4:46,5:337,6:17,7:5005,8:2,9:117,10:6,11:340,12:1
- 47628 multiletter control sequences out of 65536+600000
- 60 fonts using 18785539 bytes
- 108i,8n,114p,10918b,410s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 5279 words of node memory still in use:
+   73 hlist, 11 vlist, 8 rule, 12 disc, 4 local_par, 2 dir, 6 math, 105 glue, 44
+ kern, 21 penalty, 1 choice, 12 noad, 9 math_char, 4 sub_box, 7 sub_mlist, 273 g
+lyph, 165 attribute, 69 glue_spec, 165 attribute_list, 2 temp, 2 write, 1 pdf_de
+st, 16 pdf_colorstack nodes
+   avail lists: 1:2,2:1119,3:101,4:545,5:373,6:20,7:4945,8:63,9:1219,10:8,11:340
+,12:1
+ 47698 multiletter control sequences out of 65536+600000
+ 68 fonts using 19827847 bytes
+ 108i,15n,114p,10918b,410s stack positions out of 10000i,1000n,20000p,200000b,200000s
 !  ==> Fatal error occurred, no output PDF file produced!

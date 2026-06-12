@@ -98,7 +98,7 @@ They are listed below:
 
 Computing for the **range** of the 95% confidence interval, we have:
 
-Using CLT with $p_hat$ plug in for $p$ in $I(p)$: $0.0620$
+Using CLT with $\hat{p}_{MLE}$ plug in for $p$ in $I(p)$: $0.0620$
 
 Using CLT with direct computation for $p$ in $I(p)$: $0.0619$
 
@@ -106,7 +106,7 @@ Parametric Bootstrap: $0.0598$
 
 Nonparametric Bootstrap: $0.0646$
 
-The parametric bootstrap 95% confidence interval has the smallest range, while the nonparametric bootstrap has the largest range.
+So, on the simulation I originally tested on, the parametric bootstrap 95% confidence interval had the smallest range, while the nonparametric bootstrap had the largest range. I am not sure if these mean anything, as this may have been strictly due to a weird simulation.
 
 ## Metropolis Hastings
 

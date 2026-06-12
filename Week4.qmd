@@ -47,7 +47,7 @@ $$
 
 Going back to my hospital dataset:
 
-```{r}
+```{webr-r}
 dat <- read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv")
 x <- as.vector(table(dat$infector_id)) - 1
 x_bar = mean(x)
@@ -55,7 +55,7 @@ n = length(x)
 cat("x_bar =", x_bar, "\tn =", n)
 ```
 
-I had $\bar{x} \approx 0.7435, n=807$. Let's say $r = 0.5$.
+As we can see, I had $\bar{x} \approx 0.7435, n=807$. Let's say $r = 0.5$.
 
 I then have:
 

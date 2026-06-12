@@ -1,4 +1,7 @@
-# Introduction
+---
+title: "Introduction"
+numbered: false
+---
 
 
 ## Background
@@ -33,26 +36,21 @@ If you want to do any analysis of the data, feel free to code in the block below
 ```{webr-r}
 dat <- read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv")
 x <- as.vector(table(dat$infector_id)) - 1
-
-```
-
-There are 807 patients in my dataset, as seen from the code below.
-
-```{webr-r}
 length(x)
+
 ```
+
+There are 807 patients in my dataset, as seen in the code below.
 
 
 Traditionally, in this version of the Negative Binomial distribution, $p$ is meant to be the probability of success for each trial and $r$ is meant to be the fixed number of successes we are waiting for (which hypothetically would be $1$ in this case.)
 
 However, in the real world, we have found that negative binomials can effectively model hopsital datasets where the paremetrs have slightly altered meanings.
 
-In my dataset,
-
-$p$ is the probability of an transmission opportunity not resulting in an infection (perhaps counter-intuitively, the lower the $p$, the more infectious).
+In my dataset, $p$ is the probability of an transmission opportunity not resulting in an infection (perhaps counter-intuitively, the lower the $p$, the more infectious).
 $r$ is the dispersion parameter, meaning it is a measure of how heavily clustered the transmissions are.
 
-For my dataset, $r$ seems to be best below $1$, meaning there are many individuals who do not pass the virus to anyone beyond the first person. This makes sense as from the code below, we can see that $507$ of individuals in the dataset have a value of $0$, meaning they did not pass the virus to anyone beyond the first person.
+$r$ seems to fit best below $1$, meaning there are many individuals who do not pass the virus to anyone beyond the first person. This makes sense as from the code below, we can see that $507$ of individuals in the dataset have a value of $0$, meaning they did not pass the virus to anyone beyond the first person.
 
 ```{webr-r}
 sum(x == 0)

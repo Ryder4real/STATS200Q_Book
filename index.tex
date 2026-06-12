@@ -303,13 +303,11 @@ values).
 
 The PDF for the variant of the Negative Binomial I will be analyzing is:
 
-\$\$
-
+\[
 \begin{aligned}
     P(X=x) &= \binom{x + r- 1}{x} p^r (1 - p)^x \\
 \end{aligned}
-
-\$\$
+\]
 
 If you want to do any analysis of the data, feel free to code in the
 block below.
@@ -322,16 +320,11 @@ binomial distribution.
 \begin{Highlighting}[]
 \NormalTok{dat \textless{}{-} read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q\_Book/main/transmission\_pairs\_covid\_v2.csv")}
 \NormalTok{x \textless{}{-} as.vector(table(dat$infector\_id)) {-} 1}
-\end{Highlighting}
-\end{Shaded}
-
-There are 807 patients in my dataset, as seen from the code below.
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{length(x)}
 \end{Highlighting}
 \end{Shaded}
+
+There are 807 patients in my dataset, as seen in the code below.
 
 Traditionally, in this version of the Negative Binomial distribution,
 \(p\) is meant to be the probability of success for each trial and \(r\)
@@ -342,18 +335,16 @@ However, in the real world, we have found that negative binomials can
 effectively model hopsital datasets where the paremetrs have slightly
 altered meanings.
 
-In my dataset,
+In my dataset, \(p\) is the probability of an transmission opportunity
+not resulting in an infection (perhaps counter-intuitively, the lower
+the \(p\), the more infectious). \(r\) is the dispersion parameter,
+meaning it is a measure of how heavily clustered the transmissions are.
 
-\(p\) is the probability of an transmission opportunity not resulting in
-an infection (perhaps counterintuitevly, the lower the \(p\), the more
-infectious). \(r\) is the dispersion parameter, meaning it is a measure
-of how heavily clustered the transmissions are.
-
-For my dataset, \(r\) seems to be best below \(1\), meaning there are
-many individuals who do not pass the virus to anyone beyond the first
-person. This makes sense as from the code below, we can see that \(507\)
-of individuals in the dataset have a vlaue of \(0\), meaning they did
-not pass the virus to anyone beyond the first person.
+\(r\) seems to fit best below \(1\), meaning there are many individuals
+who do not pass the virus to anyone beyond the first person. This makes
+sense as from the code below, we can see that \(507\) of individuals in
+the dataset have a value of \(0\), meaning they did not pass the virus
+to anyone beyond the first person.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -958,19 +949,16 @@ Going back to my hospital dataset:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"https://raw.githubusercontent.com/Ryder4real/STATS200Q\_Book/main/transmission\_pairs\_covid\_v2.csv"}\NormalTok{)}
-\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{as.vector}\NormalTok{(}\FunctionTok{table}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{infector\_id)) }\SpecialCharTok{{-}} \DecValTok{1}
-\NormalTok{x\_bar }\OtherTok{=} \FunctionTok{mean}\NormalTok{(x)}
-\NormalTok{n }\OtherTok{=} \FunctionTok{length}\NormalTok{(x)}
-\FunctionTok{cat}\NormalTok{(}\StringTok{"x\_bar ="}\NormalTok{, x\_bar, }\StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{n ="}\NormalTok{, n)}
+\NormalTok{dat \textless{}{-} read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q\_Book/main/transmission\_pairs\_covid\_v2.csv")}
+\NormalTok{x \textless{}{-} as.vector(table(dat$infector\_id)) {-} 1}
+\NormalTok{x\_bar = mean(x)}
+\NormalTok{n = length(x)}
+\NormalTok{cat("x\_bar =", x\_bar, "\textbackslash{}tn =", n)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-x_bar = 0.7434944   n = 807
-\end{verbatim}
-
-I had \(\bar{x} \approx 0.7435, n=807\). Let's say \(r = 0.5\).
+As we can see, I had \(\bar{x} \approx 0.7435, n=807\). Let's say
+\(r = 0.5\).
 
 I then have:
 
@@ -1275,7 +1263,8 @@ They are listed below:
 Computing for the \textbf{range} of the 95\% confidence interval, we
 have:
 
-Using CLT with \(p_hat\) plug in for \(p\) in \(I(p)\): \(0.0620\)
+Using CLT with \(\hat{p}_{MLE}\) plug in for \(p\) in \(I(p)\):
+\(0.0620\)
 
 Using CLT with direct computation for \(p\) in \(I(p)\): \(0.0619\)
 
@@ -1283,8 +1272,10 @@ Parametric Bootstrap: \(0.0598\)
 
 Nonparametric Bootstrap: \(0.0646\)
 
-The parametric bootstrap 95\% confidence interval has the smallest
-range, while the nonparametric bootstrap has the largest range.
+So, on the simulation I originally tested on, the parametric bootstrap
+95\% confidence interval had the smallest range, while the nonparametric
+bootstrap had the largest range. I am not sure if these mean anything,
+as this may have been strictly due to a weird simulation.
 
 \section{Metropolis Hastings}\label{metropolis-hastings}
 
@@ -1438,16 +1429,16 @@ that we have a default hypothesis about a parameter \(\theta\). Let's
 say, for example, it is that \(\theta_0 = 10\). Maybe this represents
 the number of symptoms per day of medical patients.
 
-Now, let's say we are trying out a new drug, and want to see if is
+Now, let's say we are trying out a new drug, and want to see if it is
 effective. So, maybe our alternative hypothesis is that
 \(\theta_A = 5\). Hypothesis testing is seeing whether, based on the
 data, we can reject the null hypothesis and accept the alternative.
 
 Unlike when we solved for \(\hat{p}_{MLE}\) and \(\hat{p}_{PM}\), the
-result of a hypothesis test is strictly binary. It is where we
+result of a hypothesis test is strictly binary. It is only where we
 accept/reject the null hypothesis.
 
-Frequentist hypothesis Testing is all about the Neyman-Person lemma.
+Frequentist hypothesis testing is all about the Neyman-Person lemma.
 This says that if we have a distribution \(f_\theta(x)\), and
 \(H_0: \theta = \theta_0\) and \(H_A: \theta = \theta_A\), then we want
 to reject \(H_0\) when \(\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}\) is
@@ -1458,16 +1449,15 @@ To understand why this works, let's look at hypothesis testing as a
 constrained optimization problem. Theoretically we would want our test
 to never makes a mistake, and only accept the null when \(H_0\) is true
 and only reject when \(H_0\) is false. In reality, there is a strict
-trade-off between committing a Type I error (rejecting the \(H_0\)
-despite \(H_0\) being true). and maximizing power (the probability of
-correctly detecting \(H_A\)). We handle this by setting a hard cap on
-our Type I error (which is refered to as \(\alpha\)), typically at
-\(\alpha = 0.05\). Type I error can be very harmful, for example leading
-us to deem a drug as effective, even if it isn't. This is why we cap it
-at \(0.05\).
+trade-off between committing a Type I error (rejecting \(H_0\) despite
+\(H_0\) being true). and maximizing power (correctly rejecting \(H_0\)).
+We handle this by setting a hard cap on our Type I error (which is
+referred to as \(\alpha\)), typically at \(\alpha = 0.05\). Type I error
+can be very harmful, for example leading us to deem a drug as effective,
+even if it isn't. This is why we cap it at \(0.05\).
 
 Once this budget is locked in, the Neyman-Pearson lemma tells us exactly
-how to get the maximize our power (correctly rejecting \(H_0\) out of
+how to get the maximize our power (correctly rejecting \(H_0\)) out of
 our \(\alpha\) allocation. You can think of the likelihood ratio
 \(\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}\) as a benefit-to-cost
 efficiency metric for every possible data outcome. The numerator
@@ -1480,12 +1470,12 @@ test possible for our chosen significance level.
 
 In class, we showed that this principle extends into one-sided
 hypothesis testing. This means that as opposed to saying
-\(H_A: \theta = 5\), we say \(H_A: \theta < 10\). To solve for this, we
-want to find a ratio that maximizes the power for every possible theta
-below \(10\). What we showed in class is that we can just choose any
-number below \(10\) (let's say \(2\) for this example), and the values
-the maximize \(\frac{f_{\theta_A = 2}(x)}{f_{\theta_0}(x)}\) are the
-same values that maximize
+\(H_A: \theta = 5\), we can say \(H_A: \theta < 10\). To solve for this,
+we want to find a ratio that maximizes the power for every possible
+theta below \(10\). What we showed in class is that we can just choose
+any number below \(10\) (let's say \(2\) for this example), and the
+values the maximize \(\frac{f_{\theta_A = 2}(x)}{f_{\theta_0}(x)}\) are
+the same values that maximize
 \(\frac{f_{\theta_A = 7}(x)}{f_{\theta_0}(x)}\) or
 \(\frac{f_{\theta_A = 9}(x)}{f_{\theta_0}(x)}\), or any value below 10.
 So, we can just choose one value to set up the ratio for
@@ -2044,6 +2034,8 @@ effect your power curve.
 \bookmarksetup{startatroot}
 
 \chapter{Bayesian Hypothesis Testing}\label{bayesian-hypothesis-testing}
+
+\section{Background}\label{background-8}
 
 \section{Bayesian Hypothesis Test}\label{bayesian-hypothesis-test}
 
