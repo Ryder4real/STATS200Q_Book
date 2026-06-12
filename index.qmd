@@ -2,13 +2,15 @@
 
 ## Background
 
-This past spring, I have been enrolled in STATS200Q: Philosophical Foundations of Statistics with Professor Sun. It is a small class, with about twelve people, allowing Professor Sun to dive into the material while maintain a level of connection with the students. I have greatly appreciated this element, as it is has allowed me to ask many questions along the way!
+his past spring, I have been enrolled in STATS200Q: Philosophical Foundations of Statistics with Professor Dennis Sun. It is a small class, with about twelve people, allowing Professor Sun to dive into the material while maintaining a level of connection with the students. I have greatly appreciated this element as it has allowed me to ask many questions along the way!
 
-For me, in my statistical journal, this class served as follow-up to STATS118, which i took in the Fall wiht Professor Gene Kim. Put simply, that class was very difficult. It involved a lot of mathematical computation and required students to pick up patterns and manipulate expressions into known distributions.
+In my statistical journey, this class served as a follow-up to STATS118, which I took in the Fall with Professor Gene Kim. Put simply, that class was very difficult. It involved a lot of mathematical computation and required students to pick up patterns and manipulate expressions into known distributions.
 
-As mentioned in the title, STATS200Q feels much more philosophical. It is no doubt still a math class, it opts for less computation than 118 and more answering of the "Why"? Looking back it, many if the strateges I learned in 118 were "Frequentist". However, even after taking that final exam, I would not have been able to explain what that meant.
+As mentioned in the title, STATS200Q feels much more philosophical. It is no doubt still a math class, but it opts for less computation than 118 and more answering of "Why?". Looking back, many of the strategies I learned in 118 were "Frequentist". However, even after taking that final exam, I would not have been able to explain what that term meant.
 
-In STATS200Q, we learned about the differences between Frquentist and Bayesian Statistics and how they approach problems differently. Each week throughout the quarter, we had a small homework assignment. This final book is an extension of that. Each assignment is its own chapter, and I have added background to each chapter. This introduction chapter is no different. This is the end of the "Background" section. Below I will explain the distribution and dataset I focused my assignments on. I hope you enjoy!
+In STATS200Q, we have learned about the differences between Frequentist and Bayesian Statistics and how they approach problems separately. Each week throughout the quarter, we had a small homework assignment. This final book is an extension of that. Each assignment is its own chapter, and I have additionally added a "Background" section to each chapter. Put together, this should make it feel like a tightly-knit narrative. 
+
+This introduction chapter is no different. Sadly, this is the end of the "Background" section. Below I will explain the distribution and dataset I focused my assignments on. I hope you enjoy!
 
 NOTE: I have chapters that have multiple R blocks that may rely on variables established earlier in that chapter. So, make sure to run the R code in order for each chapter.
 
@@ -36,17 +38,13 @@ length(x)
 
 ```
 
-There are 807 patients in my dataset, as seen in the code below.
+here are 807 patients in my dataset, as seen in the code below. 
 
+Traditionally, in this version of the Negative Binomial distribution, $p$ is meant to be the probability of success for each trial and $r$ is meant to be the fixed number of successes we are waiting for (which hypothetically would be $1$ in this case).However, in the real world, we have found that negative binomials can effectively model hospital datasets where the parameters have slightly altered meanings.
 
-Traditionally, in this version of the Negative Binomial distribution, $p$ is meant to be the probability of success for each trial and $r$ is meant to be the fixed number of successes we are waiting for (which hypothetically would be $1$ in this case.)
+In my dataset, $p$ is the probability of a transmission opportunity not resulting in an infection (perhaps counter-intuitively, the lower the $p$, the more infectious).$r$ is the dispersion parameter, meaning it is a measure of how heavily clustered the transmissions are.
 
-However, in the real world, we have found that negative binomials can effectively model hopsital datasets where the paremetrs have slightly altered meanings.
-
-In my dataset, $p$ is the probability of an transmission opportunity not resulting in an infection (perhaps counter-intuitively, the lower the $p$, the more infectious).
-$r$ is the dispersion parameter, meaning it is a measure of how heavily clustered the transmissions are.
-
-$r$ seems to fit best below $1$, meaning there are many individuals who do not pass the virus to anyone beyond the first person. This makes sense as from the code below, we can see that $507$ of individuals in the dataset have a value of $0$, meaning they did not pass the virus to anyone beyond the first person.
+$r$ seems to fit best below $1$, meaning there are many individuals who do not pass the virus to anyone beyond the first person. This makes sense as, from the code below, we can see that $507$ of the individuals in the dataset have a value of $0$, meaning they did not pass the virus to anyone beyond the first person.
 
 ```{webr-r}
 sum(x == 0)
@@ -54,6 +52,6 @@ sum(x == 0)
 
 It is important to note that the PDF I included earlier includes $r$ in a choose function. Technically, this is not allowed, as $r$ is not necessarily an integer for my dataset. However, in practice, we can just use the gamma fraction to replace the choose function whenever computations are needed.
 
-For some quick context, there is a great 2005 paper by [@lloydsmith2005] Lloyd-Smith et al. titled "Superspreading and the effect of individual variation on disease emergence", which  found the negative binomial distribution to be a great fit for a 2002-2004 SARS epidemic in Singapore and Beijing, and their $\hat{r}$ was $0.16$.
+For some quick context, there is a great 2005 paper by @lloydsmith2005 titled "Superspreading and the effect of individual variation on disease emergence", which  found the negative binomial distribution to be a great fit for a 2002-2004 SARS epidemic in Singapore and Beijing, and their $\hat{r}$ was $0.16$.
 
-As a quick note, for this class, we mianly focused on analyzing one parameter. So, for many of these chapters, I will fix $r$, and analyze $p$.
+As a quick note, for this class, we mainly focused on analyzing one parameter. So, for many of these chapters, I will fix $r$, and analyze $p$.

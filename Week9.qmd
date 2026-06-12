@@ -4,7 +4,9 @@ title: "Sufficency"
 
 ## Background
 
-We have finally finished covering hypothesis testing, and have moved onto our final topic: sufficiency. A sufficient statistic $T(x_1,...,x_n)$, means that $T$ contains all useful information with respect to the data. This means that once we have $T$, we do not care how we got there. As a quick example, let's say that $T = \sum_{i=1}^n x_i$, and it is a sufficient statistic for $\theta$. This means that for properly estimating $\theta$, we do not need to know $x_1,...,x_n$. In fact, we only need to know $T$.
+We have finally finished covering both frequentist and Bayesian hypothesis testing. This means we moved onto the final topic of this book: sufficiency.
+
+A sufficient statistic $T(x_1,...,x_n)$, means that $T$ contains all useful information with respect to the data. This means that once we have $T$, we do not care how we got there. As a quick example, let's say that $T = \sum_{i=1}^n x_i$, and it is a sufficient statistic for $\theta$. This means that for properly estimating $\theta$, we do not need to know $x_1,...,x_n$. In fact, we only need to know $T$.
 
 Furthermore, for a frequentist application, the Rao-Blackwell theorem says that for any unbiased estimator $\hat{\theta}$, then $\hat{\theta}_{RB} = \mathbb{E}[\hat{\theta}(T)]$ is also unbiased and $\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})$. So, this means that the best unbiased estimator only references the data with respect to the sufficient statistics $T$.
 
