@@ -1,6 +1,17 @@
 ---
-title: "Quick Proof & Evaluating Estimators"
+title: "Futher Evaluating Estimators"
 ---
+
+## Background
+
+This chapter covers a variety of topics. First, I will dive into some cool properties regarding the score, which is the derivative of the log likelihood.
+
+I will then dive into another way to evaluate estimators. In Chapter 1, I mentioned bias and variance, but this time I will use frequentist Mean Squared Error, which is defined as $MSE = \mathbb{E}[(\hat{\theta} - \theta)^2]$. The MSE can famously be decomposed as the (Bias + $\text{Variance}^2$). So, while last chapter used bias and variance, MSE serves as an all encompassing metric. So, I will compare the MSE of my MLE and Posterior Mean from Chapter 1.
+
+Finally, I will evaluate the Cramer-Rao Lower Bound (CRLB) for my distribution and see if it is relavant to the MLE and Posterior Mean I calculated in Chapter 1. In class, we learned that the CRLB is a lower bound to the variance of an unbiased estimator. This means of all unbiased estimators, if one reaches the CRLB, then it is the best unbiased estimator. This is very insightful. It means once we've reached that bound, there is no point evaluating other unbiased estimators, as there cannot be a unbiased estimator with a lower variance that the one that reaches the CRLB.
+
+As an extra note, the CRLB is $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the Variance of the Score (which is the derivative of the log-likelihood). My proof in the first section below will make it easier to solve for the CRLB.
+
 
 ## Proving $\text{Var}(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]$
 
@@ -64,17 +75,16 @@ $$
 &= - \mathbb{E}[\ell''_x(\theta)]
 \end{aligned}
 $$
-
 ------------------------------------------------------------------------
 
 ## MSE
 
-In PSET 1, I derived that if $X \sim \text{NegBin}(r, p)$, then: $\hat{p}_{MLE} = \frac{r}{r + \bar{x}}$ and $\hat{p}_{PM}$ = $\frac{1 + nr}{2 + nr + \sum x_i}$.
+In Chapter 1, I derived that if $X \sim \text{NegBin}(r, p)$, then: $\hat{p}_{MLE} = \frac{r}{r + \bar{x}}$ and $\hat{p}_{PM}$ = $\frac{1 + nr}{2 + nr + \sum x_i}$.
 
 To show their different curves MSE for different $p$, below is a simulation that prints out Mean Squared Error for different $p$, for when $n=50$ and $r=0.5$.
 
-```{webr-r}
-n <- 50   
+```{r}
+n <- 50 
 true_size <- 0.5 #r
 
 p_grid <- seq(0.01, 0.99, length.out = 40)
@@ -87,16 +97,16 @@ mse_results <- sapply(p_grid, function(p) {
     x_sum = sum(x)
     
     p.mle <- true_size / (true_size + x_avg)
-    p.mod <- (1 + n * true_size) / (2 + n * true_size + x_sum)
+    p.pm <- (1 + n * true_size) / (2 + n * true_size + x_sum)
     
-    c(mle = p.mle, mod = p.mod)
+    c(mle = p.mle, pm = p.pm)
   })
   
   # Calculate MSE for this specific p
   mse_mle_p <- mean((temp_sims["mle",] - p)^2)
-  mse_mod_p <- mean((temp_sims["mod",] - p)^2)
+  mse_pm_p <- mean((temp_sims["pm",] - p)^2)
   
-  c(mse_mle = mse_mle_p, mse_mod = mse_mod_p)
+  c(mse_mle = mse_mle_p, mse_mod = mse_pm_p)
 })
 
 # Plotting the curve
@@ -116,9 +126,13 @@ legend("topright",
        cex = 0.6)
 ```
 
+We we can see, at different true $p$ values, one estimator may be better than the other.
+
 ## Cramer-Rao Lower Bound
 
-The CRLB for unbiased estimators is $\frac{1}{-\mathbb{E}[\ell''(\theta)]}$. For $X \sim \text{NegBin}(r, p)$:
+As touched upon in the background section, the CRLB for unbiased estimators is $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the Variance of the Score. However, we proved above that the variance of the score, $\text{Var}(\ell'(\theta))$ is actually equivalent to $-\mathbb{E}[\ell''(\theta)]$
+
+So, this means that the CRLB for unbiased estimators is $\frac{1}{-\mathbb{E}[\ell''(\theta)]}$. For $X \sim \text{NegBin}(r, p)$:
 
 $$
 \begin{aligned}
@@ -128,6 +142,6 @@ $$
 \end{aligned}
 $$
 
-The lowest possible variance for an unbiased estimator is $\frac{p^2(1-p)}{rn}$.
+So, this means that the lowest possible variance for an unbiased estimator is $\frac{p^2(1-p)}{rn}$.
 
 However, in Week 1, we established from simulation that $\hat{p}_{MLE}$ is positively biased. Additionally, in class we learned that the $\hat{p}_{PM}$ is always biased toward the prior. Since the MLE and Posterior Mean are both biased, the CRLB does not provide a strict lower bound for their variance.

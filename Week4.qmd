@@ -2,11 +2,19 @@
 title: "Confidence and Credible Intervals"
 ---
 
+## Background
+
+So far, we have discussed solving for and evaluating $\hat{p}_{MLE}$ and $\hat{p}_{PM}$. But, these estimators are based only on your data, and neither is likely to be the true $p$ of the entire population.
+
+So, this chapter is all about Confidence and Credible Intervals. The former is a frequentist method to display a region that they believe contains the true  $p$ of the entire population with a certain confidence. The latter is the Bayesian version. For these examples, we use a $95\%$ confidence and credible interval.
+
+This is the topic that truly instilled in me the differences in frequentist v. Bayesian principles. As frequentists treat $p$ as a fixed but unknown parameter, once they have calculated their region, they do NOT say that there is a $95\%$ chance that $p$ is in the region. This is because $p$ is fixed. A fixed parameter cannot have a chance fo being in a region, it either is or it isn't. So, they escape this by saying they are $95\%$ "confident" that $p$ is contained in the region. On the the other hand, as Bayesians treat $p$ is a random variable, they have no problems saying that there is a $95\%$ chance that $p$ is in their credible interval.
+
 ## Confidence Interval
 
-To remember, in Homework 1, we solved that for $X_1,...,X_n \sim \text{NegBin}(r, p)$ $\hat{p}_{MLE} = \frac{r}{r + \bar{x}}$.
+To remember, in Chapter 1, we solved that for $X_1,...,X_n \sim \text{NegBin}(r, p)$ $\hat{p}_{MLE} = \frac{r}{r + \bar{x}}$.
 
-In Homework #3, we established both that
+In Chapter 3, we established both that
 
 $$
   \sqrt{n} (\hat{p}_{MLE} - p) \sim N\left(0, \frac{p^2(1-p)}{r}\right)
@@ -16,9 +24,11 @@ and
 
 $$
 \hat{p}_{MLE} \overset{\cdot}{\sim} N\left(p, \frac{p^2(1-p)}{nr} \right)
-$$This means that as the number of data points approaches infinity, $\hat{p}_{MLE}$ is approximately Normal, with a mean of $p$ and a variance of $\frac{p^2(1-p)}{nr}$.
+$$
 
-Therefore, an approximate 95% confidence interval for $p$ is : $\hat{p}_{MLE} \pm 2 \sqrt{\frac{p^2(1-p)}{nr}}$. However, we do not know the true value of $p$, so we have two options in how we can proceed.
+This means that as the number of data points approaches infinity, $\hat{p}_{MLE}$ is approximately Normal, with a mean of $p$ and a variance of $\frac{p^2(1-p)}{nr}$.
+
+Therefore, an approximate 95% confidence interval for $p$ is: $\hat{p}_{MLE} \pm 2 \sqrt{\frac{p^2(1-p)}{nr}}$. However, we do not know the true value of $p$, so we have two options in how we can proceed.
 
 ### Plug-In
 
@@ -37,12 +47,12 @@ $$
 
 Going back to my hospital dataset:
 
-```{webr-r}
+```{r}
 dat <- read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv")
 x <- as.vector(table(dat$infector_id)) - 1
 x_bar = mean(x)
 n = length(x)
-print(c(x_bar, n))
+cat("x_bar =", x_bar, "\tn =", n)
 ```
 
 I had $\bar{x} \approx 0.7435, n=807$. Let's say $r = 0.5$.
@@ -74,7 +84,7 @@ Furthermore, we can say that:
 
 $\frac{\hat{p}_{MLE} - p}{\sqrt{ \frac{p^2(1-p)}{nr}}} \sim N(0, 1)$
 
-As this has a standard deviation of 1, we can set up a 95% confidence interval to be:
+In the Normal distribution, $95\%$ of the mass is in the mean $\pm 1.96$ Standard deviations. As the Normal above has a standard deviation of 1, we can set up a 95% confidence interval that rounds to:
 
 $-2 \leq \frac{\hat{p}_{MLE} - p}{\sqrt{ \frac{p^2(1-p)}{nr}}} \leq 2$
 
@@ -104,7 +114,7 @@ cubic_f <- function(p) {
   (a * p^3) + (1 - a) * p^2 - (2 * p_hat) * p + p_hat^2
 }
 
-# ind roots of f(p) in two windown [0, p_hat] and [p_hat, 1]
+# roots of f(p) the windows [0, p_hat] and [p_hat, 1]
 lower_bound <- uniroot(cubic_f, interval = c(0, p_hat))$root
 upper_bound <- uniroot(cubic_f, interval = c(p_hat, 1))$root
 
@@ -116,11 +126,11 @@ From the computation in the code above, we are approximately 95% confident that 
 
 ## Credible Interval
 
-In Homework 1, I solved that given a Beta$(\alpha, \beta)$ prior, the posterior distribution for $p$ is:
+In Chapter 1, I solved that given a Beta$(\alpha, \beta)$ prior, the posterior distribution for $p$ is:
 
 $f(p | x_1,..,x_n) \sim \text{Beta}(\alpha + nr, \beta + \sum_{i=1}^n x_i)$.
 
-In Homework 1, I used a uniform prior, meaning $\alpha =1, \beta=1$. This means the posterior distribution given a uniform prior is:
+In Chapter 1, I used a uniform prior, meaning $\alpha =1, \beta=1$. This means the posterior distribution given a uniform prior is:
 
 $f(p | x_1,..,x_n) \sim \text{Beta}(1 + nr, 1 + \sum_{i=1}^n x_i)$.
 
@@ -132,7 +142,7 @@ $\int_{0}^{LB} \frac{p^{(1+nr)-1} (1-p)^{(1+\sum x_i)-1}}{B(1+nr, 1+\sum x_i)} d
 
 $\int_{RB}^{1} \frac{p^{(1+nr)-1} (1-p)^{(1+\sum x_i)-1}}{B(1+nr, 1+\sum x_i)} dp = 0.025$
 
-Unfortunately, we can't solve for LB and RB by hand. However, the computer can solve it for us, using the 'qbeta' function.
+Unfortunately, we can't solve for LB and RB by hand. However, the computer can solve it for us, using the `qbeta` function.
 
 Again, we will use the same values from my hospital dataset, as before.
 
@@ -149,7 +159,7 @@ beta_post  <- 1 + sum_xi
 alpha_level <- 1 - credible_range
 tail_area   <- alpha_level / 2
 
-# 4. Solve for Credible Interval Bounds
+# Solve for Credible Interval Bounds
 LB <- qbeta(tail_area, 
             shape1 = alpha_post, 
             shape2 = beta_post, 

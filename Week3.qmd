@@ -2,16 +2,20 @@
 title: "Asymptotic Distribution of MLE"
 ---
 
+## Background
+
+This chapter will dive into the Asymptotic Distribution of the MLE we calculated in Chapter 1. One of the most famous statistical concepts is the central limit theorem, which establishes that as $n$ approaches infinity, every distribution approaches the Normal distribution. The original CLT can be manipulated to show that the MLE follows a Normal distribution for large $n$. It is kind of wild to think about no matter the original distribution, the distribution of the MLE approaches the Normal distribution!
+
 ## Simulating Distribution
 
-Let's say $X_1, ...,X_n \sim \text{NegBin}(r, p)$, where $r=0.5$ and $p = 0.4$.
+Let's say $X_1, ...,X_n \sim \text{NegBin}(r, p)$, where $r=0.5$ and $p = \frac{1}{3}$.
 
-We derived in PSET 1 that $\hat{p}_{MLE} = \frac{r}{r + \bar{x}}$. Below is a histogram of $\hat{p}_{MLE}$ as $n$ grows large, in this case to $10,000$.
+We derived in Chapter 1. that $\hat{p}_{MLE} = \frac{r}{r + \bar{x}}$. Below is a histogram of $\hat{p}_{MLE}$ as $n$ grows large, in this case to $10,000$.
 
 ```{webr-r}
 n_obs <- 10000  
 true_size <- 0.5 #r
-true_p <- 0.4
+true_p <- 1 / 3
 
 sims <- replicate(1000, {
   x <- rnbinom(n = n_obs, size = true_size, prob = true_p)
@@ -33,9 +37,13 @@ hist_mle <- hist(sims,
 
 ## Asymptotic Calculation
 
-From class, we determined that the asymptotic variance of $\hat{p}_{MLE}$ is $\frac{1}{\text{Var}(\ell^\prime_{x_1}(\theta))}$.
+Using the CLT and Taylor approximation, we showed in class that $\sqrt{n} (\hat{p}_{MLE} - p) \rightarrow N\left(0, \frac{1}{\text{Var}(\ell^\prime_{x_1}(\theta))}\right)$
 
-Taking the score from PSET 1, we have:
+Isolating for $\hat{p}_{MLE}$, we have that $\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{\text{Var}(n\ell^\prime_{x_1}(\theta))}\right)$
+
+So, let's solve for $\text{Var}(\ell^\prime_{x_1}(\theta))}$.
+
+Taking the score from Chapter 1, we have:
 
 $$
 \frac{d}{dp} \ell_{x_1,...,x_n}(p) = \left(\frac{rn}{p} - \frac{\sum x}{1 - p} \right)
@@ -47,7 +55,7 @@ $$
 \ell ^\prime_{x_1} (p) = \left(\frac{r}{p} - \frac{x}{1 - p} \right)
 $$
 
-We established in PSET 2 that $\text{Var}(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]$. This means that that the asymptotic variance of $\hat{p}_{MLE}$ is $\frac{1}{-\mathbb{E}[\ell''(\theta)]}$. So, let's solve for $-\mathbb{E}[\ell''(\theta)]$.
+We established in Chapter 2 that $\text{Var}(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]$. This means that that the asymptotic variance of $\hat{p}_{MLE}$ is $\frac{1}{-\mathbb{E}[\ell''(\theta)]}$. So, let's solve for $-\mathbb{E}[\ell''(\theta)]$.
 
 $$
 \begin{aligned}
@@ -63,15 +71,13 @@ $$
 \end{aligned}
 $$
 
-So, the asymptotic variance of $\hat{p}_{MLE}$ is $\frac{p^2(1-p)}{r}$.
-
-Based on the CLT, which we showed in class:
+So, we have
 
 $$
-  \sqrt{n} (\hat{p}_{MLE} - p) \sim N\left(0, \frac{p^2(1-p)}{r}\right)
+  \sqrt{n} (\hat{p}_{MLE} - p) \rightarrow N\left(0, \frac{p^2(1-p)}{r}\right)
 $$
 
-Now, isolating for $\hat{p}_{MLE}$, we have:
+And again isolating for $\hat{p}_{MLE}$, we have:
 
 $$
 \hat{p}_{MLE} \overset{\cdot}{\sim} N\left(p, \frac{p^2(1-p)}{nr} \right)
@@ -79,7 +85,7 @@ $$
 
 ## Graphing Asymptotic MLE Curve
 
-Below is a curve with the distribution of $\hat{p}_{MLE}$ with $r=0.5$, $p=0.4$, and large $n$ (10,000), behind a red curve displaying the asymptotically normal distribution of $\hat{p}_{MLE}$.
+Below is a curve with the distribution of $\hat{p}_{MLE}$ with $r=0.5$, $p= \frac{1}{3}$, and large $n (10,000)$, behind a red curve displaying the asymptotically normal distribution of $\hat{p}_{MLE}$.
 
 ```{webr-r}
 hist_mle <- hist(sims, 

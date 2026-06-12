@@ -2,16 +2,36 @@
 title: "Hypothesis Testing"
 ---
 
-First, let's bring my hospital dataset into R.
+## Background
+
+We have previously covered solving for $\hat{p}_{MLE}$ and $\hat{p}_{PM}$, evaluating them, and setting up confidence and credible intervals. Now, we will talk about a new topic: hypothesis testing.
+
+This chapter is the first of three about hypothesis testing. The idea is that we have a default hypothesis about a parameter $\theta$. Let's say, for example, it is that $\theta_0 = 10$. Maybe this represents the number of symptoms per day of medical patients.
+
+Now, let's say we are trying out a new drug, and want to see if is effective. So, maybe our alternative hypothesis is that $\theta_A = 5$. Hypothesis testing is seeing whether, based on the data, we can reject the null hypothesis and accept the alternative.
+
+Unlike when we solved for $\hat{p}_{MLE}$ and $\hat{p}_{PM}$, the result of a hypothesis test is strictly binary. It is where we accept/reject the null hypothesis.
+
+Frequentist hypothesis Testing is all about the Neyman-Person lemma. This says that if we have a distribution $f_\theta(x)$, and $H_0: \theta = \theta_0$ and $H_A: \theta = \theta_A$, then we want to reject $H_0$ when $\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}$ is maximized. This is in order to maximize the power of our hypothesis test.
+
+To understand why this works, let's look at hypothesis testing as a constrained optimization problem. Theoretically we would want our test to never makes a mistake, and only accept the null when $H_0$ is true and only reject when $H_0$ is false. In reality, there is a strict trade-off between committing a Type I error (rejecting the $H_0$ despite $H_0$ being true). and maximizing power (the probability of correctly detecting $H_A$). We handle this by setting a hard cap on our Type I error (which is refered to as $\alpha$), typically at $\alpha = 0.05$. Type I error can be very harmful, for example leading us to deem a drug as effective, even if it isn't. This is why we cap it at $0.05$.
+
+Once this budget is locked in, the Neyman-Pearson lemma tells us exactly how to get the maximize our power (correctly rejecting $H_0$ out of our $\alpha$ allocation. You can think of the likelihood ratio $\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}$ as a benefit-to-cost efficiency metric for every possible data outcome. The numerator represents the "benefit" (gaining power if $H_A$ is true), while the denominator represents the "cost" (eating away at our fixed $\alpha$ budget if $H_0$ is true). By sorting our outcomes and choosing to reject $H_0$ only when this ratio is at its highest, the lemma mathematically guarantees that we have constructed the most powerful test possible for our chosen significance level.
+
+In class, we showed that this principle extends into one-sided hypothesis testing. This means that as opposed to saying $H_A: \theta = 5$, we say $H_A: \theta < 10$. To solve for this, we want to find a ratio that maximizes the power for every possible theta below $10$. What we showed in class is that we can just choose any number below $10$ (let's say $2$ for this example), and the values the maximize $\frac{f_{\theta_A = 2}(x)}{f_{\theta_0}(x)}$ are the same values that maximize $\frac{f_{\theta_A = 7}(x)}{f_{\theta_0}(x)}$ or $\frac{f_{\theta_A = 9}(x)}{f_{\theta_0}(x)}$, or any value below 10. So, we can just choose one value to set up the ratio for $H_A: \theta < 10$. 
+
+Because this single ratio maximizes the power across the entire range of possible alternative values simultaneously, the resulting test is called a Uniformly Most Powerful (UMP) test.
+
+## Uniformly Most Powerful Test
+
+Let's apply this to my dataset. First, let's bring my hospital dataset into R.
 
 ```{webr-r}
 dat <- read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv")
 x <- as.vector(table(dat$infector_id)) - 1
 ```
 
-## Hypothesis Testing
-
-In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
+In my hospital dataset, remember that the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
 
 Isolating for $p$, we get:
 
@@ -32,11 +52,11 @@ Let's say our null hypothesis is $H_0$ :$p = 0.6$. Now, we are curious if maybe 
 
 This means that:
 
-$H_0$ :$p = 0.6$
+$H_0$: $p = 0.6$
 
-$H_A$ :$p < 0.6$
+$H_A$: $p < 0.6$
 
-As we learned in class, to figure out the best X values to reject when $p<0.6$, all we need to do is choose one $p<0.6$, and the same will hold true for rest. Let's proceed with $p=0.3$.
+As mentioned in the Background section, to figure out the best X values to reject when $p<0.6$, all we need to do is choose one $p<0.6$, and the same will hold true for rest. Let's proceed with $p=0.3$.
 
 Again, let's proceed with $r=0.75$.
 

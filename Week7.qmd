@@ -2,16 +2,24 @@
 title: "Generalized Likelihood Ratio Test"
 ---
 
-First, let's bring my hospital dataset into R.
+## Background
 
-```{webr-r}
-dat <- read.csv('/Users/ryderfried/Documents/2025-2026/Spring/STATS200Q/transmission_pairs_covid_v2.csv')
-x <- as.vector(table(dat$infector_id)) - 1
-```
+Last chapter, we talked about hypothesis testing, and the Uniformly Most Powerful Test. Tests like these are possible when our $H_A$ is a greater than or less than, like $H_A: \theta < 1$. However, what if we had $H_A: \theta \neq 1$.
+
+What maximizes power for $\theta = 0.5$ is different than what maximizes power for $\theta = 1.5$. So, we cannot have Uniformly Most Powerful Test. Instead, we set up the Generalized Likelihood Ratio Test. The idea is still the same, where we still want to find the $x$ values that maximize $\frac{f_{\text{Alternative Hypothesis}}(x)}{f_{\text{Null Hypothesis}}(x)}$. The problem is that if $H_A: \theta \neq 1$, different values maximize $f_\text{Alternative Hypothesis(x)}$ depending on if $\theta$ is above or below $1$.
+
+So, as we are dealing with frequentist Hypothesis Testing, our solution to maximize the numerator with respect to $\hat{theta}_{MLE}$. This means that we want to maximize the ratio $\frac{f_{\hat{\theta}_{MLE}}(x)}{f_{\theta_0}(x)}$.
 
 ## Generalized Likelihood Ratio Test
 
-I mention this in Homework 6, but as a reminder:
+So, let's apply this to my dataset. First, let's bring my hospital dataset into R.
+
+```{webr-r}
+dat <- read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv")
+x <- as.vector(table(dat$infector_id)) - 1
+```
+
+I mention this in Chapter 6, but as a reminder:
 
 In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
 
@@ -85,8 +93,9 @@ $\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big
 n = length(x)
 r = 0.75
 p_0 = 0.6
+n_sims = 10000
 
-sims <- replicate(10000, {
+sims <- replicate(n_sims, {
     data <- rnbinom(n = n, size = r, prob = p_0)
     
     data_bar = mean(data)
@@ -127,6 +136,78 @@ log_lambda
 
 As $\log (\Lambda)$ is 23.55, which is $>c$, we reject $H_0$.
 
+A power curve stricly from simulation would look like.
+
+Note, for the sake of runtime, I lowered $n$ to 50 in the code. I recommend messing around and changing $n$ to see how the power curve changes.
+
+```{webr-r}
+# I encourage you to change n to see how this affects the power curve
+n <- 50
+
+p_0 <- 0.6
+r = 0.75
+n_sims <- 5000  
+
+# Simulating under the null hypothesis to find the 95th quartile (our c value)
+null_sims <- replicate(n_sims, {
+  data <- rnbinom(n = n, size = r, prob = p_0)
+  data_bar <- mean(data)
+  
+  p_mle <- r / (r + data_bar)
+  
+  # Avoid any potential log(0) errors
+  if (p_mle == 1) { 
+    p_mle <- 0.9999 
+  }
+  
+  # Log-likelihood ratio logic
+  log_lambda <- n * r * log(p_mle / p_0) + sum(data) * log((1 - p_mle) / (1 - p_0))
+  log_lambda
+})
+raw_crit_val <- quantile(null_sims, 0.95)
+
+# Set up parameters for power curve
+p_alt_space <- seq(0.01, 1, by = 0.05)
+powers <- c()  
+
+# Simulate alternative hypothesis / null hypothesis and keep track for each one whether we should reject
+
+for (p_alt in p_alt_space) {
+  
+  rejections <- replicate(n_sims, {
+
+    data_alt <- rnbinom(n = n, size = r, prob = p_alt)
+    data_bar_alt <- mean(data_alt)
+    
+    p_mle_alt <- r / (r + data_bar_alt)
+    
+    # Avoid any potential log(0) errors
+    if (p_mle_alt == 1) { 
+      p_mle_alt <- 0.9999 
+    }
+    
+    # Calculate log_lambda
+    log_lambda_alt <- n * r * log(p_mle_alt / p_0) + sum(data_alt) * log((1 - p_mle_alt) / (1 - p_0))
+    
+    # Check if we should reject?
+    log_lambda_alt > raw_crit_val
+  })
+  
+  # Append the mean rejection rate (power) for this specific p_alt
+  powers <- c(powers, mean(rejections))
+}
+
+# Plot results
+plot(p_alt_space, powers, type = "l", lwd = 3, col = "#2c3e50",
+     xlab = expression(p), ylab = "Power", 
+     main = "Empirical GLRT Power Curve", ylim = c(0, 1))
+
+abline(v = p_0, col = "#e74c3c", lty = 2)  
+abline(h = 0.05, col = "gray50", lty = 3) 
+```
+
+I recommend going back in the code and seeing how changing $n$ can effect your power curve.
+
 ### Asymptotic
 
 Remember, we want to reject when:
@@ -144,14 +225,13 @@ So, let's figure out our $c$:
 We can run this in code:
 
 ```{webr-r}
-
 alpha = 0.05
 p = 0.6
 c = qchisq(1-alpha, 1)
 c
 ```
 
-So, $c = 3.841459$
+So, form the code block above, $c = 3.841459$
 
 Now, let's check our data. Let's assume $r = 0.75$. Remember that Wilks' Theorem states that for large n: $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1$.
 
@@ -171,7 +251,7 @@ test_stat = 2 * log_part
 test_stat
 ```
 
-If I just plug in the PDFs, I get the same value:
+So, we can see from the code block that our dataset's test statistic was 47.09489. If I just plug in the PDFs, I get the same value:
 
 ```{webr-r}
 log_L_mle  <- dnbinom(x_sum, size = n * r, prob = p_mle, log = TRUE)
@@ -181,33 +261,39 @@ test_stat_2 = 2 * (log_L_mle - log_L_null)
 test_stat_2
 ```
 
-As $47.1 > c$ (which was $3.841459$), for my COVID hospital dataset, we reject $H_0$. This implies that we reject the hypothesis that COVID has the same contagious level as the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least $1$ person, so I do not want to extrapolate too much). Another way to say this is that we accept the hypothesis that COVID does not have the same contagious level as the flu.
+As $47.1 > c$ (which was $3.841459$), for my COVID hospital dataset, we reject $H_0$.
 
-A power curve would be:
+This implies that we reject the hypothesis that COVID has the same contagious level as the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least $1$ person, so I do not want to extrapolate too much). Another way to say this is that we accept the hypothesis that COVID does not have the same contagious level as the flu.
+
+A power curve using Wilk's Theorem would be:
 
 ```{webr-r}
-p_alt <- seq(0.45, 0.75, by = 0.001)
+# Feel free to change this parameter (n) to see how it affects the curve
+n = length(x)
+
+p_alt <- seq(0, 1, by = 0.001)
+alpha <- 0.05
+crit_val <- qchisq(alpha, df = 1, lower.tail = FALSE)
 
 lambda <- 2 * n * r * (log(p_alt / p_0) + ((1 - p_alt) / p_alt) * log((1 - p_alt) / (1 - p_0)))
 
 lambda[p_alt == p_0] <- 0
 
-power_curve <- pchisq(c, df = 1, ncp = lambda, lower.tail = FALSE)
+power_curve <- pchisq(crit_val, df = 1, ncp = lambda, lower.tail = FALSE)
 
-# --- 4. Plot the Power Curve ---
 plot(p_alt, power_curve, type = "l", col = "#2c3e50", lwd = 3,
      xlab = expression(textstyle("p")),
      ylab = "Power",
-     main = "GLR Power Curve",
+     main = "GLR Power Curve (Wilks' Theorem)",
      ylim = c(0, 1), panel.first = grid(lty = "dotted", col = "gray70"))
 
-# Add visual anchors for interpretation
 abline(v = p_0, col = "#e74c3c", lty = 2, lwd = 2)   # Null Hypothesis baseline
 
-# Add a legend for clarity
 legend("bottomright", 
        legend = c("Power Curve", "Null Hypothesis (p = 0.6)"),
        col = c("#2c3e50", "#e74c3c", "#27ae60"), 
        cex=0.6,
        lty = c(1, 2, 3), lwd = c(3, 2, 2), bg = "white")
 ```
+
+I recommend going back in the code and seeing how changing $n$ can effect your power curve.

@@ -2,6 +2,10 @@
 title: "Bayesian Hypothesis Testing"
 ---
 
+
+
+## Bayesian Hypothesis Test
+
 First, let's bring my hospital dataset into R.
 
 ```{webr-r}
@@ -9,9 +13,7 @@ dat <- read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/mai
 x <- as.vector(table(dat$infector_id)) - 1
 ```
 
-## Bayesian Hypothesis Test
-
-I mention this in Homework 6, but as a reminder:
+I mention this in Chapter 6, but as a reminder:
 
 In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
 
