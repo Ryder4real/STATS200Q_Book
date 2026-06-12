@@ -2100,10 +2100,10 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \end{aligned}
 \]</span></p>
 <p>If you want to do any analysis of the data, feel free to code in the block below.</p>
-<p><code>dat</code> is the dataset. <code>n_obs</code> is the number of people each person infected beyond the first person, and follows a negative binomial distribution.</p>
+<p><code>dat</code> is the dataset. <code>x</code> is the number of people each person infected beyond the first person, and follows a negative binomial distribution.</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>There are 807 patients in my dataset, as seen in the code below.</p>
+<p>As seen in the code block above, there are 807 patients in my dataset.</p>
 <p>Traditionally, in this version of the Negative Binomial distribution, <span class="math inline">\(p\)</span> is meant to be the probability of success for each trial and <span class="math inline">\(r\)</span> is meant to be the fixed number of successes we are waiting for (which hypothetically would be <span class="math inline">\(1\)</span> in this case).However, in the real world, we have found that negative binomials can effectively model hospital datasets where the parameters have slightly altered meanings.</p>
 <p>In my dataset, <span class="math inline">\(p\)</span> is the probability of a transmission opportunity not resulting in an infection (perhaps counter-intuitively, the lower the <span class="math inline">\(p\)</span>, the more infectious).<span class="math inline">\(r\)</span> is the dispersion parameter, meaning it is a measure of how heavily clustered the transmissions are.</p>
 <p><span class="math inline">\(r\)</span> seems to fit best below <span class="math inline">\(1\)</span>, meaning there are many individuals who do not pass the virus to anyone beyond the first person. This makes sense as, from the code below, we can see that <span class="math inline">\(507\)</span> of the individuals in the dataset have a value of <span class="math inline">\(0\)</span>, meaning they did not pass the virus to anyone beyond the first person.</p>

@@ -29,7 +29,7 @@ $$
 If you want to do any analysis of the data, feel free to code in the block below. 
 
 `dat` is the dataset. 
-`n_obs` is the number of people each person infected beyond the first person, and follows a negative binomial distribution.
+`x` is the number of people each person infected beyond the first person, and follows a negative binomial distribution.
 
 ```{webr-r}
 dat <- read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv")
@@ -38,7 +38,7 @@ length(x)
 
 ```
 
-There are 807 patients in my dataset, as seen in the code below. 
+As seen in the code block above, there are 807 patients in my dataset.
 
 Traditionally, in this version of the Negative Binomial distribution, $p$ is meant to be the probability of success for each trial and $r$ is meant to be the fixed number of successes we are waiting for (which hypothetically would be $1$ in this case).However, in the real world, we have found that negative binomials can effectively model hospital datasets where the parameters have slightly altered meanings.
 
