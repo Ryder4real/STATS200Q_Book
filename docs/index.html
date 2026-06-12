@@ -1720,7 +1720,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Futher Evaluating Estimators</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Further Evaluating Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -2083,16 +2083,17 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h1 class="unnumbered">Introduction</h1>
 <section id="background" class="level2">
 <h2 class="anchored" data-anchor-id="background">Background</h2>
-<p>This past spring, I have been enrolled in STATS200Q: Philosophical Foundations of Statistics with Professor Dennis Sun. It is a small class, with about twelve people, allowing Professor Sun to dive into the material while maintaining a level of connection with the students. I have greatly appreciated this element as it has allowed me to ask many questions along the way!</p>
+<p>I am currently enrolled in STATS200Q: Philosophical Foundations of Statistics with Professor Dennis Sun (technically just finished). It is a small class, with about twelve people, allowing Professor Sun to dive into the material while maintaining a level of connection with the students. I have greatly appreciated this element as it has allowed me to ask many questions along the way!</p>
 <p>In my statistical journey, this class served as a follow-up to STATS118, which I took in the Fall with Professor Gene Kim. Put simply, that class was very difficult. It involved a lot of mathematical computation and required students to pick up patterns and manipulate expressions into known distributions.</p>
-<p>As mentioned in the title, STATS200Q feels much more philosophical. It is no doubt still a math class, but it opts for less computation than 118 and more answering of “Why?”. Looking back, many of the strategies I learned in 118 were “Frequentist”. However, even after taking that final exam, I would not have been able to explain what that term meant.</p>
-<p>In STATS200Q, we have learned about the differences between Frequentist and Bayesian Statistics and how they approach problems separately. Each week throughout the quarter, we had a small homework assignment. This final book is an extension of that. Each assignment is its own chapter, and I have additionally added a “Background” section to each chapter. Put together, this should make it feel like a tightly-knit narrative.</p>
+<p>As mentioned in the title, STATS200Q feels much more philosophical. It is still no doubt a math class, but it opts for less computation than 118 and more answering of “Why?”. Looking back, many of the strategies I learned in 118 were “frequentist”. However, even after taking that final exam, I would not have been able to explain what that term meant.</p>
+<p>In STATS200Q, we have learned about the differences between frequentist and Bayesian statistics and how they approach problems separately. Each week throughout the quarter, we had a small homework assignment. This final book is an extension of that. Each assignment is its own chapter, and I have additionally added a “Background” section to each chapter. Put together, this should make it feel like a tightly-knit narrative.</p>
 <p>This introduction chapter is no different. Sadly, this is the end of the “Background” section. Below I will explain the distribution and dataset I focused my studies on. I hope you enjoy!</p>
-<p>NOTE: There are chapters in the book with multiple R blocks. Some R blocks call on variables that were defined in a separate block earlier in that chapter. So, please make sure to run the R code in order for each chapter.</p>
+<p>NOTE: There are chapters in the book with multiple R blocks. Some R blocks call on variables that were defined in a separate R block earlier in that chapter. So, please make sure to run the R code in order for each chapter.</p>
 </section>
 <section id="my-dataset-and-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="my-dataset-and-distribution">My Dataset and Distribution</h2>
 <p>We were each assigned a distribution to focus our analysis on. I chose the Negative Binomial distribution, and the variant that measures how many failures before a successful attempt. I focus my data analysis on a specific COVID hospital dataset, which keeps track of who infected who in that hospital. In my dataset, the data with the negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values).</p>
+<p>Source: The original dataset is from this GitHub link: <a href="https://github.com/linwangidd/covid19_transmissionPairs_China/blob/master/transmission_pairs_covid_v2.csv" class="uri">https://github.com/linwangidd/covid19_transmissionPairs_China/blob/master/transmission_pairs_covid_v2.csv</a>.</p>
 <p>The PDF for the variant of the Negative Binomial I will be analyzing is:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -2100,16 +2101,17 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \end{aligned}
 \]</span></p>
 <p>If you want to do any analysis of the data, feel free to code in the block below.</p>
-<p><code>dat</code> is the dataset. <code>x</code> is the number of people each person infected beyond the first person, and follows a negative binomial distribution.</p>
+<p><code>dat</code> is the dataset.</p>
+<p><code>x</code> is the number of people each person infected beyond the first person, and follows a negative binomial distribution.</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>As seen in the code block above, there are 807 patients in my dataset.</p>
-<p>Traditionally, in this version of the Negative Binomial distribution, <span class="math inline">\(p\)</span> is meant to be the probability of success for each trial and <span class="math inline">\(r\)</span> is meant to be the fixed number of successes we are waiting for (which hypothetically would be <span class="math inline">\(1\)</span> in this case).However, in the real world, we have found that negative binomials can effectively model hospital datasets where the parameters have slightly altered meanings.</p>
-<p>In my dataset, <span class="math inline">\(p\)</span> is the probability of a transmission opportunity not resulting in an infection (perhaps counter-intuitively, the lower the <span class="math inline">\(p\)</span>, the more infectious).<span class="math inline">\(r\)</span> is the dispersion parameter, meaning it is a measure of how heavily clustered the transmissions are.</p>
+<p>Traditionally, in this version of the Negative Binomial distribution, <span class="math inline">\(p\)</span> is meant to be the probability of success for each trial and <span class="math inline">\(r\)</span> is meant to be the fixed number of successes we are waiting for (which hypothetically would be <span class="math inline">\(1\)</span> in this case). However, in the real world, studies have found that negative binomials can effectively model hospital datasets where the parameters have slightly altered meanings (I will mention one such study at the end of this chapter).</p>
+<p>In my dataset, <span class="math inline">\(p\)</span> is the probability of a transmission opportunity not resulting in an infection (perhaps counter-intuitively, the lower the <span class="math inline">\(p\)</span>, the more infectious). <span class="math inline">\(r\)</span> is the dispersion parameter, meaning it is a measure of how heavily clustered the transmissions are.</p>
 <p><span class="math inline">\(r\)</span> seems to fit best below <span class="math inline">\(1\)</span>, meaning there are many individuals who do not pass the virus to anyone beyond the first person. This makes sense as, from the code below, we can see that <span class="math inline">\(507\)</span> of the individuals in the dataset have a value of <span class="math inline">\(0\)</span>, meaning they did not pass the virus to anyone beyond the first person.</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>It is important to note that the PDF I included earlier includes <span class="math inline">\(r\)</span> in a choose function. Technically, this is not allowed, as <span class="math inline">\(r\)</span> is not necessarily an integer for my dataset. However, in practice, we can just use the gamma fraction to replace the choose function whenever computations are needed.</p>
+<p>It is important to note that the PDF I wrote out earlier includes <span class="math inline">\(r\)</span> in a choose function. Technically, this is not allowed, as <span class="math inline">\(r\)</span> is not necessarily an integer for my dataset. However, in practice, we can just use the gamma fraction to replace the choose function whenever computations are needed.</p>
 <p>For some quick context, there is a great 2005 paper by <span class="citation" data-cites="lloydsmith2005">Lloyd-Smith et al. (<a href="#ref-lloydsmith2005" role="doc-biblioref">2005</a>)</span> titled “Superspreading and the effect of individual variation on disease emergence”, which found the negative binomial distribution to be a great fit for a 2002-2004 SARS epidemic in Singapore and Beijing, and their <span class="math inline">\(\hat{r}\)</span> was <span class="math inline">\(0.16\)</span>.</p>
 <p>As a quick note, for this class, we mainly focused on analyzing one parameter. So, for many of these chapters, I will fix <span class="math inline">\(r\)</span>, and analyze <span class="math inline">\(p\)</span>.</p>
 

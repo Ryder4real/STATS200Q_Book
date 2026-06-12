@@ -6,9 +6,9 @@ title: "Asymptotic Distribution of the MLE"
 
 This chapter will dive into the Asymptotic Distribution of the MLE we calculated in Chapter 1. This is interesting because calculating the bias and variance of the MLE by hand can be difficult. 
 
-However, this can be made easier when dealing with large sample sizes by knowing that the distribution of the MLE approximates to a Normal as $n \rightarrow \infty$ It is kind of wild to think about no matter the original distribution, the distribution of the MLE approaches the Normal distribution!
+However, this can be made easier when dealing with large sample sizes by knowing that the distribution of the MLE approximates to a Normal as $n \rightarrow \infty$ It is kind of wild to think about no matter the original distribution, the distribution of the MLE always approaches the Normal distribution!
 
-I will first simulate my distribution and look at a histogram of $\hat{p}_MLE$ as $n$ grows large. Then, I will prove that the MLE approximates to a Normal as $n \rightarrow \infty$, and then apply that to my distribution.
+I will first simulate my distribution and look at a histogram of $\hat{p}_{MLE}$ as $n$ grows large. Then, I will prove that the MLE approximates to a Normal as $n \rightarrow \infty$ and apply that to my distribution.
 
 ## Simulating Distribution
 
@@ -39,9 +39,11 @@ hist_mle <- hist(sims,
 )
 ```
 
+As we can see, this looks pretty Normal, and it looks to be centered around $\frac{1}{3}$, which is what we set true $p$ to be.
+
 ## Proof of MLE Approaching a Normal Distribution
 
-This proof is a really cool one and involves many different concepts.
+Now let's prove that the distribution of the MLE approaches a Normal distribution as $n$ gets large. This proof is a really cool one and involves many different concepts.
 
 Let's start with the score of $\hat{\theta}_{MLE}$, which is $\ell'(\hat{\theta}_{MLE})$
 
@@ -49,9 +51,11 @@ Let's now Taylor expand $\ell'(\hat{\theta}_{MLE})$ around $\theta_0$.
 
 $\ell'(\hat{\theta}_{MLE}) \approx \ell'(\theta_0) + \ell''(\theta_0)(\hat{\theta}_{MLE} - \theta_0)$
 
-Now, remember that when we solve for the MLE (As we did in Chapter 1), we set $\ell(x) = 0$. This is because the MLE is defined as the $\theta$ value that maximizes the likelihood (and log-likelihood). So, as the MLE is a maximum of the log-likelihood function, this means that $\ell'(\hat{\theta}_{MLE}) = 0$.
+Now, remember that when solving for the MLE (as we did in Chapter 1), we set $\ell'(x) = 0$. This is because the MLE is defined as the $\theta$ value that maximizes the likelihood (and log-likelihood). 
 
-So, plugging this in we get
+So, as the MLE is a maximum of the log-likelihood function, this means that $\ell'(\hat{\theta}_{MLE}) = 0$.
+
+So, plugging this in we get:
 
 $0 = \ell'(\hat{\theta}_{MLE}) \approx \ell'(\theta_0) + \ell''(\theta_0)(\hat{\theta}_{MLE} - \theta_0)$
 
@@ -63,7 +67,9 @@ $$
   - \ell'(\theta_0) &\approx \ell''(\theta_0)(\hat{\theta}_{MLE} - \theta_0) \\
   \hat{\theta}_{MLE} - \theta_0  &\approx \frac{-\ell'(\theta_0)}{\ell''(\theta_0)}
 \end{aligned}
-$$ Now, let's do some further manipulation.
+$$ 
+
+Now, let's do some further manipulation.
 
 $$
 \begin{aligned}
@@ -86,7 +92,9 @@ $$
 
 Now, we can realize three things.
 
-First, the CLT is defined as $\sqrt{n}(\bar{Y} - \mathbb{E}[Y_1]) \rightarrow N(0, Var(Y_1))$ \\ Second, as we showed in Chapter 2, $\mathbb{E}[Y_1] = \mathbb{E}[\ell'_{x_1}(\theta_0)] = 0$. Third, as we remember from Chapter 2, we showed that $I(\theta) = -\mathbb{E}[\ell''(\theta)] = \text{Var}(\ell'(\theta))$
+First, the CLT is defined as $\sqrt{n}(\bar{Y} - \mathbb{E}[Y_1]) \rightarrow N(0, Var(Y_1))$ \\
+Second, as we showed in Chapter 2, $\mathbb{E}[Y_1] = \mathbb{E}[\ell'_{x_1}(\theta_0)] = 0$. \\
+Third, also from Chapter 2, we showed that $I(\theta) = -\mathbb{E}[\ell''(\theta)] = \text{Var}(\ell'(\theta))$
 
 So, this means that:
 
@@ -98,11 +106,11 @@ $$
 \end{aligned}
 $$
 
-Isolating for $\hat{p}_{MLE}$, we have that $\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{nI_{x_1}(\theta))}\right)$
+Isolating for $\hat{p}_{MLE}$, we have that $\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{nI_{x_1}(\theta)}\right)$
 
 ## Asymptotic Calculation
 
-As shown above, using the CLT and Taylor approximation, we can see that as $n$ grows large, we have that $\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{\text{Var}(n\ell^\prime_{x_1}(\theta))}\right)$
+As shown above, using the CLT and Taylor approximation, we can see that as $n$ grows large, we have that $\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{nI_{x_1}(\theta))}right)$
 
 So, let's solve for $I_{x_1}(\theta)$. Once again, from Chapter 2, we know that $I(\theta) = -\mathbb{E}[\ell''(\theta)] = \text{Var}(\ell'(\theta))$
 

@@ -1702,7 +1702,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Futher Evaluating Estimators</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Further Evaluating Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -2086,16 +2086,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>I mention this in Chapter 6, but as a reminder:</p>
 <p>In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
-<p>I isolated for <span class="math inline">\(p\)</span> in Homework 6, and got that <span class="math inline">\(p = 0.6\)</span>:</p>
+<p>I isolated for <span class="math inline">\(p\)</span> in Chapter 6, and got that <span class="math inline">\(p = 0.6\)</span>:</p>
 <p>Let’s say our null hypothesis is <span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span>. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that <span class="math inline">\(E[X] \neq 0.5\)</span>, and and <span class="math inline">\(p \neq 0.6\)</span>.</p>
 <p>So, this gives us:</p>
 <p><span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span></p>
 <p><span class="math inline">\(H_A\)</span>: <span class="math inline">\(p \neq 0.6\)</span></p>
-<p>Now, for Bayesian Hypothesis Testing, we need to assign prior probabilities to both the null hypothesis and the alternative hypothesis. As I do not really have a great intuition, let’s say both are <span class="math inline">\(0.5\)</span>.</p>
+<p>Now, for Bayesian Hypothesis Testing, we need to assign prior probabilities to both the null hypothesis and the alternative hypothesis. As I do not have a great intuition, let’s follow the Rule of Insufficient Reason and say both are <span class="math inline">\(0.5\)</span>.</p>
 <p>So, we have:</p>
 <p><span class="math inline">\(P(H_0) = 0.5\)</span></p>
 <p><span class="math inline">\(P(H_A) = 0.5\)</span></p>
-<p>Next, we need to find the prior distribution for <span class="math inline">\(p\)</span> in <span class="math inline">\(H_A\)</span>. Again, as I do not really have a great intuition, let’s say <span class="math inline">\(p \sim \text{Uniform}(0,1)\)</span>, as <span class="math inline">\(p\)</span> could be anything from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span>.</p>
+<p>Next, we need to find the prior distribution for <span class="math inline">\(p\)</span> in <span class="math inline">\(H_A\)</span>. Again, as I do not have a great intuition, let’s once again follow the Rule of Insufficient Reason and say <span class="math inline">\(p \sim \text{Uniform}(0,1)\)</span>, as <span class="math inline">\(p\)</span> could be anything from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span>.</p>
 <p>So, using Bayes’ Rule, this means that:</p>
 <p><span class="math inline">\(P(H_A|x) = \frac{P(H_A) f(x|H_A)}{f(x)}\)</span></p>
 <p><span class="math inline">\(P(H_0|x) = \frac{P(H_0) f(x|H_0)}{f(x)}\)</span></p>
@@ -2125,7 +2125,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \end{aligned}
 \]</span></p>
 <p>In my hospital dataset, the data seems to fit a negative binomial distribution in which <span class="math inline">\(r\)</span> is not necessarily an integer, meaning we cannot simplify this further with factorials.</p>
-<p>Instead, let’s plug our data this equation to find the Bayes Factor. Let’s say <span class="math inline">\(r = 0.75\)</span>, the same <span class="math inline">\(r\)</span> value I used in Homework 7.</p>
+<p>Instead, let’s plug our data this equation to find the Bayes Factor. Let’s say <span class="math inline">\(r = 0.75\)</span>, the same <span class="math inline">\(r\)</span> value I used in Chapter 7.</p>
 <p>Unfortunately, the denominator gets so small that the code thinks we are dividing by <span class="math inline">\(0\)</span>. So, let’s instead take <span class="math inline">\(e\)</span> to the power of [the <span class="math inline">\(\log\)</span> of the numerator subtracted by the <span class="math inline">\(log\)</span> of the denominator].</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -2139,7 +2139,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>My Bayes Factor is <span class="math inline">\(607815364\)</span>, meaning there is very strong evidence to reject the null hypothesis per the criteria in Kass and Raftery (1995).</p>
-<p>In Homework 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected <span class="math inline">\(H_0\)</span> (we reject the hypothesis that COVID has the same contagious level as the flu). This means that I did not encounter Lindley’s paradox.</p>
+<p>In Chapter 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected <span class="math inline">\(H_0\)</span> (we reject the hypothesis that COVID has the same contagious level as the flu). As my Bayesian and frequenist hypothesis tests both come to the same conclusion, I did not encounter Lindley’s paradox.</p>
 
 
 </section>

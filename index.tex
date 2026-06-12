@@ -259,12 +259,12 @@
 
 \markright{Background}
 
-This past spring, I have been enrolled in STATS200Q: Philosophical
-Foundations of Statistics with Professor Dennis Sun. It is a small
-class, with about twelve people, allowing Professor Sun to dive into the
-material while maintaining a level of connection with the students. I
-have greatly appreciated this element as it has allowed me to ask many
-questions along the way!
+I am currently enrolled in STATS200Q: Philosophical Foundations of
+Statistics with Professor Dennis Sun (technically just finished). It is
+a small class, with about twelve people, allowing Professor Sun to dive
+into the material while maintaining a level of connection with the
+students. I have greatly appreciated this element as it has allowed me
+to ask many questions along the way!
 
 In my statistical journey, this class served as a follow-up to STATS118,
 which I took in the Fall with Professor Gene Kim. Put simply, that class
@@ -273,13 +273,13 @@ required students to pick up patterns and manipulate expressions into
 known distributions.
 
 As mentioned in the title, STATS200Q feels much more philosophical. It
-is no doubt still a math class, but it opts for less computation than
+is still no doubt a math class, but it opts for less computation than
 118 and more answering of ``Why?''. Looking back, many of the strategies
-I learned in 118 were ``Frequentist''. However, even after taking that
+I learned in 118 were ``frequentist''. However, even after taking that
 final exam, I would not have been able to explain what that term meant.
 
-In STATS200Q, we have learned about the differences between Frequentist
-and Bayesian Statistics and how they approach problems separately. Each
+In STATS200Q, we have learned about the differences between frequentist
+and Bayesian statistics and how they approach problems separately. Each
 week throughout the quarter, we had a small homework assignment. This
 final book is an extension of that. Each assignment is its own chapter,
 and I have additionally added a ``Background'' section to each chapter.
@@ -290,7 +290,7 @@ This introduction chapter is no different. Sadly, this is the end of the
 dataset I focused my studies on. I hope you enjoy!
 
 NOTE: There are chapters in the book with multiple R blocks. Some R
-blocks call on variables that were defined in a separate block earlier
+blocks call on variables that were defined in a separate R block earlier
 in that chapter. So, please make sure to run the R code in order for
 each chapter.
 
@@ -310,6 +310,9 @@ first person (This is because all infectors in the dataset infected at
 least one person, so we subtract one to have a healthy amount of zero
 values).
 
+Source: The original dataset is from this GitHub link:
+\url{https://github.com/linwangidd/covid19_transmissionPairs_China/blob/master/transmission_pairs_covid_v2.csv}.
+
 The PDF for the variant of the Negative Binomial I will be analyzing is:
 
 \[
@@ -321,9 +324,10 @@ The PDF for the variant of the Negative Binomial I will be analyzing is:
 If you want to do any analysis of the data, feel free to code in the
 block below.
 
-\texttt{dat} is the dataset. \texttt{x} is the number of people each
-person infected beyond the first person, and follows a negative binomial
-distribution.
+\texttt{dat} is the dataset.
+
+\texttt{x} is the number of people each person infected beyond the first
+person, and follows a negative binomial distribution.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -338,13 +342,14 @@ As seen in the code block above, there are 807 patients in my dataset.
 Traditionally, in this version of the Negative Binomial distribution,
 \(p\) is meant to be the probability of success for each trial and \(r\)
 is meant to be the fixed number of successes we are waiting for (which
-hypothetically would be \(1\) in this case).However, in the real world,
-we have found that negative binomials can effectively model hospital
-datasets where the parameters have slightly altered meanings.
+hypothetically would be \(1\) in this case). However, in the real world,
+studies have found that negative binomials can effectively model
+hospital datasets where the parameters have slightly altered meanings (I
+will mention one such study at the end of this chapter).
 
 In my dataset, \(p\) is the probability of a transmission opportunity
 not resulting in an infection (perhaps counter-intuitively, the lower
-the \(p\), the more infectious).\(r\) is the dispersion parameter,
+the \(p\), the more infectious). \(r\) is the dispersion parameter,
 meaning it is a measure of how heavily clustered the transmissions are.
 
 \(r\) seems to fit best below \(1\), meaning there are many individuals
@@ -359,7 +364,7 @@ pass the virus to anyone beyond the first person.
 \end{Highlighting}
 \end{Shaded}
 
-It is important to note that the PDF I included earlier includes \(r\)
+It is important to note that the PDF I wrote out earlier includes \(r\)
 in a choose function. Technically, this is not allowed, as \(r\) is not
 necessarily an integer for my dataset. However, in practice, we can just
 use the gamma fraction to replace the choose function whenever
@@ -385,16 +390,16 @@ parameter. So, for many of these chapters, I will fix \(r\), and analyze
 This chapter covers the Bayesian v Frequentist methods for estimating
 parameters. Imagine you flip a potentially weighted coin N times, and X
 are heads. How would you about estimating the true probability that the
-coin lands on heads. This is an interesting question, and Bayesians and
-Frequentists would take different approaches.
+coin lands on heads? This is an interesting question, and Bayesians and
+frequentists would take different approaches.
 
-This serves as a motivation for the value of estimating parameters.
-Below, I will \(p\) in the Negative Binomial Distribution.
+This serves as a motivation for estimating parameters. Below, I will
+estimate \(p\) in the Negative Binomial Distribution.
 
-First, I will first use the Maximum Likelihood Estimation to estimate
-\(p\), which is the frequentist approach. Then, I will use a posterior
-mean, which is the Bayesian approach. Finally, I will compare them using
-my dataset.
+First, I will first use the Maximum Likelihood Estimation method to
+estimate \(p\), which is the frequentist approach. Then, I will use a
+posterior mean, which is the Bayesian approach. Finally, I will compare
+them using my dataset.
 
 \section{Maximum Likelihood
 Estimation}\label{maximum-likelihood-estimation}
@@ -425,7 +430,7 @@ Below I derive the MLE for \(p\) in the negative binomial.
 
 For the Bayesian method, we need a prior distribution that we will then
 have the data update. Let's use a Beta Prior with
-\(\alpha=1, \beta = 1\). (So, this is actually just a uniform).
+\(\alpha=1, \beta = 1\) (which is actually just a uniform).
 
 \[
 \begin{aligned}
@@ -465,13 +470,13 @@ Now, let's compute the two estimators on my dataset.
 \end{Shaded}
 
 As we can see from the code above, in my dataset,
-\(\bar{x} = 0.7435, n=807, \sum(x) = 600\).
+\(\bar{x} = 0.7434944, n=807, \sum(x) = 600\).
 
 So, plugging this in, we have:
 
 \[
 \begin{aligned}
-    \hat{p}_{MLE} &= \frac{r}{r + 0.7435} \\
+    \hat{p}_{MLE} &= \frac{r}{r + 0.7434944} \\
     \hat{p}_{posterior} &= \frac{1 + 807r}{2 + 807r + 600}
 \end{aligned}
 \]
@@ -480,17 +485,16 @@ If we assume \(r = 0.5\):
 
 \[
 \begin{aligned}
-    \hat{p}_{MLE} &= \frac{0.5}{0.5 + 0.7435} = 0.402 \\
+    \hat{p}_{MLE} &= \frac{0.5}{0.5 + 0.7434944 } = 0.402 \\
     \hat{p}_{posterior} &= \frac{1 + 807(0.5)}{2 + 807(0.5) + 600} = 0.401
 \end{aligned}
 \]
 
-For the sake of evaluating our estimators, let's say true \(p\) is
-\(\frac{1}{3}\).
-
 \section{Comparing Estimators}\label{comparing-estimators}
 
-Now, let's compare the bias and variance of the two estimators.
+Now, let's compare the bias and variance of the two estimators. For the
+sake of evaluating our estimators, let's say true \(p\) is
+\(\frac{1}{3}\).
 
 In my dataset, there are \(807\) patients. After 10,000 simulations, the
 bias and variance of our estimators is:
@@ -537,7 +541,8 @@ distribution (which in this case leads to positive bias).
 \(\hat{p}_{PM}\) has less slightly less variance. This is more apparent
 if you make \texttt{n\_obs} smaller in the code.
 
-Here is the histogram for \(\hat{p}_{MLE}\).
+Here is the the code for a histogram of \(\hat{p}_{MLE}\) over many
+trials.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -549,7 +554,8 @@ Here is the histogram for \(\hat{p}_{MLE}\).
 \end{Highlighting}
 \end{Shaded}
 
-Here is the histogram for \(\hat{p}_{PM}\).
+Here is the the code for a histogram of \(\hat{p}_{PM}\) over many
+trials.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -563,8 +569,8 @@ Here is the histogram for \(\hat{p}_{PM}\).
 
 \bookmarksetup{startatroot}
 
-\chapter{Futher Evaluating
-Estimators}\label{futher-evaluating-estimators}
+\chapter{Further Evaluating
+Estimators}\label{further-evaluating-estimators}
 
 \section{Background}\label{background-2}
 
@@ -573,15 +579,16 @@ cool properties regarding the score, which is the derivative of the log
 likelihood.
 
 I will then dive into another way to evaluate estimators. In Chapter 1,
-I mentioned bias and variance, but this time I will use frequentist Mean
-Squared Error, which is defined as
+we looked at the bias and variance of \(\hat{p}_{MLE}\) and
+\(\hat{p}_{PM}\), but this time I will use frequentist Mean Squared
+Error to compare them. This is defined as
 \(MSE = \mathbb{E}[(\hat{\theta} - \theta)^2]\). The MSE can famously be
-decomposed as the (Bias + \(\text{Variance}^2\)). So, while last chapter
-used bias and variance, MSE serves as an all encompassing metric. So, I
-will compare the MSE of my MLE and Posterior Mean from Chapter 1.
+decomposed as the (Bias\(^2\) + Variance). So, while last chapter
+compared bias and variance, MSE serves as an all-encompassing metric.
+So, I will compare the MSE of my MLE and Posterior Mean from Chapter 1.
 
 Finally, I will evaluate the Cramer-Rao Lower Bound (CRLB) for my
-distribution and see if it is relavant to the MLE and Posterior Mean I
+distribution and see if it is relevant to the MLE and Posterior Mean I
 calculated in Chapter 1. In class, we learned that the CRLB is a lower
 bound to the variance of an unbiased estimator. This means of all
 unbiased estimators, if one reaches the CRLB, then it is the best
@@ -592,8 +599,9 @@ that reaches the CRLB.
 
 As an extra note, the CRLB is defined as \(\frac{1}{I(\theta)}\), where
 \(I(\theta)\) is defined as the Variance of the Score (which is the
-derivative of the log-likelihood). My proof in the first section below
-will make it easier to solve for the CRLB.
+derivative of the log-likelihood). I will prove this later on in this
+chapter. It is important to note that my proof in the first section
+below will make it easier to solve for the CRLB for my distribution.
 
 \section{\texorpdfstring{Proving
 \(\text{Var}(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]\)}{Proving \textbackslash text\{Var\}(\textbackslash ell\textquotesingle(\textbackslash theta)) = -\textbackslash mathbb\{E\}{[}\textbackslash ell\textquotesingle\textquotesingle(\textbackslash theta){]}}}\label{proving-textvarelltheta--mathbbeelltheta}
@@ -601,7 +609,9 @@ will make it easier to solve for the CRLB.
 For any PDF \(f_\theta(x)\), the log-likelihood of \(x\) can be written
 as \(\ell_x(\theta)\).
 
-The Score is defined as \(\mathbb{E}[\ell'_\theta(x)]\).
+Another name for the derivative of the log-likelihood is the score. The
+expected value of the score is defined as
+\(\mathbb{E}[\ell'_\theta(x)]\).
 
 \[
 \mathbb{E}[\ell'_x(\theta)] = \int_{-\infty}^\infty \ell'_x(\theta)f_\theta(x) dx
@@ -662,7 +672,6 @@ Integrating this against the PDF:
 &= - \mathbb{E}[\ell''_x(\theta)]
 \end{aligned}
 \]
-------------------------------------------------------------------------
 
 \section{MSE}\label{mse}
 
@@ -721,37 +730,96 @@ when \(n=50\) and \(r=0.5\).
 
 \pandocbounded{\includegraphics[keepaspectratio]{Week2_files/figure-pdf/unnamed-chunk-1-1.pdf}}
 
-We we can see, at different true \(p\) values, one estimator may be
+As we can see, at different true \(p\) values, one estimator may be
 better than the other.
 
-\section{Cramer-Rao Lower Bound}\label{cramer-rao-lower-bound}
+\section{Proving the Cramer-Rao Lower
+Bound}\label{proving-the-cramer-rao-lower-bound}
 
-As touched upon in the background section, the CRLB for unbiased
-estimators is \(\frac{1}{I(\theta)}\), where \(I(\theta)\) is defined as
-the Variance of the Score. However, we proved above that the variance of
-the score, \(\text{Var}(\ell'(\theta))\) is actually equivalent to
-\(-\mathbb{E}[\ell''(\theta)]\)
+As mentioned in the ``Background'' section, the CRLB is a lower bound to
+the variance of an unbiased estimator. Let's show why this is the case.
 
-So, this means that the CRLB for unbiased estimators is
-\(\frac{1}{-\mathbb{E}[\ell''(\theta)]}\). For
-\(X \sim \text{NegBin}(r, p)\):
+First, let \(t(x)\) be any unbiased estimator of \(\theta\). Now let's
+solve for \(\text{Cov}(t(x), \ell'_x(\theta))\).
 
 \[
 \begin{aligned}
-\mathbb{E}\left[\frac{d^2}{dp^2} \ell(p)\right] &= -\left(\frac{rn}{p^2} + \frac{\mathbb{E}[\sum x]}{(1-p)^2} \right) \\
-&= -\left(\frac{rn}{p^2} + \frac{rn(1-p)}{p(1-p)^2} \right) \\
-&= -\frac{rn}{p^2(1-p)}
+\text{Cov}(t(x), \ell'(x)) &= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - \mathbb{E}[t(x)] \mathbb{E}[\ell'_x(\theta)] \\
+&= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - \mathbb{E}[t(x)] \mathbb{E}[\ell'_x(\theta)]
+\end{aligned}
+\] Now, in the first section of this Chapter, we showed that
+\(\mathbb{E}[\ell'_x(\theta)] = 0\). So, let's apply that and continue
+to manipulate.
+
+\[
+\begin{aligned}
+\text{Cov}(t(x), \ell'(x)) &= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - 0 \\
+&= \int_{-\infty}^\infty t(x) \ell'(x) f_\theta(x) dx
 \end{aligned}
 \]
 
-So, this means that the lowest possible variance for an unbiased
-estimator is \(\frac{p^2(1-p)}{rn}\).
+Now, in the first section we also showed that:
+\(\ell'_x(\theta) &= \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)}\)
 
-However, in Week 1, we established from simulation that
-\(\hat{p}_{MLE}\) is positively biased. Additionally, in class we
-learned that the \(\hat{p}_{PM}\) is always biased toward the prior.
-Since the MLE and Posterior Mean are both biased, the CRLB does not
-provide a strict lower bound for their variance.
+Using this, we can say that:
+
+\[
+\begin{aligned}
+\text{Cov}(t(x), \ell'(x)) &= \int_{-\infty}^\infty t(x) \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} f_\theta(x) dx \\
+&= \int_{-\infty}^\infty t(x) \frac{d}{d \theta} f_\theta(x) dx \\
+&= \frac{d}{d \theta}\int_{-\infty}^\infty t(x)  f_\theta(x) dx \\
+&= \frac{d}{d \theta}\mathbb{E}[t(x)] \\
+&= \frac{d}{d \theta} \theta \text{ [NOTE: This is because t(x) is unbiased]} \\
+&= 1
+\end{aligned}
+\] So, using Cauchy-Schwarz Inequality, we can say that
+
+\(1 = \text{Cov}^2(t(x), \ell'(x)) \leq \text{Var}(t(x)) \text{Var}(\ell'_x(\theta))\)
+
+So, this means that:
+
+\(\frac{1}{\text{Var}(\ell'_x(\theta))} \leq \text{Var}(t(x))\).
+
+So, this means that the Variance of any unbiased estimator \(t(x)\) must
+be greater than or equal to \(\frac{1}{\text{Var}(\ell'_x(\theta))}\).
+And, if you remember earlier, this can be written as:
+
+CRLB:
+\(\frac{1}{\text{Var}(\ell'_x(\theta))} = \frac{1}{I(\theta)} = \frac{1}{-\mathbb{E}[\ell''_x(\theta)]}\)
+
+\section{Finding the CRLB}\label{finding-the-crlb}
+
+As described above, the CRLB for unbiased estimators is
+\(\frac{1}{I(\theta)}\), where \(I(\theta)\) is defined as the Variance
+of the Score. However, we proved above that the variance of the score,
+\(\text{Var}(\ell'(\theta))\) is actually equivalent to
+\(-\mathbb{E}[\ell''(\theta)]\)
+
+So, this means that the CRLB for unbiased estimators is
+\(\frac{1}{-\mathbb{E}[\ell''(\theta)]}\).
+
+In Chapter 1, I wrote For \(X_1,...,X_n \sim \text{NegBin}(r, p)\), then
+\(\ell'(p) = \frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1-p}\):
+
+This means that
+\(\ell''(p) = -\frac{rn}{p^2} - \frac{\sum_{i=1}^n x_i}{(1-p)^2}\)
+
+\[
+\begin{aligned}
+\mathbb{E}\left[\ell''(p)\right] &= -\left(\frac{rn}{p^2} + \frac{\mathbb{E}[\sum_{i=1}^n x_i]}{(1-p)^2} \right) \\
+&= -\left(\frac{rn}{p^2} + \frac{rn(1-p)}{p(1-p)^2} \right) \\
+&= -\frac{rn}{p^2(1-p)}
+\end{aligned}
+\] So, the lowest possible variance for an unbiased estimator for \(p\)
+is \(\frac{p^2(1-p)}{rn}\).
+
+\section{Does it Apply?}\label{does-it-apply}
+
+In Week 1, we established from simulation that \(\hat{p}_{MLE}\) is
+positively biased. Additionally, in class we learned that the
+\(\hat{p}_{PM}\) is always biased toward the prior. Since the MLE and
+Posterior Mean are both biased in this case, the CRLB does not provide a
+strict lower bound for their variance.
 
 \bookmarksetup{startatroot}
 
@@ -767,13 +835,13 @@ bias and variance of the MLE by hand can be difficult.
 However, this can be made easier when dealing with large sample sizes by
 knowing that the distribution of the MLE approximates to a Normal as
 \(n \rightarrow \infty\) It is kind of wild to think about no matter the
-original distribution, the distribution of the MLE approaches the Normal
-distribution!
+original distribution, the distribution of the MLE always approaches the
+Normal distribution!
 
 I will first simulate my distribution and look at a histogram of
-\(\hat{p}_MLE\) as \(n\) grows large. Then, I will prove that the MLE
-approximates to a Normal as \(n \rightarrow \infty\), and then apply
-that to my distribution.
+\(\hat{p}_{MLE}\) as \(n\) grows large. Then, I will prove that the MLE
+approximates to a Normal as \(n \rightarrow \infty\) and apply that to
+my distribution.
 
 \section{Simulating Distribution}\label{simulating-distribution}
 
@@ -809,10 +877,15 @@ case to \(10,000\).
 \end{Highlighting}
 \end{Shaded}
 
+As we can see, this looks pretty Normal, and it looks to be centered
+around \(\frac{1}{3}\), which is what we set true \(p\) to be.
+
 \section{Proof of MLE Approaching a Normal
 Distribution}\label{proof-of-mle-approaching-a-normal-distribution}
 
-This proof is a really cool one and involves many different concepts.
+Now let's prove that the distribution of the MLE approaches a Normal
+distribution as \(n\) gets large. This proof is a really cool one and
+involves many different concepts.
 
 Let's start with the score of \(\hat{\theta}_{MLE}\), which is
 \(\ell'(\hat{\theta}_{MLE})\)
@@ -822,13 +895,14 @@ Let's now Taylor expand \(\ell'(\hat{\theta}_{MLE})\) around
 
 \(\ell'(\hat{\theta}_{MLE}) \approx \ell'(\theta_0) + \ell''(\theta_0)(\hat{\theta}_{MLE} - \theta_0)\)
 
-Now, remember that when we solve for the MLE (As we did in Chapter 1),
-we set \(\ell(x) = 0\). This is because the MLE is defined as the
-\(\theta\) value that maximizes the likelihood (and log-likelihood). So,
-as the MLE is a maximum of the log-likelihood function, this means that
-\(\ell'(\hat{\theta}_{MLE}) = 0\).
+Now, remember that when solving for the MLE (as we did in Chapter 1), we
+set \(\ell'(x) = 0\). This is because the MLE is defined as the
+\(\theta\) value that maximizes the likelihood (and log-likelihood).
 
-So, plugging this in we get
+So, as the MLE is a maximum of the log-likelihood function, this means
+that \(\ell'(\hat{\theta}_{MLE}) = 0\).
+
+So, plugging this in we get:
 
 \(0 = \ell'(\hat{\theta}_{MLE}) \approx \ell'(\theta_0) + \ell''(\theta_0)(\hat{\theta}_{MLE} - \theta_0)\)
 
@@ -840,7 +914,9 @@ We can rearrange this to say:
   - \ell'(\theta_0) &\approx \ell''(\theta_0)(\hat{\theta}_{MLE} - \theta_0) \\
   \hat{\theta}_{MLE} - \theta_0  &\approx \frac{-\ell'(\theta_0)}{\ell''(\theta_0)}
 \end{aligned}
-\] Now, let's do some further manipulation.
+\]
+
+Now, let's do some further manipulation.
 
 \[
 \begin{aligned}
@@ -867,8 +943,8 @@ Now, we can realize three things.
 First, the CLT is defined as
 \(\sqrt{n}(\bar{Y} - \mathbb{E}[Y_1]) \rightarrow N(0, Var(Y_1))\)
 \textbackslash{} Second, as we showed in Chapter 2,
-\(\mathbb{E}[Y_1] = \mathbb{E}[\ell'_{x_1}(\theta_0)] = 0\). Third, as
-we remember from Chapter 2, we showed that
+\(\mathbb{E}[Y_1] = \mathbb{E}[\ell'_{x_1}(\theta_0)] = 0\).
+\textbackslash{} Third, also from Chapter 2, we showed that
 \(I(\theta) = -\mathbb{E}[\ell''(\theta)] = \text{Var}(\ell'(\theta))\)
 
 So, this means that:
@@ -882,13 +958,13 @@ So, this means that:
 \]
 
 Isolating for \(\hat{p}_{MLE}\), we have that
-\(\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{nI_{x_1}(\theta))}\right)\)
+\(\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{nI_{x_1}(\theta)}\right)\)
 
 \section{Asymptotic Calculation}\label{asymptotic-calculation}
 
 As shown above, using the CLT and Taylor approximation, we can see that
 as \(n\) grows large, we have that
-\(\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{\text{Var}(n\ell^\prime_{x_1}(\theta))}\right)\)
+\(\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{nI_{x_1}(\theta))}right)\)
 
 So, let's solve for \(I_{x_1}(\theta)\). Once again, from Chapter 2, we
 know that
@@ -968,21 +1044,23 @@ Intervals}\label{confidence-and-credible-intervals}
 \section{Background}\label{background-4}
 
 So far, we have discussed solving for and evaluating \(\hat{p}_{MLE}\)
-and \(\hat{p}_{PM}\). But, these estimators are based only on your data,
-and neither is likely to be the true \(p\) of the entire population.
+and \(\hat{p}_{PM}\). But, these estimators are based only on the data w
+ehave, and neither is likely to be the true \(p\) of the entire
+population.
 
 So, this chapter is all about Confidence and Credible Intervals. The
 former is a frequentist method to display a region that they believe
 contains the true \(p\) of the entire population with a certain
-confidence. The latter is the Bayesian version. For these examples, we
-use a \(95\%\) confidence and credible interval.
+confidence. The latter is the Bayesian version that allows for slightly
+different wording that I will explain in the next paragraph. For these
+examples, we use a \(95\%\) confidence and credible interval.
 
 This is the topic that truly instilled in me the differences in
 frequentist v. Bayesian principles. As frequentists treat \(p\) as a
 fixed but unknown parameter, once they have calculated their region,
 they do NOT say that there is a \(95\%\) chance that \(p\) is in the
 region. This is because \(p\) is fixed. A fixed parameter cannot have a
-chance fo being in a region, it either is or it isn't. So, they escape
+chance of being in a region, it either is or it isn't. So, they escape
 this by saying they are \(95\%\) ``confident'' that \(p\) is contained
 in the region. On the the other hand, as Bayesians treat \(p\) is a
 random variable, they have no problems saying that there is a \(95\%\)
@@ -1198,25 +1276,25 @@ Intervals}\label{simulating-confidence-intervals}
 In the prevous chapter, we talked about using confidence and credible
 intervals. For the frequentist calculation, we assumed large \(n\) and
 used a Normal approximation for \(\hat{p}_{MLE}\). For our credible
-interval, we chose a conjugate prior so we knew the posterior
+interval, we chose a conjugate prior so we could solve for the posterior
 distribution.
 
-However, what if we didn't want to resort to using a Normal approximate
-our confidence interval? Additionally, what if we don't know the our
-posterior distribution for the credible interval?
+However, what if we didn't want to resort to using a Normal
+approximatation for our confidence interval? Additionally, what if we
+don't know the our posterior distribution for the credible interval?
 
-So, statisticians have had come up with computationally-intense
-mechanisms to work around these issues. For frequentists, this involves
-the parametric and nonparametric bootstrap. In the former, you assume
-your population follows a certain distribution, then use that the MLE
-from your sample to generate more datasets In the latter, you re-sample
-more datasets from your original sample with replacement. For both, you
-then look at the MLEs of your many generated datasets.
+Statisticians have had come up with computationally-intense mechanisms
+to work around these issues. For frequentists, this involves the
+parametric and nonparametric bootstrap. In the former, you assume your
+population follows a certain distribution, then use the MLE from your
+sample to generate more datasets. In the latter, you re-sample more
+datasets from your original sample with replacement. For both, you then
+look at the MLEs of your many generated datasets.
 
 The Bayesian Process involves a Metropolis-Hastings Markov Chain Monte
 Carlo. Let's say we want to come up with estimator for \(\theta\) in
-Distribution B. To do this, we first, pick a starting Distribution A and
-continuously sample from it. However, after each sample, we establish a
+Distribution B. To do this, we first pick a starting Distribution A and
+continuously sample from it. After each sample, we establish a
 probability based on the likelihood that they can be generated by
 Distributions A \& B. We then keep each sample with this probability.
 The idea, is after a burn-in period, despite being generated from
@@ -1236,8 +1314,8 @@ First, let's bring my hospital dataset into R.
 
 \subsection{Parametric Bootstrap}\label{parametric-bootstrap}
 
-If we say \(X \sim \text{NegBin}(p, r)\), and we have \(r = 0.5\), then
-as I calculated in Homework 1,
+If we say \(X \sim \text{NegBin}(r, p)\), and we have \(r = 0.5\), then
+as I calculated in Chapter 1,
 \(\hat{p}_{MLE} = \frac{r}{r + \bar{x}} = \frac{0.5}{0.5 + 0.7435} = 0.402\).
 
 \begin{Shaded}
@@ -1250,7 +1328,7 @@ as I calculated in Homework 1,
 \end{Shaded}
 
 So, using a parametric bootstrap, we can simulate many new datasets from
-the Negabtive Binomial with my \(\hat{p}_MLE\). Then, we can calculate
+the Negabtive Binomial with my \(\hat{p}_{MLE}\). Then, we can calculate
 the MLE of each of these datasets. A histogram of the MLE values of
 these datasets can be seen in the code block below.
 
@@ -1271,8 +1349,7 @@ these datasets can be seen in the code block below.
 \end{Highlighting}
 \end{Shaded}
 
-A \(95\%\) confidence interval from in generated in the code block
-below.
+A \(95\%\) confidence interval is generated in the code block below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1286,9 +1363,10 @@ simulation.
 
 \subsection{Nonparametric Bootstrap}\label{nonparametric-bootstrap}
 
-Here, we just re-sample new datasets from our sample with replacement,
-and take the MLE from each of these simulated datasets. A histogram of
-the MLE values of these datasets can be seen in the code block below.
+for the nonparametric boostrap, we just re-sample new datasets from our
+sample with replacement, and take the MLE sfrom each of these simulated
+datasets. A histogram of the MLE values of these datasets can be seen in
+the code block below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1308,8 +1386,7 @@ the MLE values of these datasets can be seen in the code block below.
 \end{Highlighting}
 \end{Shaded}
 
-A \(95\%\) confidence interval from in generated in the code block
-below.
+A \(95\%\) confidence interval is generated in the code block below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1333,7 +1410,7 @@ They are listed below:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Using CLT with \(\hat{p}\) plug in for \(p\) in \(I(p)\):
+  Using CLT with \(\hat{p}_{MLE}\) plug in for \(p\) in \(I(p)\):
   \([0.3711, 0.4331]\)
 \item
   Using CLT with direct computation for \(p\) in \(I(p)\):
@@ -1358,8 +1435,8 @@ Parametric Bootstrap: \(0.0598\)
 
 Nonparametric Bootstrap: \(0.0646\)
 
-So, on the simulation I originally tested on, the parametric bootstrap
-95\% confidence interval had the smallest range, while the nonparametric
+So, using the first simulations I ran, the parametric bootstrap's 95\%
+confidence interval had the smallest range, while the nonparametric
 bootstrap had the largest range. I am not sure if these mean anything,
 as this may have been strictly due to a weird simulation.
 
@@ -1383,12 +1460,13 @@ The algorithm will work like this. Imagine we start with a list of
 length one that contains one random sample from my prior distribution
 (the uniform in my case). I will then generate another sample from my
 prior distribution and compare it to the last element in my list (which
-in this case would just be the first generated smaple). With a certain
-likelihood (that I will explain in a second), I will add this new
-generated sample to my list. With probability
-{[}\(1 - \text{that_likelihood}\){]}, I will just add that last value in
-my list to the to my list again. I will then continue this process over
-and over.
+in this case would just be the first generated sample).
+
+With a certain likelihood (that I will explain in a second), I will add
+this new generated sample to my list. With probability
+\([1 - \text{that_likelihood}]\), I will forget about this new sample
+and just add that last value in my list, to my list again. I will then
+generate more and more samples and continue this process over and over.
 
 To write out the probability from earlier, imagine \(f\) is the prior
 distribution, \(g\) is the distribution we are interested in, and we are
@@ -1400,12 +1478,14 @@ likelihood of adding \(x_{j-1}\) again is
 
 However, as I am using a \(\text{Uniform}(0,1)\) prior, \(f(x) = 1\) for
 every \(x\). This means that the we keep a generated sample with
-likelihood \(\frac{g(x_j)}{g(x_{j-1})}\), and of keeping the sample
-simplifies to \(\frac{g(x_j)}{g(x_{j-1})}\).
+likelihood \(\frac{g(x_j)}{g(x_{j-1})}\), and add the older samples to
+our list again with likelihood
+\(\Big(1 - \frac{g(x_j)}{g(x_{j-1})} \Big)\).
 
-After generating enough samples, my list after moving the first chunk of
-samples (called a burn-in period) should resemble the \(g\), which is
-the Negative Binomial in my case.
+After generating enough samples, and then removing the first chunk of
+values from my list (called a burn-in period), the remainder of my list
+should resemble the \(g\), the posterior distribution, which is the
+Negative Binomial in my case.
 
 To avoid numerical underflow, we will compute \(e^{log(f(p | x))}\).
 
@@ -1460,9 +1540,9 @@ I will generate \(15000\) samples and have a burn-in period of \(5000\).
 Here, from running the code above, my Metropolis-Hastings posterior mean
 is around \(0.401\), depending on the simulation.
 
-In Homework 1, instead of using a simulation, I recognized the
-\(\text{Beta}(1 + nr, 1+ \sum_{i=1}^n x_i)\) distribution. In that
-situation, my posterior mean was \(0.401\).
+In Chapter 1, instead of using a simulation, I recognized that my
+posterior followed a \(\text{Beta}(1 + nr, 1+ \sum_{i=1}^n x_i)\)
+distribution. In that situation, my posterior mean was \(0.401\).
 
 Now, let's look at the distribution of my Metropolis-Hastings
 \(\hat{p}\) in the code block below.
@@ -1485,8 +1565,9 @@ data from the code block below.
 Here, my Metropolis-Hastings approximate 95\% credible interval is
 around \([0.3701, 0.4283]\), depending on the simulation.
 
-When I did this from the Beta function in Chapter 4 using the `qbeta'
-function, my 95\% credible interval was \([0.3722, 0.4328]\).
+When I did this from the Beta function in Chapter 4 using the
+\texttt{qbeta} function, my 95\% credible interval was
+\([0.3722, 0.4328]\).
 
 So let's further compare about these 95\% credible intervals:
 
@@ -1496,8 +1577,9 @@ Direct computation of the posterior distribution: \(0.0606\)
 
 Metropolis-Hastings: \(0.0582\)
 
-So, my approximate M-H 95\% credible interval has a slightly smaller
-spread.
+So, my approximate M-H 95\% credible interval had a slightly smaller
+spread, though again, this may have just been because of a weird
+simulation.
 
 \bookmarksetup{startatroot}
 
@@ -1515,10 +1597,11 @@ that we have a default hypothesis about a parameter \(\theta\). Let's
 say, for example, it is that \(\theta_0 = 10\). Maybe this represents
 the number of symptoms per day of medical patients.
 
-Now, let's say we are trying out a new drug, and want to see if it is
+Now, let's say we are trying out a new drug and want to see if it is
 effective. So, maybe our alternative hypothesis is that
-\(\theta_A = 5\). Hypothesis testing is seeing whether, based on the
-data, we can reject the null hypothesis and accept the alternative.
+\(\theta_A = 5\), thus lowering the number of symptoms per day.
+Hypothesis testing is seeing whether, based on the data, we can reject
+the null hypothesis and accept the alternative.
 
 Unlike when we solved for \(\hat{p}_{MLE}\) and \(\hat{p}_{PM}\), the
 result of a hypothesis test is strictly binary. It is only where we
@@ -1533,18 +1616,19 @@ test.
 
 To understand why this works, let's look at hypothesis testing as a
 constrained optimization problem. Theoretically we would want our test
-to never makes a mistake, and only accept the null when \(H_0\) is true
-and only reject when \(H_0\) is false. In reality, there is a strict
-trade-off between committing a Type I error (rejecting \(H_0\) despite
-\(H_0\) being true). and maximizing power (correctly rejecting \(H_0\)).
-We handle this by setting a hard cap on our Type I error (which is
-referred to as \(\alpha\)), typically at \(\alpha = 0.05\). Type I error
-can be very harmful, for example leading us to deem a drug as effective,
-even if it isn't. This is why we cap it at \(0.05\).
+to never make a mistake. This means we would want it to only accept the
+null when \(H_0\) is true and only reject when \(H_0\) is false. In
+reality, there is a strict trade-off between committing a Type I error
+(rejecting \(H_0\) despite \(H_0\) being true) and maximizing power
+(correctly rejecting \(H_0\)). We handle this by setting a hard cap on
+our Type I error (which is referred to as \(\alpha\)), typically at
+\(\alpha = 0.05\). Type I error can be very harmful, for example leading
+us to deem a drug as effective even if it isn't. This is why we cap it
+at \(0.05\).
 
 Once this budget is locked in, the Neyman-Pearson lemma tells us exactly
-how to get the maximize our power (correctly rejecting \(H_0\)) out of
-our \(\alpha\) allocation. You can think of the likelihood ratio
+we can maximize our power (correctly rejecting \(H_0\)) while staying
+within our \(\alpha\) allocation. You can think of the likelihood ratio
 \(\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}\) as a benefit-to-cost
 efficiency metric for every possible data outcome. The numerator
 represents the ``benefit'' (gaining power if \(H_A\) is true), while the
@@ -1555,21 +1639,20 @@ mathematically guarantees that we have constructed the most powerful
 test possible for our chosen significance level.
 
 In class, we showed that this principle extends into one-sided
-hypothesis testing. This means that as opposed to saying
-\(H_A: \theta = 5\), we can say \(H_A: \theta < 10\). To solve for this,
-we want to find a ratio that maximizes the power for every possible
-theta below \(10\). What we showed in class is that we can just choose
-any number below \(10\) (let's say \(2\) for this example), and the
-values the maximize \(\frac{f_{\theta_A = 2}(x)}{f_{\theta_0}(x)}\) are
-the same values that maximize
-\(\frac{f_{\theta_A = 7}(x)}{f_{\theta_0}(x)}\) or
+hypothesis testing. Imagine instead of saying, \(H_A: \theta = 5\), we
+said \(H_A: \theta < 10\). To solve for this, we want to find a ratio
+that maximizes the power for every possible \(\theta\) below 10. What we
+showed in class is that we can just choose any number below 10 (let's
+say 2 for this example), and the values the maximize
+\(\frac{f_{\theta_A = 2}(x)}{f_{\theta_0}(x)}\) are the same values that
+maximize \(\frac{f_{\theta_A = 7}(x)}{f_{\theta_0}(x)}\) or
 \(\frac{f_{\theta_A = 9}(x)}{f_{\theta_0}(x)}\), or any value below 10.
-So, we can just choose one value to set up the ratio for
-\(H_A: \theta < 10\).
+So, we can just choose one one these values below 10 to set up the ratio
+for \(H_A: \theta < 10\).
 
 Because this single ratio maximizes the power across the entire range of
-possible alternative values simultaneously, the resulting test is called
-a Uniformly Most Powerful (UMP) test.
+possible one-sided alternative values simultaneously, the resulting test
+is called a Uniformly Most Powerful (UMP) test.
 
 \section{Uniformly Most Powerful
 Test}\label{uniformly-most-powerful-test}
@@ -1584,16 +1667,16 @@ into R.
 \end{Highlighting}
 \end{Shaded}
 
-In my hospital dataset, remember that the data that has a negative
-binomial distribution is the number of people each person infected
-beyond the first person (This is because all infectors in the dataset
-infected at least one person, so we subtract one to have a healthy
-amount of zero values). Google says that for the Flu, the average person
-with the disease spreads it to 1-2 people. As our negative binomial
-distribution only counts the number of additional people each person
-infects after the first, then setting \(E[X] = 0.5\) feels fair. In
-other words, for the flu, it reasonable to stay the average person in a
-hospital with a disease infects 0.5 extra people. That would means that
+In my dataset, remember that the data that has a negative binomial
+distribution is the number of people each person infected beyond the
+first person (This is because all infectors in the dataset infected at
+least one person, so we subtract one to have a healthy amount of zero
+values). Google says that for the Flu, the average person with the
+disease spreads it to 1-2 people. As our negative binomial distribution
+only counts the number of additional people each person infects after
+the first, then setting \(E[X] = 0.5\) feels fair. In other words, for
+the flu, it reasonable to stay the average person in a hospital with a
+disease infects 0.5 extra people. That would means that
 \(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\).
 
 Isolating for \(p\), we get:
@@ -1609,16 +1692,16 @@ p &= \frac{r}{\mathbb{E}[X] + r}
 \end{aligned}
 \]
 
-So, we set \(\mathbb{E}\) to be 0.5. Let's say for the sake of this
+So, we set \(\mathbb{E}[x]\) to be 0.5. Let's say for the sake of this
 example that we set \(r\) to be \(0.75\). In this scenario, we get
 \(p = \frac{0.75}{0.5+0.75} = 0.6\).
 
-Let's say our null hypothesis is \(H_0\) :\(p = 0.6\). Now, we are
-curious if maybe COVID is more infectious than the flu (not considering
-other considerations like how my dataset is limited to people only
-already at the hospital). This would mean that \(E[X]\) is greater than
-0.5, and as \(\mathbb{E}[X] = \frac{r(1-p)}{p}\), a smaller \(p\) leads
-to a larger \(E[X]\).
+So, our null hypothesis is \(H_0\): \(p = 0.6\). Now, we are curious if
+maybe COVID is infectious than the flu (not considering other
+considerations like how my dataset is limited to people only already at
+the hospital). This would mean that \(E[X]\) is greater than 0.5, and as
+\(\mathbb{E}[X] = \frac{r(1-p)}{p}\), a smaller \(p\) leads to a larger
+\(E[X]\).
 
 This means that:
 
@@ -1632,17 +1715,19 @@ the same will hold true for rest. Let's proceed with \(p=0.3\).
 
 Again, let's proceed with \(r=0.75\).
 
-NegBin\((p, r)\) follows the distribution
+NegBin\((r, p)\) follows the distribution
 \(\binom{x + r - 1}{x} p^r (1 - p)^x\):
 
-So, our \(H_0\) gives us NegBin\((p=0.6, r)\), which follows the
-distribution: \(f_0(x) = \prod \binom{x + r - 1}{x} 0.6^r (1 - 0.6)^x\).
+So, our \(H_0\) gives us NegBin\((r, p=0.6)\), which follows the
+distribution:
+\(f_0(x) = \prod _{i=1}^n \binom{x_i + r - 1}{x_i} 0.6^r (1 - 0.6)^{x_i}\).
 
-Our \(H_A\) gives us NegBin\((p=0.3, r)\), which follows the
-distribution: \(f_A(x) = \prod \binom{x + r - 1}{x} 0.3^r (1 - 0.3)^x\).
+Our \(H_A\) gives us NegBin\((r, p=0.3)\), which follows the
+distribution:
+\(f_A(x) = \prod _{i=1}^n \binom{x_i + r - 1}{x_i} 0.3^r (1 - 0.3)^{x_i}\).
 
 We want to to maximize
-\(\frac{f_A(x)}{f_0(x)} = \prod\frac{\binom{x + r - 1}{x} 0.3^r (1 - 0.3)^x}{ \prod\binom{x + r - 1}{x} 0.6^r (1 - 0.6)^x}\),
+\(\frac{f_A(x)}{f_0(x)} = \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x_i} 0.3^r (1 - 0.3)^{x_i}}{\prod _{i=1}^n \binom{x_i + r - 1}{x_i} 0.6^r (1 - 0.6)^{x_i}}\),
 as these are the \(X\) values that we maximize our
 \(\frac{\text{Power}}{\alpha}\). In other words, when this value ratio
 is maximized, we have the best ratio for decreasing the odds of a Type
@@ -1663,10 +1748,11 @@ So, let's maximize:
 To maximize, \(\Big(\frac{0.7}{0.4}\Big)^{\sum_{i=1}^n x_i}\), we want
 to reject when \(\sum_{i=1}^n x_i\) is as large as possible.
 
-So, we want: \(P(\sum_{i=1}^n x_i \geq c) = 0.05\).
+So, we this means we set up: \(P(\sum_{i=1}^n x_i \geq c) = 0.05\).
 
-The sum of many NegBin\((p, r)\) random variables is NegBin\((p, n*r)\),
-My COVID hospital dataset had 807 patients, so \(n = 807\).
+The sum of many NegBin\((p, r)\) random variables is
+NegBin\((n \cdot r, p)\), My COVID hospital dataset had 807 patients, so
+\(n = 807\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1675,23 +1761,23 @@ My COVID hospital dataset had 807 patients, so \(n = 807\).
 \end{Highlighting}
 \end{Shaded}
 
-So, we would use the qnbinom R function to set up an sum from \(c\) to
-\(\infty\) over the \(H_0\) pdf that covers the upper \(5\%\) (at most)
-of the distribution.
+So, we would use the \texttt{qnbinom} R function to set up a sum from
+\(c\) to \(\infty\) over the \(H_0\) PMF that covers the upper \(5\%\)
+(at most) of the distribution.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{r = 0.75}
 \NormalTok{alpha = 0.05}
 \NormalTok{p = 0.6}
-\NormalTok{reject\_val = qnbinom(1{-}alpha, r * n, p)}
+\NormalTok{reject\_val = qnbinom(1 {-} alpha, r * n, p)}
 \NormalTok{reject\_val}
 \end{Highlighting}
 \end{Shaded}
 
-We then check to see how much of the density this sum has (I subtract by
-1 because we want the density above whichever value is inputted into the
-pnbinom function):
+We then check to see how much of the mass is in this value or above (I
+write \texttt{reject\_val\ -\ 1} because we want the mass above
+whichever value is inputted into the \texttt{pnbinom} function):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1700,7 +1786,7 @@ pnbinom function):
 \end{Shaded}
 
 We are above 0.05. So, we need to move our rejection bound up one value,
-to take up less of the density.
+to take up less of the mass.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1731,10 +1817,11 @@ Now, let's see how often we would reject in my dataset.
 \end{Shaded}
 
 As \(600 > c\) (which was \(448\)), for my COVID hospital dataset, we
-reject \(H_0\). This implies that we accept the hypothesis that COVID is
-more contagious than the flu (though this dataset is not perfect as it
-only consists of people already in the hospital who infected at least
-\(1\) person, so I do not want to extrapolate too much).
+reject \(H_0\). This implies that we accept the alternative hypothesis
+that COVID is more contagious than the flu (though this dataset is not
+perfect as it only consists of people already in the hospital who
+infected at least \(1\) person, so I do not want to extrapolate too
+much).
 
 \bookmarksetup{startatroot}
 
@@ -1743,7 +1830,7 @@ Test}\label{generalized-likelihood-ratio-test}
 
 \section{Background}\label{background-7}
 
-Last chapter, we talked about hypothesis testing, and the Uniformly Most
+Last chapter, we talked about hypothesis testing and the Uniformly Most
 Powerful Test. Tests like these are possible when our \(H_A\) is a
 greater than or less than, like \(H_A: \theta < 1\). However, what if we
 had \(H_A: \theta \neq 1\).
@@ -1755,12 +1842,15 @@ The idea is still the same, where we still want to find the \(x\) values
 that maximize
 \(\frac{f_{\text{Alternative Hypothesis}}(x)}{f_{\text{Null Hypothesis}}(x)}\).
 The problem is that if \(H_A: \theta \neq 1\), different values maximize
-\(f_\text{Alternative Hypothesis(x)}\) depending on if \(\theta\) is
+\(f_\text{Alternative Hypothesis}(x)\) depending on if \(\theta\) is
 above or below \(1\).
 
-So, as we are dealing with frequentist Hypothesis Testing, our solution
-to maximize the numerator with respect to \(\hat{theta}_{MLE}\). This
-means that we want to maximize the ratio
+So, our solution is to find a \(\theta\) that maximizes the numerator.
+This means that we can re-write the ratio we want to maximize as:
+\(\frac{\max_\theta \mathcal{L}(\theta)}{\mathcal{L}(\theta_0)}\).
+
+The \(\theta\) that maximizes the likelihood is the MLE. This means that
+we want to maximize the ratio
 \(\frac{f_{\hat{\theta}_{MLE}}(x)}{f_{\theta_0}(x)}\).
 
 \section{Generalized Likelihood Ratio
@@ -1790,21 +1880,21 @@ the flu, it reasonable to stay the average person in a hospital with a
 disease infects 0.5 extra people. That would means that
 \(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\).
 
-I isolated for \(p\) in Homework 6, and got that \(p = 0.6\):
+I isolated for \(p\) in Chapter 6, and got that \(p = 0.6\):
 
 Let's say our null hypothesis is \(H_0\): \(p = 0.6\). Now, we are
 curious if maybe COVID has a different degree of infectiousness than the
 flu (not considering other considerations like how my dataset is limited
 to people only already at the hospital). This would mean that
-\(E[X] \neq 0.5\), and and \(p \neq 0.6\).
+\(E[X] \neq 0.5\), and \(p \neq 0.6\).
 
 So, this gives us:
 
-\(H_0\) :\(p = 0.6\)
+\(H_0\): \(p = 0.6\)
 
 \(H_A\): \(p \neq 0.6\)
 
-As we learned in class, for this type of hypothesis test, we try to
+As we mentioned above, for this type of hypothesis test, we try to
 maximize the ratio:
 
 \(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}\)
@@ -1818,9 +1908,9 @@ We can rewrite this as:
 \]
 
 We know that for the numerator, the \(p\) that gives the greatest
-likelihood is \(\hat{p}_{MLE}\). In Homework 1, I calculate the
+likelihood is \(\hat{p}_{MLE}\). In Chapter 1, I calculate the
 \(\hat{p}_{MLE}\) for multiple samples of the Negative Binomial
-Distribution is \(\frac{r}{r + \bar{x}}\).
+distribution is \(\frac{r}{r + \bar{x}}\).
 
 \[
 \begin{aligned}
@@ -1839,7 +1929,7 @@ We can simplify this to:
 
 We want to reject when
 \(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \geq c\), where:
-\[P(\texttt{test\_statistic} \geq c) = \alpha = 0.05\].
+\[P(\texttt{test\_statistic} \geq c) = \alpha = 0.05\]
 
 However, this does not simplify to a distribution I recognize, so I
 cannot solve for \(c\).
@@ -1861,7 +1951,7 @@ So, we are left to either simulate or take the asymptotic distribution.
 
 \subsection{Simulation}\label{simulation}
 
-Let's simulate our many times under the null hypothesis, and calculate
+Let's simulate many times under the null hypothesis, and calculate
 \(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}\) each time. For
 brevity, I will refer to
 \(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}\) as \(\Lambda\).
@@ -1930,11 +2020,12 @@ So, let's calculate \(\log (\Lambda)\), while setting \(r=0.75\).
 
 As \(\log (\Lambda)\) is 23.55, which is \(>c\), we reject \(H_0\).
 
-A power curve stricly from simulation would look like.
+A power curve stricly from simulation is generated in the code block
+below.
 
-Note, for the sake of runtime, I lowered \(n\) to 50 in the code. I
-recommend messing around and changing \(n\) to see how the power curve
-changes.
+Note, for the sake of runtime, I lowered \texttt{n} to 50 in the code. I
+recommend messing around and changing \texttt{n} to see how the power
+curve changes.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2004,21 +2095,22 @@ changes.
 \end{Highlighting}
 \end{Shaded}
 
-I recommend going back in the code and seeing how changing \(n\) can
-effect your power curve.
+I recommend going back in the code and seeing how changing \texttt{n}
+can effect your power curve.
 
 \subsection{Asymptotic}\label{asymptotic}
-
-Remember, we want to reject when:
-
-\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \geq c\)
 
 We learned in class that under Wilks' Theorem, for large \(n\):
 
 \(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1\).
 
-So, this would make \(c\) the \(95\%\) percentile of the chi-squared
-distribution.
+As we want to reject when Remember, we want to reject when
+\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)})\) is large.
+
+So, we set up our rejection bound as:
+
+\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \geq c\),
+where \(c\) the \(95\%\) percentile of the chi-squared distribution.
 
 So, let's figure out our \(c\):
 
@@ -2036,10 +2128,10 @@ We can run this in code:
 So, form the code block above, \(c = 3.841459\)
 
 Now, let's check our data. Let's assume \(r = 0.75\). Remember that
-Wilks' Theorem states that for large n:
+Wilks' Theorem states that for large \(n\):
 \(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1\).
 
-For our negative binomial:
+For our Negative Binomial:
 \(\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)\)
 
 Let's proceed with \(r=0.75\).
@@ -2114,8 +2206,8 @@ A power curve using Wilk's Theorem would be:
 \end{Highlighting}
 \end{Shaded}
 
-I recommend going back in the code and seeing how changing \(n\) can
-effect your power curve.
+Again, I recommend going back in the code and seeing how changing
+\texttt{n} can effect your power curve.
 
 \bookmarksetup{startatroot}
 
@@ -2160,7 +2252,7 @@ the flu, it reasonable to stay the average person in a hospital with a
 disease infects 0.5 extra people. That would means that
 \(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\).
 
-I isolated for \(p\) in Homework 6, and got that \(p = 0.6\):
+I isolated for \(p\) in Chapter 6, and got that \(p = 0.6\):
 
 Let's say our null hypothesis is \(H_0\): \(p = 0.6\). Now, we are
 curious if maybe COVID has a different degree of infectiousness than the
@@ -2176,8 +2268,8 @@ So, this gives us:
 
 Now, for Bayesian Hypothesis Testing, we need to assign prior
 probabilities to both the null hypothesis and the alternative
-hypothesis. As I do not really have a great intuition, let's say both
-are \(0.5\).
+hypothesis. As I do not have a great intuition, let's follow the Rule of
+Insufficient Reason and say both are \(0.5\).
 
 So, we have:
 
@@ -2186,9 +2278,9 @@ So, we have:
 \(P(H_A) = 0.5\)
 
 Next, we need to find the prior distribution for \(p\) in \(H_A\).
-Again, as I do not really have a great intuition, let's say
-\(p \sim \text{Uniform}(0,1)\), as \(p\) could be anything from \(0\) to
-\(1\).
+Again, as I do not have a great intuition, let's once again follow the
+Rule of Insufficient Reason and say \(p \sim \text{Uniform}(0,1)\), as
+\(p\) could be anything from \(0\) to \(1\).
 
 So, using Bayes' Rule, this means that:
 
@@ -2236,7 +2328,7 @@ distribution in which \(r\) is not necessarily an integer, meaning we
 cannot simplify this further with factorials.
 
 Instead, let's plug our data this equation to find the Bayes Factor.
-Let's say \(r = 0.75\), the same \(r\) value I used in Homework 7.
+Let's say \(r = 0.75\), the same \(r\) value I used in Chapter 7.
 
 Unfortunately, the denominator gets so small that the code thinks we are
 dividing by \(0\). So, let's instead take \(e\) to the power of {[}the
@@ -2276,11 +2368,12 @@ My Bayes Factor is \(607815364\), meaning there is very strong evidence
 to reject the null hypothesis per the criteria in Kass and Raftery
 (1995).
 
-In Homework 7, using Frequentist Hypothesis Testing methods, I also
+In Chapter 7, using Frequentist Hypothesis Testing methods, I also
 rejected the null hypothesis. So, both methods reached the same
 conclusion, in that we rejected \(H_0\) (we reject the hypothesis that
-COVID has the same contagious level as the flu). This means that I did
-not encounter Lindley's paradox.
+COVID has the same contagious level as the flu). As my Bayesian and
+frequenist hypothesis tests both come to the same conclusion, I did not
+encounter Lindley's paradox.
 
 \bookmarksetup{startatroot}
 
@@ -2295,7 +2388,7 @@ book: sufficiency.
 A sufficient statistic \(T(x_1,...,x_n)\), means that \(T\) contains all
 useful information with respect to the data. This means that once we
 have \(T\), we do not care how we got there. As a quick example, let's
-say that \(T = \sum_{i=1}^n x_i\), and it is a sufficient statistic for
+say that \(T = \sum_{i=1}^n x_i\) and it is a sufficient statistic for
 \(\theta\). This means that for properly estimating \(\theta\), we do
 not need to know \(x_1,...,x_n\). In fact, we only need to know \(T\).
 
@@ -2304,7 +2397,7 @@ says that for any unbiased estimator \(\hat{\theta}\), then
 \(\hat{\theta}_{RB} = \mathbb{E}[\hat{\theta}(T)]\) is also unbiased and
 \(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\). So,
 this means that the best unbiased estimator only references the data
-with respect to the sufficient statistics \(T\).
+with respect to the sufficient statistic \(T\).
 
 A quick proof is below. First, let's show that if \(\hat{\theta}\) is
 unbiased, then so is \(\hat{\theta}_{RB}\).
@@ -2312,7 +2405,7 @@ unbiased, then so is \(\hat{\theta}_{RB}\).
 \[
 \begin{aligned}
   \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\mathbb{E}[\hat{\theta} | T]]  \\
-  \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\hat{\theta} | T] \text{   [NOTE: From the Law of Total Exectation]}
+  \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\hat{\theta}] \text{   [NOTE: From the Law of Total Exectation]}
 \end{aligned}
 \]
 
@@ -2322,35 +2415,37 @@ so they have the same bias. Next, let's show the variance part.
 \[
 \begin{aligned}
 \text{Var}(\hat{\theta}) &= \mathbb{E}[(\text{Var}(\hat{\theta}|T)] + \text{Var}(\mathbb{E}[\hat{\theta}|T]) \text{   [NOTE: From the Law of Total Variance]} \\
-\text{Var}(\hat{\theta}) &= (\text{value}> 0) + \text{Var}(\hat{\theta}_{RB})
+\text{Var}(\hat{\theta}) &= (\text{value} \geq 0) + \text{Var}(\hat{\theta}_{RB})
 \end{aligned}
 \]
 
 So, we can see
 \(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\).
 
-This gives way to the sufficiency principle, ``If you have a sufficient
-statistic, use it''. The MLE and Posterior Mean are always both
-functions of a sufficient statistic. In general, our estimators are
-usually already sufficient statistics, meaning we do not usually have to
-apply the Rao-Blackwell theorem to improve our estimator (this process
-is called Rao-Blackwellization).
+This gives way to the sufficiency principle: ``If you have a sufficient
+statistic, use it''.
+
+The MLE and Posterior Mean are always both functions of a sufficient
+statistic. In general, our estimators are usually already functions of
+sufficient statistics, meaning we do not usually have to apply the
+Rao-Blackwell theorem to improve our estimator (this process is called
+Rao-Blackwellization).
 
 \section{Sufficient Statistic}\label{sufficient-statistic}
 
 In class, we learned that for data \(X_i,...X_n\) and parameter
 \(\theta\), a statistic \(T(x_i,...x_n)\) is sufficient if either of the
-following hold: \textbackslash{}
+following hold:
 
 1:
 \(f_\theta(x_i,...x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,,...x_n)\),
 
-where:
+\(\quad\) where:
 
-\(\quad g\Big( \theta, T(x_1,...,x_n)\Big)\) depends on \(\theta\) only
+\(\qquad g\Big( \theta, T(x_1,...,x_n)\Big)\) depends on \(\theta\) only
 through \(T\)
 
-\(\quad h(x_1,,...x_n)\) depends only on \((x_1,,...x_n)\) and not on
+\(\qquad h(x_1,,...x_n)\) depends only on \((x_1,,...x_n)\) and not on
 \(\theta\)
 
 \begin{enumerate}
@@ -2454,11 +2549,11 @@ P(X_1=x_1,...,Xn=x_n | T=t) &= \frac{  \prod_{i=1}^n \binom{x_i + r - 1}{x_i}}{\
 As we can see, this does not depend on \(p\), proving once again that
 \(T(x_1,...x_n) = \sum_{i=1}^n x_i\) is a sufficient statistic.
 
-\section{Seeing This in My MLE and Psoterior
-Mean}\label{seeing-this-in-my-mle-and-psoterior-mean}
+\section{Seeing This in My MLE and Posterior
+Mean}\label{seeing-this-in-my-mle-and-posterior-mean}
 
 As I mentioned earlier, the MLE and Posterior Mean are both always
-functions of a Suffcient Statistic. From Chapter 1, we have that:
+functions of a Sufficient Statistic. From Chapter 1, we have that:
 
 \[
 \begin{aligned}

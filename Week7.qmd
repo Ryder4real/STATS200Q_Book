@@ -4,11 +4,13 @@ title: "Generalized Likelihood Ratio Test"
 
 ## Background
 
-Last chapter, we talked about hypothesis testing, and the Uniformly Most Powerful Test. Tests like these are possible when our $H_A$ is a greater than or less than, like $H_A: \theta < 1$. However, what if we had $H_A: \theta \neq 1$.
+Last chapter, we talked about hypothesis testing and the Uniformly Most Powerful Test. Tests like these are possible when our $H_A$ is a greater than or less than, like $H_A: \theta < 1$. However, what if we had $H_A: \theta \neq 1$.
 
-What maximizes power for $\theta = 0.5$ is different than what maximizes power for $\theta = 1.5$. So, we cannot have Uniformly Most Powerful Test. Instead, we set up the Generalized Likelihood Ratio Test. The idea is still the same, where we still want to find the $x$ values that maximize $\frac{f_{\text{Alternative Hypothesis}}(x)}{f_{\text{Null Hypothesis}}(x)}$. The problem is that if $H_A: \theta \neq 1$, different values maximize $f_\text{Alternative Hypothesis(x)}$ depending on if $\theta$ is above or below $1$.
+What maximizes power for $\theta = 0.5$ is different than what maximizes power for $\theta = 1.5$. So, we cannot have Uniformly Most Powerful Test. Instead, we set up the Generalized Likelihood Ratio Test. The idea is still the same, where we still want to find the $x$ values that maximize $\frac{f_{\text{Alternative Hypothesis}}(x)}{f_{\text{Null Hypothesis}}(x)}$. The problem is that if $H_A: \theta \neq 1$, different values maximize $f_\text{Alternative Hypothesis}(x)$ depending on if $\theta$ is above or below $1$.
 
-So, as we are dealing with frequentist Hypothesis Testing, our solution to maximize the numerator with respect to $\hat{theta}_{MLE}$. This means that we want to maximize the ratio $\frac{f_{\hat{\theta}_{MLE}}(x)}{f_{\theta_0}(x)}$.
+So, our solution is to find a $\theta$ that maximizes the numerator. This means that we can re-write the ratio we want to maximize as: $\frac{\max_\theta \mathcal{L}(\theta)}{\mathcal{L}(\theta_0)}$.
+
+The $\theta$ that maximizes the likelihood is the MLE. This means that we want to maximize the ratio $\frac{f_{\hat{\theta}_{MLE}}(x)}{f_{\theta_0}(x)}$.
 
 ## Generalized Likelihood Ratio Test
 
@@ -23,17 +25,17 @@ I mention this in Chapter 6, but as a reminder:
 
 In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
 
-I isolated for $p$ in Homework 6, and got that $p = 0.6$:
+I isolated for $p$ in Chapter 6, and got that $p = 0.6$:
 
-Let's say our null hypothesis is $H_0$: $p = 0.6$. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that $E[X] \neq 0.5$, and and $p \neq 0.6$.
+Let's say our null hypothesis is $H_0$: $p = 0.6$. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that $E[X] \neq 0.5$, and $p \neq 0.6$.
 
 So, this gives us:
 
-$H_0$ :$p = 0.6$
+$H_0$: $p = 0.6$
 
 $H_A$: $p \neq 0.6$
 
-As we learned in class, for this type of hypothesis test, we try to maximize the ratio:
+As we mentioned above, for this type of hypothesis test, we try to maximize the ratio:
 
 $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}$
 
@@ -45,7 +47,7 @@ $$
 \end{aligned}
 $$
 
-We know that for the numerator, the $p$ that gives the greatest likelihood is $\hat{p}_{MLE}$. In Homework 1, I calculate the $\hat{p}_{MLE}$ for multiple samples of the Negative Binomial Distribution is $\frac{r}{r + \bar{x}}$.
+We know that for the numerator, the $p$ that gives the greatest likelihood is $\hat{p}_{MLE}$. In Chapter 1, I calculate the $\hat{p}_{MLE}$ for multiple samples of the Negative Binomial distribution is $\frac{r}{r + \bar{x}}$.
 
 $$
 \begin{aligned}
@@ -62,7 +64,7 @@ $$
 \end{aligned}
 $$
 
-We want to reject when $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \geq c$, where: $$P(\texttt{test\_statistic} \geq c) = \alpha = 0.05$$.
+We want to reject when $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \geq c$, where: $$P(\texttt{test\_statistic} \geq c) = \alpha = 0.05$$
 
 However, this does not simplify to a distribution I recognize, so I cannot solve for $c$.
 
@@ -81,7 +83,7 @@ Once again, this also does not simplify to a distribution I recognize. So, we ar
 
 ### Simulation
 
-Let's simulate our many times under the null hypothesis, and calculate $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}$ each time. For brevity, I will refer to $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}$ as $\Lambda$. Then, as we want to keep $\alpha \leq 0.05$, we would reject if $\Lambda$ for our data is greater than the $95$th percentile of the simulated $\Lambda$s.
+Let's simulate many times under the null hypothesis, and calculate $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}$ each time. For brevity, I will refer to $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}$ as $\Lambda$. Then, as we want to keep $\alpha \leq 0.05$, we would reject if $\Lambda$ for our data is greater than the $95$th percentile of the simulated $\Lambda$s.
 
 Remember: $\Lambda = \frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} = \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}}$.
 
@@ -136,9 +138,9 @@ log_lambda
 
 As $\log (\Lambda)$ is 23.55, which is $>c$, we reject $H_0$.
 
-A power curve stricly from simulation would look like.
+A power curve stricly from simulation is generated in the code block below.
 
-Note, for the sake of runtime, I lowered $n$ to 50 in the code. I recommend messing around and changing $n$ to see how the power curve changes.
+Note, for the sake of runtime, I lowered `n` to 50 in the code. I recommend messing around and changing `n` to see how the power curve changes.
 
 ```{webr-r}
 # I encourage you to change n to see how this affects the power curve
@@ -206,19 +208,19 @@ abline(v = p_0, col = "#e74c3c", lty = 2)
 abline(h = 0.05, col = "gray50", lty = 3) 
 ```
 
-I recommend going back in the code and seeing how changing $n$ can effect your power curve.
+I recommend going back in the code and seeing how changing `n` can effect your power curve.
 
 ### Asymptotic
-
-Remember, we want to reject when:
-
-$2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \geq c$
 
 We learned in class that under Wilks' Theorem, for large $n$:
 
 $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1$.
 
-So, this would make $c$ the $95\%$ percentile of the chi-squared distribution.
+As we want to reject when Remember, we want to reject when $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)})$ is large.
+
+So, we set up our rejection bound as:
+
+$2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \geq c$, where $c$ the $95\%$ percentile of the chi-squared distribution.
 
 So, let's figure out our $c$:
 
@@ -233,9 +235,9 @@ c
 
 So, form the code block above, $c = 3.841459$
 
-Now, let's check our data. Let's assume $r = 0.75$. Remember that Wilks' Theorem states that for large n: $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1$.
+Now, let's check our data. Let's assume $r = 0.75$. Remember that Wilks' Theorem states that for large $n$: $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1$.
 
-For our negative binomial: $\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)$
+For our Negative Binomial: $\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)$
 
 Let's proceed with $r=0.75$.
 
@@ -296,4 +298,4 @@ legend("bottomright",
        lty = c(1, 2, 3), lwd = c(3, 2, 2), bg = "white")
 ```
 
-I recommend going back in the code and seeing how changing $n$ can effect your power curve.
+Again, I recommend going back in the code and seeing how changing `n` can effect your power curve.

@@ -21,7 +21,7 @@ I mention this in Chapter 6, but as a reminder:
 
 In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
 
-I isolated for $p$ in Homework 6, and got that $p = 0.6$:
+I isolated for $p$ in Chapter 6, and got that $p = 0.6$:
 
 Let's say our null hypothesis is $H_0$: $p = 0.6$. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that $E[X] \neq 0.5$, and and $p \neq 0.6$.
 
@@ -31,7 +31,7 @@ $H_0$: $p = 0.6$
 
 $H_A$: $p \neq 0.6$
 
-Now, for Bayesian Hypothesis Testing, we need to assign prior probabilities to both the null hypothesis and the alternative hypothesis. As I do not really have a great intuition, let's say both are $0.5$.
+Now, for Bayesian Hypothesis Testing, we need to assign prior probabilities to both the null hypothesis and the alternative hypothesis. As I do not have a great intuition, let's follow the Rule of Insufficient Reason and say both are $0.5$.
 
 So, we have:
 
@@ -39,7 +39,7 @@ $P(H_0) = 0.5$
 
 $P(H_A) = 0.5$
 
-Next, we need to find the prior distribution for $p$ in $H_A$. Again, as I do not really have a great intuition, let's say $p \sim \text{Uniform}(0,1)$, as $p$ could be anything from $0$ to $1$.
+Next, we need to find the prior distribution for $p$ in $H_A$. Again, as I do not have a great intuition, let's once again follow the Rule of Insufficient Reason and say $p \sim \text{Uniform}(0,1)$, as $p$ could be anything from $0$ to $1$.
 
 So, using Bayes' Rule, this means that:
 
@@ -80,7 +80,7 @@ $$
 
 In my hospital dataset, the data seems to fit a negative binomial distribution in which $r$ is not necessarily an integer, meaning we cannot simplify this further with factorials.
 
-Instead, let's plug our data this equation to find the Bayes Factor. Let's say $r = 0.75$, the same $r$ value I used in Homework 7.
+Instead, let's plug our data this equation to find the Bayes Factor. Let's say $r = 0.75$, the same $r$ value I used in Chapter 7.
 
 Unfortunately, the denominator gets so small that the code thinks we are dividing by $0$. So, let's instead take $e$ to the power of \[the $\log$ of the numerator subtracted by the $log$ of the denominator\].
 
@@ -113,4 +113,4 @@ bayes_factor
 
 My Bayes Factor is $607815364$, meaning there is very strong evidence to reject the null hypothesis per the criteria in Kass and Raftery (1995).
 
-In Homework 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected $H_0$ (we reject the hypothesis that COVID has the same contagious level as the flu). This means that I did not encounter Lindley's paradox.
+In Chapter 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected $H_0$ (we reject the hypothesis that COVID has the same contagious level as the flu). As my Bayesian and frequenist hypothesis tests both come to the same conclusion, I did not encounter Lindley's paradox.

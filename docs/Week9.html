@@ -149,7 +149,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Futher Evaluating Estimators</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Further Evaluating Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -216,7 +216,7 @@ window.Quarto = {
   <li><a href="#first-proof" id="toc-first-proof" class="nav-link" data-scroll-target="#first-proof"><span class="header-section-number">9.2.1</span> First Proof</a></li>
   <li><a href="#second-proof" id="toc-second-proof" class="nav-link" data-scroll-target="#second-proof"><span class="header-section-number">9.2.2</span> Second Proof</a></li>
   </ul></li>
-  <li><a href="#seeing-this-in-my-mle-and-psoterior-mean" id="toc-seeing-this-in-my-mle-and-psoterior-mean" class="nav-link" data-scroll-target="#seeing-this-in-my-mle-and-psoterior-mean"><span class="header-section-number">9.3</span> Seeing This in My MLE and Psoterior Mean</a></li>
+  <li><a href="#seeing-this-in-my-mle-and-posterior-mean" id="toc-seeing-this-in-my-mle-and-posterior-mean" class="nav-link" data-scroll-target="#seeing-this-in-my-mle-and-posterior-mean"><span class="header-section-number">9.3</span> Seeing This in My MLE and Posterior Mean</a></li>
   </ul>
 </nav>
     </div>
@@ -245,32 +245,33 @@ window.Quarto = {
 <section id="background" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="background"><span class="header-section-number">9.1</span> Background</h2>
 <p>We have finally finished covering both frequentist and Bayesian hypothesis testing. This means we moved onto the final topic of this book: sufficiency.</p>
-<p>A sufficient statistic <span class="math inline">\(T(x_1,...,x_n)\)</span>, means that <span class="math inline">\(T\)</span> contains all useful information with respect to the data. This means that once we have <span class="math inline">\(T\)</span>, we do not care how we got there. As a quick example, let’s say that <span class="math inline">\(T = \sum_{i=1}^n x_i\)</span>, and it is a sufficient statistic for <span class="math inline">\(\theta\)</span>. This means that for properly estimating <span class="math inline">\(\theta\)</span>, we do not need to know <span class="math inline">\(x_1,...,x_n\)</span>. In fact, we only need to know <span class="math inline">\(T\)</span>.</p>
-<p>Furthermore, for a frequentist application, the Rao-Blackwell theorem says that for any unbiased estimator <span class="math inline">\(\hat{\theta}\)</span>, then <span class="math inline">\(\hat{\theta}_{RB} = \mathbb{E}[\hat{\theta}(T)]\)</span> is also unbiased and <span class="math inline">\(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\)</span>. So, this means that the best unbiased estimator only references the data with respect to the sufficient statistics <span class="math inline">\(T\)</span>.</p>
+<p>A sufficient statistic <span class="math inline">\(T(x_1,...,x_n)\)</span>, means that <span class="math inline">\(T\)</span> contains all useful information with respect to the data. This means that once we have <span class="math inline">\(T\)</span>, we do not care how we got there. As a quick example, let’s say that <span class="math inline">\(T = \sum_{i=1}^n x_i\)</span> and it is a sufficient statistic for <span class="math inline">\(\theta\)</span>. This means that for properly estimating <span class="math inline">\(\theta\)</span>, we do not need to know <span class="math inline">\(x_1,...,x_n\)</span>. In fact, we only need to know <span class="math inline">\(T\)</span>.</p>
+<p>Furthermore, for a frequentist application, the Rao-Blackwell theorem says that for any unbiased estimator <span class="math inline">\(\hat{\theta}\)</span>, then <span class="math inline">\(\hat{\theta}_{RB} = \mathbb{E}[\hat{\theta}(T)]\)</span> is also unbiased and <span class="math inline">\(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\)</span>. So, this means that the best unbiased estimator only references the data with respect to the sufficient statistic <span class="math inline">\(T\)</span>.</p>
 <p>A quick proof is below. First, let’s show that if <span class="math inline">\(\hat{\theta}\)</span> is unbiased, then so is <span class="math inline">\(\hat{\theta}_{RB}\)</span>.</p>
 <p><span class="math display">\[
 \begin{aligned}
   \mathbb{E}[\hat{\theta}_{RB}] &amp;= \mathbb{E}[\mathbb{E}[\hat{\theta} | T]]  \\
-  \mathbb{E}[\hat{\theta}_{RB}] &amp;= \mathbb{E}[\hat{\theta} | T] \text{   [NOTE: From the Law of Total Exectation]}
+  \mathbb{E}[\hat{\theta}_{RB}] &amp;= \mathbb{E}[\hat{\theta}] \text{   [NOTE: From the Law of Total Exectation]}
 \end{aligned}
 \]</span></p>
 <p>So, this means that the expected value of both estimators is the same, so they have the same bias. Next, let’s show the variance part.</p>
 <p><span class="math display">\[
 \begin{aligned}
 \text{Var}(\hat{\theta}) &amp;= \mathbb{E}[(\text{Var}(\hat{\theta}|T)] + \text{Var}(\mathbb{E}[\hat{\theta}|T]) \text{   [NOTE: From the Law of Total Variance]} \\
-\text{Var}(\hat{\theta}) &amp;= (\text{value}&gt; 0) + \text{Var}(\hat{\theta}_{RB})
+\text{Var}(\hat{\theta}) &amp;= (\text{value} \geq 0) + \text{Var}(\hat{\theta}_{RB})
 \end{aligned}
 \]</span></p>
 <p>So, we can see <span class="math inline">\(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\)</span>.</p>
-<p>This gives way to the sufficiency principle, “If you have a sufficient statistic, use it”. The MLE and Posterior Mean are always both functions of a sufficient statistic. In general, our estimators are usually already sufficient statistics, meaning we do not usually have to apply the Rao-Blackwell theorem to improve our estimator (this process is called Rao-Blackwellization).</p>
+<p>This gives way to the sufficiency principle: “If you have a sufficient statistic, use it”.</p>
+<p>The MLE and Posterior Mean are always both functions of a sufficient statistic. In general, our estimators are usually already functions of sufficient statistics, meaning we do not usually have to apply the Rao-Blackwell theorem to improve our estimator (this process is called Rao-Blackwellization).</p>
 </section>
 <section id="sufficient-statistic" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="sufficient-statistic"><span class="header-section-number">9.2</span> Sufficient Statistic</h2>
-<p>In class, we learned that for data <span class="math inline">\(X_i,...X_n\)</span> and parameter <span class="math inline">\(\theta\)</span>, a statistic <span class="math inline">\(T(x_i,...x_n)\)</span> is sufficient if either of the following hold: \</p>
+<p>In class, we learned that for data <span class="math inline">\(X_i,...X_n\)</span> and parameter <span class="math inline">\(\theta\)</span>, a statistic <span class="math inline">\(T(x_i,...x_n)\)</span> is sufficient if either of the following hold:</p>
 <p>1: <span class="math inline">\(f_\theta(x_i,...x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,,...x_n)\)</span>,</p>
-<p>where:</p>
-<p><span class="math inline">\(\quad g\Big( \theta, T(x_1,...,x_n)\Big)\)</span> depends on <span class="math inline">\(\theta\)</span> only through <span class="math inline">\(T\)</span></p>
-<p><span class="math inline">\(\quad h(x_1,,...x_n)\)</span> depends only on <span class="math inline">\((x_1,,...x_n)\)</span> and not on <span class="math inline">\(\theta\)</span></p>
+<p><span class="math inline">\(\quad\)</span> where:</p>
+<p><span class="math inline">\(\qquad g\Big( \theta, T(x_1,...,x_n)\Big)\)</span> depends on <span class="math inline">\(\theta\)</span> only through <span class="math inline">\(T\)</span></p>
+<p><span class="math inline">\(\qquad h(x_1,,...x_n)\)</span> depends only on <span class="math inline">\((x_1,,...x_n)\)</span> and not on <span class="math inline">\(\theta\)</span></p>
 <ol start="2" type="1">
 <li><span class="math inline">\(P(X_i=x_1,...,X_n=x_n | T = t)\)</span> does not depend on <span class="math inline">\(\theta\)</span>.</li>
 </ol>
@@ -335,9 +336,9 @@ P(X_1=x_1,...,Xn=x_n | T=t) &amp;= \frac{  \prod_{i=1}^n \binom{x_i + r - 1}{x_i
 <p>As we can see, this does not depend on <span class="math inline">\(p\)</span>, proving once again that <span class="math inline">\(T(x_1,...x_n) = \sum_{i=1}^n x_i\)</span> is a sufficient statistic.</p>
 </section>
 </section>
-<section id="seeing-this-in-my-mle-and-psoterior-mean" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="seeing-this-in-my-mle-and-psoterior-mean"><span class="header-section-number">9.3</span> Seeing This in My MLE and Psoterior Mean</h2>
-<p>As I mentioned earlier, the MLE and Posterior Mean are both always functions of a Suffcient Statistic. From Chapter 1, we have that:</p>
+<section id="seeing-this-in-my-mle-and-posterior-mean" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="seeing-this-in-my-mle-and-posterior-mean"><span class="header-section-number">9.3</span> Seeing This in My MLE and Posterior Mean</h2>
+<p>As I mentioned earlier, the MLE and Posterior Mean are both always functions of a Sufficient Statistic. From Chapter 1, we have that:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{p}_{MLE} &amp;= \frac{r}{r + \bar{x}} \\

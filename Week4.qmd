@@ -4,11 +4,11 @@ title: "Confidence and Credible Intervals"
 
 ## Background
 
-So far, we have discussed solving for and evaluating $\hat{p}_{MLE}$ and $\hat{p}_{PM}$. But, these estimators are based only on your data, and neither is likely to be the true $p$ of the entire population.
+So far, we have discussed solving for and evaluating $\hat{p}_{MLE}$ and $\hat{p}_{PM}$. But, these estimators are based only on the data w ehave, and neither is likely to be the true $p$ of the entire population.
 
-So, this chapter is all about Confidence and Credible Intervals. The former is a frequentist method to display a region that they believe contains the true  $p$ of the entire population with a certain confidence. The latter is the Bayesian version. For these examples, we use a $95\%$ confidence and credible interval.
+So, this chapter is all about Confidence and Credible Intervals. The former is a frequentist method to display a region that they believe contains the true  $p$ of the entire population with a certain confidence. The latter is the Bayesian version that allows for slightly different wording that I will explain in the next paragraph. For these examples, we use a $95\%$ confidence and credible interval.
 
-This is the topic that truly instilled in me the differences in frequentist v. Bayesian principles. As frequentists treat $p$ as a fixed but unknown parameter, once they have calculated their region, they do NOT say that there is a $95\%$ chance that $p$ is in the region. This is because $p$ is fixed. A fixed parameter cannot have a chance fo being in a region, it either is or it isn't. So, they escape this by saying they are $95\%$ "confident" that $p$ is contained in the region. On the the other hand, as Bayesians treat $p$ is a random variable, they have no problems saying that there is a $95\%$ chance that $p$ is in their credible interval.
+This is the topic that truly instilled in me the differences in frequentist v. Bayesian principles. As frequentists treat $p$ as a fixed but unknown parameter, once they have calculated their region, they do NOT say that there is a $95\%$ chance that $p$ is in the region. This is because $p$ is fixed. A fixed parameter cannot have a chance of being in a region, it either is or it isn't. So, they escape this by saying they are $95\%$ "confident" that $p$ is contained in the region. On the the other hand, as Bayesians treat $p$ is a random variable, they have no problems saying that there is a $95\%$ chance that $p$ is in their credible interval.
 
 ## Confidence Interval
 

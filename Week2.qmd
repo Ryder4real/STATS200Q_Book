@@ -1,23 +1,22 @@
 ---
-title: "Futher Evaluating Estimators"
+title: "Further Evaluating Estimators"
 ---
 
 ## Background
 
 This chapter covers a variety of topics. First, I will dive into some cool properties regarding the score, which is the derivative of the log likelihood.
 
-I will then dive into another way to evaluate estimators. In Chapter 1, I mentioned bias and variance, but this time I will use frequentist Mean Squared Error, which is defined as $MSE = \mathbb{E}[(\hat{\theta} - \theta)^2]$. The MSE can famously be decomposed as the (Bias + $\text{Variance}^2$). So, while last chapter used bias and variance, MSE serves as an all encompassing metric. So, I will compare the MSE of my MLE and Posterior Mean from Chapter 1.
+I will then dive into another way to evaluate estimators. In Chapter 1, we looked at the bias and variance of $\hat{p}_{MLE}$ and $\hat{p}_{PM}$, but this time I will use frequentist Mean Squared Error to compare them. This is defined as $MSE = \mathbb{E}[(\hat{\theta} - \theta)^2]$. The MSE can famously be decomposed as the (Bias$^2$ + Variance). So, while last chapter compared bias and variance, MSE serves as an all-encompassing metric. So, I will compare the MSE of my MLE and Posterior Mean from Chapter 1.
 
-Finally, I will evaluate the Cramer-Rao Lower Bound (CRLB) for my distribution and see if it is relavant to the MLE and Posterior Mean I calculated in Chapter 1. In class, we learned that the CRLB is a lower bound to the variance of an unbiased estimator. This means of all unbiased estimators, if one reaches the CRLB, then it is the best unbiased estimator. This is very insightful. It means once we've reached that bound, there is no point evaluating other unbiased estimators, as there cannot be a unbiased estimator with a lower variance that the one that reaches the CRLB.
+Finally, I will evaluate the Cramer-Rao Lower Bound (CRLB) for my distribution and see if it is relevant to the MLE and Posterior Mean I calculated in Chapter 1. In class, we learned that the CRLB is a lower bound to the variance of an unbiased estimator. This means of all unbiased estimators, if one reaches the CRLB, then it is the best unbiased estimator. This is very insightful. It means once we've reached that bound, there is no point evaluating other unbiased estimators, as there cannot be a unbiased estimator with a lower variance that the one that reaches the CRLB.
 
-As an extra note, the CRLB is defined as $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the Variance of the Score (which is the derivative of the log-likelihood). My proof in the first section below will make it easier to solve for the CRLB.
-
+As an extra note, the CRLB is defined as $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the Variance of the Score (which is the derivative of the log-likelihood). I will prove this later on in this chapter. It is important to note that my proof in the first section below will make it easier to solve for the CRLB for my distribution.
 
 ## Proving $\text{Var}(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]$
 
 For any PDF $f_\theta(x)$, the log-likelihood of $x$ can be written as $\ell_x(\theta)$.
 
-The Score is defined as $\mathbb{E}[\ell'_\theta(x)]$.
+Another name for the derivative of the log-likelihood is the score. The expected value of the score is defined as $\mathbb{E}[\ell'_\theta(x)]$.
 
 $$
 \mathbb{E}[\ell'_x(\theta)] = \int_{-\infty}^\infty \ell'_x(\theta)f_\theta(x) dx
@@ -74,8 +73,7 @@ $$
 &= \frac{d^2}{d\theta^2} (1) - \mathbb{E}[\ell''_x(\theta)] \\
 &= - \mathbb{E}[\ell''_x(\theta)]
 \end{aligned}
-$$
-------------------------------------------------------------------------
+$$ 
 
 ## MSE
 
@@ -126,22 +124,74 @@ legend("topright",
        cex = 0.6)
 ```
 
-We we can see, at different true $p$ values, one estimator may be better than the other.
+As we can see, at different true $p$ values, one estimator may be better than the other.
 
-## Cramer-Rao Lower Bound
+## Proving the Cramer-Rao Lower Bound
 
-As touched upon in the background section, the CRLB for unbiased estimators is $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the Variance of the Score. However, we proved above that the variance of the score, $\text{Var}(\ell'(\theta))$ is actually equivalent to $-\mathbb{E}[\ell''(\theta)]$
+As mentioned in the "Background" section, the CRLB is a lower bound to the variance of an unbiased estimator. Let's show why this is the case.
 
-So, this means that the CRLB for unbiased estimators is $\frac{1}{-\mathbb{E}[\ell''(\theta)]}$. For $X \sim \text{NegBin}(r, p)$:
+First, let $t(x)$ be any unbiased estimator of $\theta$. Now let's solve for $\text{Cov}(t(x), \ell'_x(\theta))$.
 
 $$
 \begin{aligned}
-\mathbb{E}\left[\frac{d^2}{dp^2} \ell(p)\right] &= -\left(\frac{rn}{p^2} + \frac{\mathbb{E}[\sum x]}{(1-p)^2} \right) \\
+\text{Cov}(t(x), \ell'(x)) &= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - \mathbb{E}[t(x)] \mathbb{E}[\ell'_x(\theta)] \\
+&= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - \mathbb{E}[t(x)] \mathbb{E}[\ell'_x(\theta)]
+\end{aligned}
+$$
+Now, in the first section of this Chapter, we showed that $\mathbb{E}[\ell'_x(\theta)] = 0$. So, let's apply that and continue to manipulate.
+
+$$
+\begin{aligned}
+\text{Cov}(t(x), \ell'(x)) &= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - 0 \\
+&= \int_{-\infty}^\infty t(x) \ell'(x) f_\theta(x) dx
+\end{aligned}
+$$
+
+Now, in the first section we also showed that: $\ell'_x(\theta) &= \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)}$
+
+Using this, we can say that:
+
+$$
+\begin{aligned}
+\text{Cov}(t(x), \ell'(x)) &= \int_{-\infty}^\infty t(x) \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} f_\theta(x) dx \\
+&= \int_{-\infty}^\infty t(x) \frac{d}{d \theta} f_\theta(x) dx \\
+&= \frac{d}{d \theta}\int_{-\infty}^\infty t(x)  f_\theta(x) dx \\
+&= \frac{d}{d \theta}\mathbb{E}[t(x)] \\
+&= \frac{d}{d \theta} \theta \text{ [NOTE: This is because t(x) is unbiased]} \\
+&= 1
+\end{aligned}
+$$
+So, using Cauchy-Schwarz Inequality, we can say that 
+
+$1 = \text{Cov}^2(t(x), \ell'(x)) \leq \text{Var}(t(x)) \text{Var}(\ell'_x(\theta))$
+
+So, this means that:
+
+$\frac{1}{\text{Var}(\ell'_x(\theta))} \leq \text{Var}(t(x))$.
+
+So, this means that the Variance of any unbiased estimator $t(x)$ must be greater than or equal to $\frac{1}{\text{Var}(\ell'_x(\theta))}$. And, if you remember earlier, this can be written as:
+
+CRLB: $\frac{1}{\text{Var}(\ell'_x(\theta))} = \frac{1}{I(\theta)} = \frac{1}{-\mathbb{E}[\ell''_x(\theta)]}$
+
+## Finding the CRLB
+
+As described above, the CRLB for unbiased estimators is $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the Variance of the Score. However, we proved above that the variance of the score, $\text{Var}(\ell'(\theta))$ is actually equivalent to $-\mathbb{E}[\ell''(\theta)]$
+
+So, this means that the CRLB for unbiased estimators is $\frac{1}{-\mathbb{E}[\ell''(\theta)]}$. 
+
+In Chapter 1, I wrote For $X_1,...,X_n \sim \text{NegBin}(r, p)$, then $\ell'(p) = \frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1-p}$:
+
+This means that $\ell''(p) = -\frac{rn}{p^2} - \frac{\sum_{i=1}^n x_i}{(1-p)^2}$
+
+$$
+\begin{aligned}
+\mathbb{E}\left[\ell''(p)\right] &= -\left(\frac{rn}{p^2} + \frac{\mathbb{E}[\sum_{i=1}^n x_i]}{(1-p)^2} \right) \\
 &= -\left(\frac{rn}{p^2} + \frac{rn(1-p)}{p(1-p)^2} \right) \\
 &= -\frac{rn}{p^2(1-p)}
 \end{aligned}
 $$
+So, the lowest possible variance for an unbiased estimator for $p$ is $\frac{p^2(1-p)}{rn}$. 
 
-So, this means that the lowest possible variance for an unbiased estimator is $\frac{p^2(1-p)}{rn}$.
+## Does it Apply?
 
-However, in Week 1, we established from simulation that $\hat{p}_{MLE}$ is positively biased. Additionally, in class we learned that the $\hat{p}_{PM}$ is always biased toward the prior. Since the MLE and Posterior Mean are both biased, the CRLB does not provide a strict lower bound for their variance.
+In Week 1, we established from simulation that $\hat{p}_{MLE}$ is positively biased. Additionally, in class we learned that the $\hat{p}_{PM}$ is always biased toward the prior. Since the MLE and Posterior Mean are both biased in this case, the CRLB does not provide a strict lower bound for their variance.

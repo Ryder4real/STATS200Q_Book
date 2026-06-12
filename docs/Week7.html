@@ -1702,7 +1702,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Futher Evaluating Estimators</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Further Evaluating Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -2080,9 +2080,10 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <section id="background" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="background"><span class="header-section-number">7.1</span> Background</h2>
-<p>Last chapter, we talked about hypothesis testing, and the Uniformly Most Powerful Test. Tests like these are possible when our <span class="math inline">\(H_A\)</span> is a greater than or less than, like <span class="math inline">\(H_A: \theta &lt; 1\)</span>. However, what if we had <span class="math inline">\(H_A: \theta \neq 1\)</span>.</p>
-<p>What maximizes power for <span class="math inline">\(\theta = 0.5\)</span> is different than what maximizes power for <span class="math inline">\(\theta = 1.5\)</span>. So, we cannot have Uniformly Most Powerful Test. Instead, we set up the Generalized Likelihood Ratio Test. The idea is still the same, where we still want to find the <span class="math inline">\(x\)</span> values that maximize <span class="math inline">\(\frac{f_{\text{Alternative Hypothesis}}(x)}{f_{\text{Null Hypothesis}}(x)}\)</span>. The problem is that if <span class="math inline">\(H_A: \theta \neq 1\)</span>, different values maximize <span class="math inline">\(f_\text{Alternative Hypothesis(x)}\)</span> depending on if <span class="math inline">\(\theta\)</span> is above or below <span class="math inline">\(1\)</span>.</p>
-<p>So, as we are dealing with frequentist Hypothesis Testing, our solution to maximize the numerator with respect to <span class="math inline">\(\hat{theta}_{MLE}\)</span>. This means that we want to maximize the ratio <span class="math inline">\(\frac{f_{\hat{\theta}_{MLE}}(x)}{f_{\theta_0}(x)}\)</span>.</p>
+<p>Last chapter, we talked about hypothesis testing and the Uniformly Most Powerful Test. Tests like these are possible when our <span class="math inline">\(H_A\)</span> is a greater than or less than, like <span class="math inline">\(H_A: \theta &lt; 1\)</span>. However, what if we had <span class="math inline">\(H_A: \theta \neq 1\)</span>.</p>
+<p>What maximizes power for <span class="math inline">\(\theta = 0.5\)</span> is different than what maximizes power for <span class="math inline">\(\theta = 1.5\)</span>. So, we cannot have Uniformly Most Powerful Test. Instead, we set up the Generalized Likelihood Ratio Test. The idea is still the same, where we still want to find the <span class="math inline">\(x\)</span> values that maximize <span class="math inline">\(\frac{f_{\text{Alternative Hypothesis}}(x)}{f_{\text{Null Hypothesis}}(x)}\)</span>. The problem is that if <span class="math inline">\(H_A: \theta \neq 1\)</span>, different values maximize <span class="math inline">\(f_\text{Alternative Hypothesis}(x)\)</span> depending on if <span class="math inline">\(\theta\)</span> is above or below <span class="math inline">\(1\)</span>.</p>
+<p>So, our solution is to find a <span class="math inline">\(\theta\)</span> that maximizes the numerator. This means that we can re-write the ratio we want to maximize as: <span class="math inline">\(\frac{\max_\theta \mathcal{L}(\theta)}{\mathcal{L}(\theta_0)}\)</span>.</p>
+<p>The <span class="math inline">\(\theta\)</span> that maximizes the likelihood is the MLE. This means that we want to maximize the ratio <span class="math inline">\(\frac{f_{\hat{\theta}_{MLE}}(x)}{f_{\theta_0}(x)}\)</span>.</p>
 </section>
 <section id="generalized-likelihood-ratio-test" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="generalized-likelihood-ratio-test"><span class="header-section-number">7.2</span> Generalized Likelihood Ratio Test</h2>
@@ -2091,12 +2092,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>I mention this in Chapter 6, but as a reminder:</p>
 <p>In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
-<p>I isolated for <span class="math inline">\(p\)</span> in Homework 6, and got that <span class="math inline">\(p = 0.6\)</span>:</p>
-<p>Let’s say our null hypothesis is <span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span>. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that <span class="math inline">\(E[X] \neq 0.5\)</span>, and and <span class="math inline">\(p \neq 0.6\)</span>.</p>
+<p>I isolated for <span class="math inline">\(p\)</span> in Chapter 6, and got that <span class="math inline">\(p = 0.6\)</span>:</p>
+<p>Let’s say our null hypothesis is <span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span>. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that <span class="math inline">\(E[X] \neq 0.5\)</span>, and <span class="math inline">\(p \neq 0.6\)</span>.</p>
 <p>So, this gives us:</p>
-<p><span class="math inline">\(H_0\)</span> :<span class="math inline">\(p = 0.6\)</span></p>
+<p><span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span></p>
 <p><span class="math inline">\(H_A\)</span>: <span class="math inline">\(p \neq 0.6\)</span></p>
-<p>As we learned in class, for this type of hypothesis test, we try to maximize the ratio:</p>
+<p>As we mentioned above, for this type of hypothesis test, we try to maximize the ratio:</p>
 <p><span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}\)</span></p>
 <p>We can rewrite this as:</p>
 <p><span class="math display">\[
@@ -2104,7 +2105,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &amp;= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} p^r (1 - p)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
 \end{aligned}
 \]</span></p>
-<p>We know that for the numerator, the <span class="math inline">\(p\)</span> that gives the greatest likelihood is <span class="math inline">\(\hat{p}_{MLE}\)</span>. In Homework 1, I calculate the <span class="math inline">\(\hat{p}_{MLE}\)</span> for multiple samples of the Negative Binomial Distribution is <span class="math inline">\(\frac{r}{r + \bar{x}}\)</span>.</p>
+<p>We know that for the numerator, the <span class="math inline">\(p\)</span> that gives the greatest likelihood is <span class="math inline">\(\hat{p}_{MLE}\)</span>. In Chapter 1, I calculate the <span class="math inline">\(\hat{p}_{MLE}\)</span> for multiple samples of the Negative Binomial distribution is <span class="math inline">\(\frac{r}{r + \bar{x}}\)</span>.</p>
 <p><span class="math display">\[
 \begin{aligned}
 \frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &amp;= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} (\frac{r}{r + \bar{x}})^r (1 - \frac{r}{r + \bar{x}})^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
@@ -2117,7 +2118,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &amp;= \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}} \\
 \end{aligned}
 \]</span></p>
-<p>We want to reject when <span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \geq c\)</span>, where: <span class="math display">\[P(\texttt{test\_statistic} \geq c) = \alpha = 0.05\]</span>.</p>
+<p>We want to reject when <span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \geq c\)</span>, where: <span class="math display">\[P(\texttt{test\_statistic} \geq c) = \alpha = 0.05\]</span></p>
 <p>However, this does not simplify to a distribution I recognize, so I cannot solve for <span class="math inline">\(c\)</span>.</p>
 <p>Still, we want to maximize this function. As log() is monotonic, we can take the logarithm of the fraction.</p>
 <p><span class="math display">\[
@@ -2131,7 +2132,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>Once again, this also does not simplify to a distribution I recognize. So, we are left to either simulate or take the asymptotic distribution.</p>
 <section id="simulation" class="level3" data-number="7.2.1">
 <h3 data-number="7.2.1" class="anchored" data-anchor-id="simulation"><span class="header-section-number">7.2.1</span> Simulation</h3>
-<p>Let’s simulate our many times under the null hypothesis, and calculate <span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}\)</span> each time. For brevity, I will refer to <span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}\)</span> as <span class="math inline">\(\Lambda\)</span>. Then, as we want to keep <span class="math inline">\(\alpha \leq 0.05\)</span>, we would reject if <span class="math inline">\(\Lambda\)</span> for our data is greater than the <span class="math inline">\(95\)</span>th percentile of the simulated <span class="math inline">\(\Lambda\)</span>s.</p>
+<p>Let’s simulate many times under the null hypothesis, and calculate <span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}\)</span> each time. For brevity, I will refer to <span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}\)</span> as <span class="math inline">\(\Lambda\)</span>. Then, as we want to keep <span class="math inline">\(\alpha \leq 0.05\)</span>, we would reject if <span class="math inline">\(\Lambda\)</span> for our data is greater than the <span class="math inline">\(95\)</span>th percentile of the simulated <span class="math inline">\(\Lambda\)</span>s.</p>
 <p>Remember: <span class="math inline">\(\Lambda = \frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} = \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}}\)</span>.</p>
 <p>However, to prevent underflow, I will take the logarithm.</p>
 <p><span class="math inline">\(\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)\)</span></p>
@@ -2142,26 +2143,26 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>As <span class="math inline">\(\log (\Lambda)\)</span> is 23.55, which is <span class="math inline">\(&gt;c\)</span>, we reject <span class="math inline">\(H_0\)</span>.</p>
-<p>A power curve stricly from simulation would look like.</p>
-<p>Note, for the sake of runtime, I lowered <span class="math inline">\(n\)</span> to 50 in the code. I recommend messing around and changing <span class="math inline">\(n\)</span> to see how the power curve changes.</p>
+<p>A power curve stricly from simulation is generated in the code block below.</p>
+<p>Note, for the sake of runtime, I lowered <code>n</code> to 50 in the code. I recommend messing around and changing <code>n</code> to see how the power curve changes.</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>I recommend going back in the code and seeing how changing <span class="math inline">\(n\)</span> can effect your power curve.</p>
+<p>I recommend going back in the code and seeing how changing <code>n</code> can effect your power curve.</p>
 </section>
 <section id="asymptotic" class="level3" data-number="7.2.2">
 <h3 data-number="7.2.2" class="anchored" data-anchor-id="asymptotic"><span class="header-section-number">7.2.2</span> Asymptotic</h3>
-<p>Remember, we want to reject when:</p>
-<p><span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \geq c\)</span></p>
 <p>We learned in class that under Wilks’ Theorem, for large <span class="math inline">\(n\)</span>:</p>
 <p><span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1\)</span>.</p>
-<p>So, this would make <span class="math inline">\(c\)</span> the <span class="math inline">\(95\%\)</span> percentile of the chi-squared distribution.</p>
+<p>As we want to reject when Remember, we want to reject when <span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)})\)</span> is large.</p>
+<p>So, we set up our rejection bound as:</p>
+<p><span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \geq c\)</span>, where <span class="math inline">\(c\)</span> the <span class="math inline">\(95\%\)</span> percentile of the chi-squared distribution.</p>
 <p>So, let’s figure out our <span class="math inline">\(c\)</span>:</p>
 <p>We can run this in code:</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>So, form the code block above, <span class="math inline">\(c = 3.841459\)</span></p>
-<p>Now, let’s check our data. Let’s assume <span class="math inline">\(r = 0.75\)</span>. Remember that Wilks’ Theorem states that for large n: <span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1\)</span>.</p>
-<p>For our negative binomial: <span class="math inline">\(\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)\)</span></p>
+<p>Now, let’s check our data. Let’s assume <span class="math inline">\(r = 0.75\)</span>. Remember that Wilks’ Theorem states that for large <span class="math inline">\(n\)</span>: <span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1\)</span>.</p>
+<p>For our Negative Binomial: <span class="math inline">\(\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)\)</span></p>
 <p>Let’s proceed with <span class="math inline">\(r=0.75\)</span>.</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2173,7 +2174,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>A power curve using Wilk’s Theorem would be:</p>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>I recommend going back in the code and seeing how changing <span class="math inline">\(n\)</span> can effect your power curve.</p>
+<p>Again, I recommend going back in the code and seeing how changing <code>n</code> can effect your power curve.</p>
 
 
 </section>
