@@ -249,10 +249,10 @@
 
 \bookmarksetup{startatroot}
 
-\chapter*{``Introduction''}\label{introduction}
-\addcontentsline{toc}{chapter}{``Introduction''}
+\chapter*{Introduction}\label{introduction}
+\addcontentsline{toc}{chapter}{Introduction}
 
-\markboth{``Introduction''}{``Introduction''}
+\markboth{Introduction}{Introduction}
 
 \section*{Background}\label{background}
 \addcontentsline{toc}{section}{Background}
@@ -764,9 +764,10 @@ calculated in Chapter 1. One of the most famous statistical concepts is
 the central limit theorem, which establishes that as \(n\) approaches
 infinity, every distribution approaches the Normal distribution. The
 original CLT can be manipulated to show that the MLE follows a Normal
-distribution for large \(n\). It is kind of wild to think about no
-matter the original distribution, the distribution of the MLE approaches
-the Normal distribution!
+distribution for large \(n\) (I show the proof behind this later in the
+chapter). It is kind of wild to think about no matter the original
+distribution, the distribution of the MLE approaches the Normal
+distribution!
 
 \section{Simulating Distribution}\label{simulating-distribution}
 
@@ -802,17 +803,93 @@ case to \(10,000\).
 \end{Highlighting}
 \end{Shaded}
 
-\section{Asymptotic Calculation}\label{asymptotic-calculation}
+\section{Proof of MLE Approaching a Normal
+Distribution}\label{proof-of-mle-approaching-a-normal-distribution}
 
-Using the CLT and Taylor approximation, we showed in class that
-\(\sqrt{n} (\hat{p}_{MLE} - p) \rightarrow N\left(0, \frac{1}{\text{Var}(\ell^\prime_{x_1}(\theta))}\right)\)
+This proof is a really cool one and involves many different concepts.
+
+Let's start with the score of \(\hat{\theta}_{MLE}\), which is
+\(\ell'(\hat{\theta}_{MLE})\)
+
+Let's now Taylor expand \(\ell'(\hat{\theta}_{MLE})\) around
+\(\theta_0\).
+
+\(\ell'(\hat{\theta}_{MLE}) \approx \ell'(\theta_0) + \ell''(\theta_0)(\hat{\theta}_{MLE} - \theta_0)\)
+
+Now, remember that when we solve for the MLE (As we did in Chapter 1),
+we set \(\ell(x) = 0\). This is because the MLE is defined as the
+\(\theta\) value that maximizes the likelihood (and log-likelihood). So,
+as the MLE is a maximum of the log-likelihood function, this means that
+\(\ell'(\hat{\theta}_{MLE}) = 0\).
+
+So, plugging this in we get
+
+\(0 = \ell'(\hat{\theta}_{MLE}) \approx \ell'(\theta_0) + \ell''(\theta_0)(\hat{\theta}_{MLE} - \theta_0)\)
+
+We can rearrange this to say:
+
+\[
+\begin{aligned}
+  0 &\approx \ell'(\theta_0) + \ell''(\theta_0)(\hat{\theta}_{MLE} - \theta_0) \\
+  - \ell'(\theta_0) &\approx \ell''(\theta_0)(\hat{\theta}_{MLE} - \theta_0) \\
+  \hat{\theta}_{MLE} - \theta_0  &\approx \frac{-\ell'(\theta_0)}{\ell''(\theta_0)}
+\end{aligned}
+\] Now, let's do some further manipulation.
+
+\[
+\begin{aligned}
+  \hat{\theta}_{MLE} - \theta_0  &\approx \frac{-\ell'(\theta_0)}{\ell''(\theta_0)} \\
+    \hat{\theta}_{MLE} - \theta_0  &= \frac{\frac{1}{n}\ell'(\theta_0)}{-\frac{1}{n}\ell''(\theta_0)} \\ 
+      \hat{\theta}_{MLE} - \theta_0  &=  \frac{\frac{1}{n}\sum_{i=1}^n \ell'_{x_i}(\theta_0)}{-\frac{1}{n}\sum_{i=1}^n\ell''_{x_i}(\theta_0)} \\ 
+      \sqrt{n}(\hat{\theta}_{MLE} - \theta_0)  &= \frac{\sqrt{n}(\frac{1}{n}\sum_{i=1}^n \ell'_{x_i}(\theta_0))}{-\frac{1}{n}\sum_{i=1}^n\ell''_{x_i}(\theta_0)} \\ 
+\end{aligned}
+\]
+
+Now, let's say \(Y = \ell'_{x_1}(\theta_0)\). This means that
+\(\bar{Y} = \frac{1}{n} \sum_{i=1}^n \ell'_{x_i}(\theta_0)\).
+
+This means that:
+
+\[
+\begin{aligned}
+  \sqrt{n}(\hat{\theta}_{MLE} - \theta_0)  &= \frac{\sqrt{n} (\bar{Y} - 0)} {-\frac{1}{n}\sum_{i=1}^n\ell''_{x_i}(\theta_0)} \\ 
+\end{aligned}
+\]
+
+Now, we can realize three things.
+
+First, the CLT is defined as
+\(\sqrt{n}(\bar{Y} - \mathbb{E}[Y_1]) \rightarrow N(0, Var(Y_1))\)
+\textbackslash{} Second, as we showed in Chapter 2,
+\(\mathbb{E}[Y_1] = \mathbb{E}[\ell'_{x_1}(\theta_0)] = 0\). Third, as
+we remember from Chapter 2, we showed that
+\(I(\theta) = -\mathbb{E}[\ell''(\theta)] = \text{Var}(\ell'(\theta))\)
+
+So, this means that:
+
+\[
+\begin{aligned}
+   \sqrt{n}(\hat{\theta}_{MLE} - \theta_0) \rightarrow \frac{N(0, \text{Var}(\ell'_{x_1}(\theta_0))}{\text{Var}(\ell'(\theta_0))} \\ 
+    \sqrt{n}(\hat{\theta}_{MLE} - \theta_0) \rightarrow N \Big(0, \frac{1}{\text{Var}(\ell'_{x_1}(\theta_0))}\Big) \\ 
+  \sqrt{n}(\hat{\theta}_{MLE} - \theta_0) \rightarrow N \Big(0, \frac{1}{I_{x_1}(\theta)}\Big) \\ 
+\end{aligned}
+\]
 
 Isolating for \(\hat{p}_{MLE}\), we have that
+\(\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{nI_{x_1}(\theta))}\right)\)
+
+\section{Asymptotic Calculation}\label{asymptotic-calculation}
+
+As shown above, using the CLT and Taylor approximation, we can see that
+as \(n\) grows large, we have that
 \(\hat{p}_{MLE} \rightarrow N\left(p, \frac{1}{\text{Var}(n\ell^\prime_{x_1}(\theta))}\right)\)
 
-So, let's solve for \(\text{Var}(\ell^\prime_{x_1}(\theta))}\).
+So, let's solve for \(I_{x_1}(\theta)\). Once again, from Chapter 2, we
+know that
+\(I(\theta) = -\mathbb{E}[\ell''(\theta)] = \text{Var}(\ell'(\theta))\)
 
-Taking the score from Chapter 1, we have:
+Taking the score that we got from Chapter 1 (while solving for the MLE),
+we have:
 
 \[
 \frac{d}{dp} \ell_{x_1,...,x_n}(p) = \left(\frac{rn}{p} - \frac{\sum x}{1 - p} \right)
@@ -824,11 +901,7 @@ As we only want to work with one observation now, we will set \(n=1\).
 \ell ^\prime_{x_1} (p) = \left(\frac{r}{p} - \frac{x}{1 - p} \right)
 \]
 
-We established in Chapter 2 that
-\(\text{Var}(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]\). This means
-that that the asymptotic variance of \(\hat{p}_{MLE}\) is
-\(\frac{1}{-\mathbb{E}[\ell''(\theta)]}\). So, let's solve for
-\(-\mathbb{E}[\ell''(\theta)]\).
+Let's solve for \(-\mathbb{E}[\ell''(\theta)]\).
 
 \[
 \begin{aligned}
@@ -2223,21 +2296,20 @@ says that for any unbiased estimator \(\hat{\theta}\), then
 \(\hat{\theta}_{RB} = \mathbb{E}[\hat{\theta}(T)]\) is also unbiased and
 \(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\). So,
 this means that the best unbiased estimator only references the data
-with respect to the sufffcient statistics \(T\).
+with respect to the sufficient statistics \(T\).
 
 A quick proof is below. First, let's show that if \(\hat{\theta}\) is
 unbiased, then so is \(\hat{\theta}_{RB}\).
 
-\$\$
-
+\[
 \begin{aligned}
   \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\mathbb{E}[\hat{\theta} | T]]  \\
   \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\hat{\theta} | T] \text{   [NOTE: From the Law of Total Exectation]}
-  
 \end{aligned}
+\]
 
-\$\$ So, this means that the expected value of both estimators is the
-same, so they have the same bias. Next, let's show the variance part.
+So, this means that the expected value of both estimators is the same,
+so they have the same bias. Next, let's show the variance part.
 
 \[
 \begin{aligned}
@@ -2381,16 +2453,20 @@ As I mentioned earlier, the MLE and Posterior Mean are both always
 functions of a Suffcient Statistic. From Chapter 1, we have that:
 
 \[
-\hat{p}_{MLE} = \frac{r}{r + \bar{x}} \\
-\hat{p}_{posterior} = \frac{1 + nr}{2 + nr + \sum_{i=1}^n x_i}
+\begin{aligned}
+\hat{p}_{MLE} &= \frac{r}{r + \bar{x}} \\
+\hat{p}_{PM} &= \frac{1 + nr}{2 + nr + \sum_{i=1}^n x_i}
+\end{aligned}
 \]
 
 As \(T(x_1,...x_n) = \sum_{i=1}^n x_i\), we can rewrite our MLE and
 Posterior Mean as functions of T:
 
 \[
-\hat{p}_{MLE} = \frac{r}{r + \frac{T}{n}} \\
-\hat{p}_{posterior} = \frac{1 + nr}{2 + nr + T}
+\begin{aligned}
+\hat{p}_{MLE} &= \frac{r}{r + \frac{T}{n}} \\
+\hat{p}_{posterior} &= \frac{1 + nr}{2 + nr + T}
+\end{aligned}
 \]
 
 \bookmarksetup{startatroot}
