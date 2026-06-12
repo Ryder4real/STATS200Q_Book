@@ -23,7 +23,6 @@ $$
 \begin{aligned}
     P(X=x) &= \binom{x + r- 1}{x} p^r (1 - p)^x \\
 \end{aligned}
-
 $$
 
 If you want to do any analysis of the data, feel free to code in the block below. 
@@ -50,10 +49,10 @@ However, in the real world, we have found that negative binomials can effectivel
 
 In my dataset,
 
-$p$ is the probability of an transmission opportunity not resulting in an infection (perhaps counterintuitevly, the lower the $p$, the more infectious).
+$p$ is the probability of an transmission opportunity not resulting in an infection (perhaps counter-intuitively, the lower the $p$, the more infectious).
 $r$ is the dispersion parameter, meaning it is a measure of how heavily clustered the transmissions are.
 
-For my dataset, $r$ seems to be best below $1$, meaning there are many individuals who do not pass the virus to anyone beyond the first person. This makes sense as from the code below, we can see that $507$ of individuals in the dataset have a vlaue of $0$, meaning they did not pass the virus to anyone beyond the first person.
+For my dataset, $r$ seems to be best below $1$, meaning there are many individuals who do not pass the virus to anyone beyond the first person. This makes sense as from the code below, we can see that $507$ of individuals in the dataset have a value of $0$, meaning they did not pass the virus to anyone beyond the first person.
 
 ```{webr-r}
 sum(x == 0)

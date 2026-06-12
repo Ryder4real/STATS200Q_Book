@@ -4,12 +4,11 @@ title: "MLE & Posterior Mean"
 
 ## Background
 
-This chapter covers the Bayesian v Frequentist methods for estimating parameters. Imagine you flip a potentially weighted coin N times, and X are heads. How would you about estimating the true probability that the coin lands on heads. This is an interesting question, and Bayesians and Frequentists would take different approaches. 
+This chapter covers the Bayesian v Frequentist methods for estimating parameters. Imagine you flip a potentially weighted coin N times, and X are heads. How would you about estimating the true probability that the coin lands on heads. This is an interesting question, and Bayesians and Frequentists would take different approaches.
 
-This serves as a motivation for the value of estimating parameters. Below, I will $p$ in the Negative Binomial Distribution. 
+This serves as a motivation for the value of estimating parameters. Below, I will $p$ in the Negative Binomial Distribution.
 
 First, I will first use the Maximum Likelihood Estimation to estimate $p$, which is the frequentist approach. Then, I will use a posterior mean, which is the Bayesian approach. Finally, I will compare them using my dataset.
-
 
 ## Maximum Likelihood Estimation
 
@@ -74,7 +73,7 @@ cat("x_sum is :", x_sum, "\n")
 
 As we can see from the code above, in my dataset, $\bar{x} = 0.7435, n=807, \sum(x) = 600$.
 
-So, plugging this in,  we have:
+So, plugging this in, we have:
 
 $$
 \begin{aligned}

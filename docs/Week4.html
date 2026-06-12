@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -372,7 +407,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"dat <- read.csv(\"https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv\")\nx <- as.vector(table(dat$infector_id)) - 1\nx_bar = mean(x)\nn = length(x)\nprint(c(x_bar, n))","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"r <- 0.5      \n\np_hat <- r / (r + x_bar)\n\n# f(p)\ncubic_f <- function(p) {\n  a <- 4 / (n * r)\n  (a * p^3) + (1 - a) * p^2 - (2 * p_hat) * p + p_hat^2\n}\n\n# ind roots of f(p) in two windown [0, p_hat] and [p_hat, 1]\nlower_bound <- uniroot(cubic_f, interval = c(0, p_hat))$root\nupper_bound <- uniroot(cubic_f, interval = c(p_hat, 1))$root\n\n\ncat(\"95% Confidence Interval: [\", round(lower_bound, 4), \",\", round(upper_bound, 4), \"]\\n\")","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"r <- 0.5\nsum_xi <- x_bar * n \ncredible_range <- 0.95\n\n# Posterior Parameters based on f(p | x) ~ Beta(1 + nr, 1 + sum x_i)\nalpha_post <- 1 + (n * r)\nbeta_post  <- 1 + sum_xi\n\n# Calculate Tail Areas\nalpha_level <- 1 - credible_range\ntail_area   <- alpha_level / 2\n\n# 4. Solve for Credible Interval Bounds\nLB <- qbeta(tail_area, \n            shape1 = alpha_post, \n            shape2 = beta_post, \n            lower.tail = TRUE)\n\nRB <- qbeta(tail_area, \n            shape1 = alpha_post, \n            shape2 = beta_post, \n            lower.tail = FALSE)\n\ncredible_interval <- c(LB, RB)\nnames(credible_interval) <- c(\"Left Bound\", \"Right Bound\")\n\nprint(credible_interval)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"r <- 0.5      \n\np_hat <- r / (r + x_bar)\n\n# f(p)\ncubic_f <- function(p) {\n  a <- 4 / (n * r)\n  (a * p^3) + (1 - a) * p^2 - (2 * p_hat) * p + p_hat^2\n}\n\n# roots of f(p) the windows [0, p_hat] and [p_hat, 1]\nlower_bound <- uniroot(cubic_f, interval = c(0, p_hat))$root\nupper_bound <- uniroot(cubic_f, interval = c(p_hat, 1))$root\n\n\ncat(\"95% Confidence Interval: [\", round(lower_bound, 4), \",\", round(upper_bound, 4), \"]\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"r <- 0.5\nsum_xi <- x_bar * n \ncredible_range <- 0.95\n\n# Posterior Parameters based on f(p | x) ~ Beta(1 + nr, 1 + sum x_i)\nalpha_post <- 1 + (n * r)\nbeta_post  <- 1 + sum_xi\n\n# Calculate Tail Areas\nalpha_level <- 1 - credible_range\ntail_area   <- alpha_level / 2\n\n# Solve for Credible Interval Bounds\nLB <- qbeta(tail_area, \n            shape1 = alpha_post, \n            shape2 = beta_post, \n            lower.tail = TRUE)\n\nRB <- qbeta(tail_area, \n            shape1 = alpha_post, \n            shape2 = beta_post, \n            lower.tail = FALSE)\n\ncredible_interval <- c(LB, RB)\nnames(credible_interval) <- c(\"Left Bound\", \"Right Bound\")\n\nprint(credible_interval)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1707,7 +1742,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Quick Proof &amp; Evaluating Estimators</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Futher Evaluating Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -1768,12 +1803,13 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#confidence-interval" id="toc-confidence-interval" class="nav-link active" data-scroll-target="#confidence-interval"><span class="header-section-number">5.1</span> Confidence Interval</a>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">5.1</span> Background</a></li>
+  <li><a href="#confidence-interval" id="toc-confidence-interval" class="nav-link" data-scroll-target="#confidence-interval"><span class="header-section-number">5.2</span> Confidence Interval</a>
   <ul class="collapse">
-  <li><a href="#plug-in" id="toc-plug-in" class="nav-link" data-scroll-target="#plug-in"><span class="header-section-number">5.1.1</span> Plug-In</a></li>
-  <li><a href="#direct-computation" id="toc-direct-computation" class="nav-link" data-scroll-target="#direct-computation"><span class="header-section-number">5.1.2</span> Direct Computation</a></li>
+  <li><a href="#plug-in" id="toc-plug-in" class="nav-link" data-scroll-target="#plug-in"><span class="header-section-number">5.2.1</span> Plug-In</a></li>
+  <li><a href="#direct-computation" id="toc-direct-computation" class="nav-link" data-scroll-target="#direct-computation"><span class="header-section-number">5.2.2</span> Direct Computation</a></li>
   </ul></li>
-  <li><a href="#credible-interval" id="toc-credible-interval" class="nav-link" data-scroll-target="#credible-interval"><span class="header-section-number">5.2</span> Credible Interval</a></li>
+  <li><a href="#credible-interval" id="toc-credible-interval" class="nav-link" data-scroll-target="#credible-interval"><span class="header-section-number">5.3</span> Credible Interval</a></li>
   </ul>
 </nav>
     </div>
@@ -2083,20 +2119,27 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="confidence-interval" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="confidence-interval"><span class="header-section-number">5.1</span> Confidence Interval</h2>
-<p>To remember, in Homework 1, we solved that for <span class="math inline">\(X_1,...,X_n \sim \text{NegBin}(r, p)\)</span> <span class="math inline">\(\hat{p}_{MLE} = \frac{r}{r + \bar{x}}\)</span>.</p>
-<p>In Homework #3, we established both that</p>
+<section id="background" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="background"><span class="header-section-number">5.1</span> Background</h2>
+<p>So far, we have discussed solving for and evaluating <span class="math inline">\(\hat{p}_{MLE}\)</span> and <span class="math inline">\(\hat{p}_{PM}\)</span>. But, these estimators are based only on your data, and neither is likely to be the true <span class="math inline">\(p\)</span> of the entire population.</p>
+<p>So, this chapter is all about Confidence and Credible Intervals. The former is a frequentist method to display a region that they believe contains the true <span class="math inline">\(p\)</span> of the entire population with a certain confidence. The latter is the Bayesian version. For these examples, we use a <span class="math inline">\(95\%\)</span> confidence and credible interval.</p>
+<p>This is the topic that truly instilled in me the differences in frequentist v. Bayesian principles. As frequentists treat <span class="math inline">\(p\)</span> as a fixed but unknown parameter, once they have calculated their region, they do NOT say that there is a <span class="math inline">\(95\%\)</span> chance that <span class="math inline">\(p\)</span> is in the region. This is because <span class="math inline">\(p\)</span> is fixed. A fixed parameter cannot have a chance fo being in a region, it either is or it isn’t. So, they escape this by saying they are <span class="math inline">\(95\%\)</span> “confident” that <span class="math inline">\(p\)</span> is contained in the region. On the the other hand, as Bayesians treat <span class="math inline">\(p\)</span> is a random variable, they have no problems saying that there is a <span class="math inline">\(95\%\)</span> chance that <span class="math inline">\(p\)</span> is in their credible interval.</p>
+</section>
+<section id="confidence-interval" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="confidence-interval"><span class="header-section-number">5.2</span> Confidence Interval</h2>
+<p>To remember, in Chapter 1, we solved that for <span class="math inline">\(X_1,...,X_n \sim \text{NegBin}(r, p)\)</span> <span class="math inline">\(\hat{p}_{MLE} = \frac{r}{r + \bar{x}}\)</span>.</p>
+<p>In Chapter 3, we established both that</p>
 <p><span class="math display">\[
   \sqrt{n} (\hat{p}_{MLE} - p) \sim N\left(0, \frac{p^2(1-p)}{r}\right)
 \]</span></p>
 <p>and</p>
 <p><span class="math display">\[
 \hat{p}_{MLE} \overset{\cdot}{\sim} N\left(p, \frac{p^2(1-p)}{nr} \right)
-\]</span>This means that as the number of data points approaches infinity, <span class="math inline">\(\hat{p}_{MLE}\)</span> is approximately Normal, with a mean of <span class="math inline">\(p\)</span> and a variance of <span class="math inline">\(\frac{p^2(1-p)}{nr}\)</span>.</p>
-<p>Therefore, an approximate 95% confidence interval for <span class="math inline">\(p\)</span> is : <span class="math inline">\(\hat{p}_{MLE} \pm 2 \sqrt{\frac{p^2(1-p)}{nr}}\)</span>. However, we do not know the true value of <span class="math inline">\(p\)</span>, so we have two options in how we can proceed.</p>
-<section id="plug-in" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="plug-in"><span class="header-section-number">5.1.1</span> Plug-In</h3>
+\]</span></p>
+<p>This means that as the number of data points approaches infinity, <span class="math inline">\(\hat{p}_{MLE}\)</span> is approximately Normal, with a mean of <span class="math inline">\(p\)</span> and a variance of <span class="math inline">\(\frac{p^2(1-p)}{nr}\)</span>.</p>
+<p>Therefore, an approximate 95% confidence interval for <span class="math inline">\(p\)</span> is: <span class="math inline">\(\hat{p}_{MLE} \pm 2 \sqrt{\frac{p^2(1-p)}{nr}}\)</span>. However, we do not know the true value of <span class="math inline">\(p\)</span>, so we have two options in how we can proceed.</p>
+<section id="plug-in" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="plug-in"><span class="header-section-number">5.2.1</span> Plug-In</h3>
 <p>We can try plugging in <span class="math inline">\(\hat{p}_{MLE}\)</span> for <span class="math inline">\(p\)</span> in this equation. This means that the approximate 95% confidence interval is:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -2109,8 +2152,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \end{aligned}
 \]</span></p>
 <p>Going back to my hospital dataset:</p>
-<div id="qwebr-insertion-location-1"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">table</span>(dat<span class="sc">$</span>infector_id)) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">=</span> <span class="fu">mean</span>(x)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">length</span>(x)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"x_bar ="</span>, x_bar, <span class="st">"</span><span class="sc">\t</span><span class="st">n ="</span>, n)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x_bar = 0.7434944   n = 807</code></pre>
+</div>
+</div>
 <p>I had <span class="math inline">\(\bar{x} \approx 0.7435, n=807\)</span>. Let’s say <span class="math inline">\(r = 0.5\)</span>.</p>
 <p>I then have:</p>
 <p><span class="math display">\[
@@ -2123,15 +2174,15 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \]</span></p>
 <p>So, the approximate plug-in 95% confidence interval for <span class="math inline">\(p\)</span> is <span class="math inline">\([0.3711, 0.4331]\)</span>.</p>
 </section>
-<section id="direct-computation" class="level3" data-number="5.1.2">
-<h3 data-number="5.1.2" class="anchored" data-anchor-id="direct-computation"><span class="header-section-number">5.1.2</span> Direct Computation</h3>
+<section id="direct-computation" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="direct-computation"><span class="header-section-number">5.2.2</span> Direct Computation</h3>
 <p>Instead of plugging in <span class="math inline">\(\hat{p}_{MLE}\)</span> for <span class="math inline">\(p\)</span>, we can try to solve for what values of <span class="math inline">\(p\)</span> make up the confidence interval.</p>
 <p>We established earlier that:</p>
 <p><span class="math inline">\(\sqrt{n} (\hat{p}_{MLE} - p) \sim N\left(0, \frac{p^2(1-p)}{r}\right)\)</span></p>
 <p>This means that: <span class="math inline">\(\hat{p}_{MLE} - p \sim N\left(0, \frac{p^2(1-p)}{nr}\right)\)</span>.</p>
 <p>Furthermore, we can say that:</p>
 <p><span class="math inline">\(\frac{\hat{p}_{MLE} - p}{\sqrt{ \frac{p^2(1-p)}{nr}}} \sim N(0, 1)\)</span></p>
-<p>As this has a standard deviation of 1, we can set up a 95% confidence interval to be:</p>
+<p>In the Normal distribution, <span class="math inline">\(95\%\)</span> of the mass is in the mean <span class="math inline">\(\pm 1.96\)</span> Standard deviations. As the Normal above has a standard deviation of 1, we can set up a 95% confidence interval that rounds to:</p>
 <p><span class="math inline">\(-2 \leq \frac{\hat{p}_{MLE} - p}{\sqrt{ \frac{p^2(1-p)}{nr}}} \leq 2\)</span></p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -2145,24 +2196,24 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \]</span></p>
 <p>This is unfortunately not cleanly solvable for <span class="math inline">\(p\)</span>, but we can graph it. If we say that <span class="math inline">\(f(p) = \frac{4}{nr}p^3 + (1- \frac{4}{nr})p^2 - 2\hat{p}_{MLE}p + \hat{p}_{MLE}^2\)</span>, we can look at the zeros to see the values of <span class="math inline">\(p\)</span> at the edge of the confidence intervals.</p>
 <p>For this sample, let’s go back to the dataset I started with, where <span class="math inline">\(\bar{x} = 0.7435, n=807\)</span>. Let’s fix <span class="math inline">\(r = 0.5\)</span>.</p>
-<div id="qwebr-insertion-location-2"></div>
+<div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>From the computation in the code above, we are approximately 95% confident that <span class="math inline">\(p\)</span> is in <span class="math inline">\([0.3727, 0.4346]\)</span></p>
 </section>
 </section>
-<section id="credible-interval" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="credible-interval"><span class="header-section-number">5.2</span> Credible Interval</h2>
-<p>In Homework 1, I solved that given a Beta<span class="math inline">\((\alpha, \beta)\)</span> prior, the posterior distribution for <span class="math inline">\(p\)</span> is:</p>
+<section id="credible-interval" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="credible-interval"><span class="header-section-number">5.3</span> Credible Interval</h2>
+<p>In Chapter 1, I solved that given a Beta<span class="math inline">\((\alpha, \beta)\)</span> prior, the posterior distribution for <span class="math inline">\(p\)</span> is:</p>
 <p><span class="math inline">\(f(p | x_1,..,x_n) \sim \text{Beta}(\alpha + nr, \beta + \sum_{i=1}^n x_i)\)</span>.</p>
-<p>In Homework 1, I used a uniform prior, meaning <span class="math inline">\(\alpha =1, \beta=1\)</span>. This means the posterior distribution given a uniform prior is:</p>
+<p>In Chapter 1, I used a uniform prior, meaning <span class="math inline">\(\alpha =1, \beta=1\)</span>. This means the posterior distribution given a uniform prior is:</p>
 <p><span class="math inline">\(f(p | x_1,..,x_n) \sim \text{Beta}(1 + nr, 1 + \sum_{i=1}^n x_i)\)</span>.</p>
 <p>For our 95% credible interval, we want the interval to cover 95% of the distribution with symmetric tails.</p>
 <p>So, we need a left bound (LB) and right bound (RB), such that:</p>
 <p><span class="math inline">\(\int_{0}^{LB} \frac{p^{(1+nr)-1} (1-p)^{(1+\sum x_i)-1}}{B(1+nr, 1+\sum x_i)} dp = 0.025\)</span></p>
 <p><span class="math inline">\(\int_{RB}^{1} \frac{p^{(1+nr)-1} (1-p)^{(1+\sum x_i)-1}}{B(1+nr, 1+\sum x_i)} dp = 0.025\)</span></p>
-<p>Unfortunately, we can’t solve for LB and RB by hand. However, the computer can solve it for us, using the ‘qbeta’ function.</p>
+<p>Unfortunately, we can’t solve for LB and RB by hand. However, the computer can solve it for us, using the <code>qbeta</code> function.</p>
 <p>Again, we will use the same values from my hospital dataset, as before.</p>
-<div id="qwebr-insertion-location-3"></div>
+<div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>From the computation in the code above, conditional on my uniform prior, the credible interval states that there is a 95% chance <span class="math inline">\(p\)</span> is in <span class="math inline">\([0.3722, 0.4328]\)</span>.</p>
 

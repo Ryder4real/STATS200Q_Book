@@ -372,7 +372,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"n_obs <- 807  \ntrue_size <- 0.5 #r\ntrue_p <- 0.4\n\nsims <- replicate(10000, {\n  x <- rnbinom(n = n_obs, size = true_size, prob = true_p)\n  x_sum <- sum(x)\n  x_avg = mean(x)\n  p.mle <- true_size / (true_size + x_avg)\n  \n  p.mod <- (1 + n_obs * true_size) / (2 + n_obs * true_size + x_sum)\n  \n  c(mle = p.mle, mod = p.mod)\n})\n\nsims <- t(sims)\n\nbias_mle <- mean(sims[,\"mle\"]) - true_p\nbias_mod <- mean(sims[,\"mod\"]) - true_p\n\nvar_mle <- var(sims[,\"mle\"])\nvar_mod <- var(sims[,\"mod\"])\n\nresults <- data.frame(\n  Metric = c(\"Bias\", \"Variance\"),\n  MLE = c(bias_mle, var_mle),\n  Posterior_Mean = c(bias_mod, var_mod)\n)\n\nresults","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"hist_mle <- hist(sims[, \"mle\"], \n     breaks = 30, \n     main = expression(\"Histogram of \"* hat(p)[MLE]), \n     xlab = expression(hat(p)[MLE])\n    )","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"hist_mod <- hist(sims[, \"mod\"], \n     breaks = 30, \n     main = expression(\"Histogram of \"* hat(p)[PM]), \n     xlab = expression(hat(p)[PM])\n     )","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"dat <- read.csv(\"https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv\")\nx <- as.vector(table(dat$infector_id)) - 1\n\nx_bar  <- mean(x)\nn      <- length(x)\nx_sum  <- sum(x)\n\ncat(\"x_bar is :\", x_bar, \"\\n\")\ncat(\"n is     :\", n, \"\\n\")\ncat(\"x_sum is :\", x_sum, \"\\n\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n_obs <- 807\ntrue_size <- 0.5 #r\ntrue_p <- 1 / 3\n\nsims <- replicate(10000, {\n  x <- rnbinom(n = n_obs, size = true_size, prob = true_p)\n  x_sum <- sum(x)\n  x_avg = mean(x)\n  p.mle <- true_size / (true_size + x_avg)\n  \n  p.mod <- (1 + n_obs * true_size) / (2 + n_obs * true_size + x_sum)\n  \n  c(mle = p.mle, mod = p.pm)\n})\n\nsims <- t(sims)\n\nbias_mle <- mean(sims[,\"mle\"]) - true_p\nbias_pm <- mean(sims[,\"pm\"]) - true_p\n\nvar_mle <- var(sims[,\"mle\"])\nvar_pm <- var(sims[,\"pm\"])\n\nresults <- data.frame(\n  Metric = c(\"Bias\", \"Variance\"),\n  MLE = c(bias_mle, var_mle),\n  Posterior_Mean = c(bias_pm, var_pm)\n)\n\nresults","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"hist_mle <- hist(sims[, \"mle\"], \n     breaks = 30, \n     main = expression(\"Histogram of \"* hat(p)[MLE]), \n     xlab = expression(hat(p)[MLE])\n    )","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"hist_mod <- hist(sims[, \"mod\"], \n     breaks = 30, \n     main = expression(\"Histogram of \"* hat(p)[PM]), \n     xlab = expression(hat(p)[PM])\n     )","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1707,7 +1707,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Quick Proof &amp; Evaluating Estimators</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Futher Evaluating Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -1768,10 +1768,11 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#maximum-likelihood-estimation" id="toc-maximum-likelihood-estimation" class="nav-link active" data-scroll-target="#maximum-likelihood-estimation"><span class="header-section-number">2.1</span> Maximum Likelihood Estimation</a></li>
-  <li><a href="#posterior-mean" id="toc-posterior-mean" class="nav-link" data-scroll-target="#posterior-mean"><span class="header-section-number">2.2</span> Posterior Mean</a></li>
-  <li><a href="#my-dataset" id="toc-my-dataset" class="nav-link" data-scroll-target="#my-dataset"><span class="header-section-number">2.3</span> My Dataset</a></li>
-  <li><a href="#bias-and-variance" id="toc-bias-and-variance" class="nav-link" data-scroll-target="#bias-and-variance"><span class="header-section-number">2.4</span> Bias and Variance</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">2.1</span> Background</a></li>
+  <li><a href="#maximum-likelihood-estimation" id="toc-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#maximum-likelihood-estimation"><span class="header-section-number">2.2</span> Maximum Likelihood Estimation</a></li>
+  <li><a href="#posterior-mean" id="toc-posterior-mean" class="nav-link" data-scroll-target="#posterior-mean"><span class="header-section-number">2.3</span> Posterior Mean</a></li>
+  <li><a href="#my-dataset" id="toc-my-dataset" class="nav-link" data-scroll-target="#my-dataset"><span class="header-section-number">2.4</span> My Dataset</a></li>
+  <li><a href="#comparing-estimators" id="toc-comparing-estimators" class="nav-link" data-scroll-target="#comparing-estimators"><span class="header-section-number">2.5</span> Comparing Estimators</a></li>
   </ul>
 </nav>
     </div>
@@ -2081,8 +2082,15 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="maximum-likelihood-estimation" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="maximum-likelihood-estimation"><span class="header-section-number">2.1</span> Maximum Likelihood Estimation</h2>
+<section id="background" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="background"><span class="header-section-number">2.1</span> Background</h2>
+<p>This chapter covers the Bayesian v Frequentist methods for estimating parameters. Imagine you flip a potentially weighted coin N times, and X are heads. How would you about estimating the true probability that the coin lands on heads. This is an interesting question, and Bayesians and Frequentists would take different approaches.</p>
+<p>This serves as a motivation for the value of estimating parameters. Below, I will <span class="math inline">\(p\)</span> in the Negative Binomial Distribution.</p>
+<p>First, I will first use the Maximum Likelihood Estimation to estimate <span class="math inline">\(p\)</span>, which is the frequentist approach. Then, I will use a posterior mean, which is the Bayesian approach. Finally, I will compare them using my dataset.</p>
+</section>
+<section id="maximum-likelihood-estimation" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="maximum-likelihood-estimation"><span class="header-section-number">2.2</span> Maximum Likelihood Estimation</h2>
+<p>The frequentist method for estimating parameter is finding the MLE. Below I derive the MLE for <span class="math inline">\(p\)</span> in the negative binomial.</p>
 <p><span class="math inline">\(X_1,...,X_n \sim \text{NegBin}(r, p)\)</span></p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -2101,9 +2109,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \end{aligned}
 \]</span></p>
 </section>
-<section id="posterior-mean" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="posterior-mean"><span class="header-section-number">2.2</span> Posterior Mean</h2>
-<p>With a Beta Prior. Let’s set <span class="math inline">\(\alpha=1, \beta = 1\)</span>. (So this is actually just a uniform).</p>
+<section id="posterior-mean" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="posterior-mean"><span class="header-section-number">2.3</span> Posterior Mean</h2>
+<p>For the Bayesian method, we need a prior distribution that we will then have the data update. Let’s use a Beta Prior with <span class="math inline">\(\alpha=1, \beta = 1\)</span>. (So, this is actually just a uniform).</p>
 <p><span class="math display">\[
 \begin{aligned}
     f(p | x) &amp;= \frac{f(p)f(x_1,...,x_n|p)}{f(x_1,...,x_n)}  \\
@@ -2119,9 +2127,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \end{aligned}
 \]</span></p>
 </section>
-<section id="my-dataset" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="my-dataset"><span class="header-section-number">2.3</span> My Dataset</h2>
-<p>In my dataset, <span class="math inline">\(\bar{x} = 0.7435, n=807, \sum(x) = 600\)</span>.</p>
+<section id="my-dataset" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="my-dataset"><span class="header-section-number">2.4</span> My Dataset</h2>
+<p>Now, let’s compute the two estimators on my dataset.</p>
+<div id="qwebr-insertion-location-1"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>As we can see from the code above, in my dataset, <span class="math inline">\(\bar{x} = 0.7435, n=807, \sum(x) = 600\)</span>.</p>
+<p>So, plugging this in, we have:</p>
 <p><span class="math display">\[
 \begin{aligned}
     \hat{p}_{MLE} &amp;= \frac{r}{r + 0.7435} \\
@@ -2135,20 +2147,21 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
     \hat{p}_{posterior} &amp;= \frac{1 + 807(0.5)}{2 + 807(0.5) + 600} = 0.401
 \end{aligned}
 \]</span></p>
+<p>For the sake of evaluating our estimators, let’s say true <span class="math inline">\(p\)</span> is <span class="math inline">\(\frac{1}{3}\)</span>.</p>
 </section>
-<section id="bias-and-variance" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="bias-and-variance"><span class="header-section-number">2.4</span> Bias and Variance</h2>
-<p>Let’s say true <span class="math inline">\(p\)</span> is 0.4.</p>
-<p>After 10,000 simulations, the bias and variance of our estimators is:</p>
-<div id="qwebr-insertion-location-1"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><span class="math inline">\(\hat{p}_{MLE}\)</span> has positive bias while <span class="math inline">\(\hat{p}_{PM}\)</span> is biased toward the prior distribution.</p>
-<p><span class="math inline">\(\hat{p}_{PM}\)</span> has less variance. This is more apparent if you make <code>n_obs</code> smaller in the code.</p>
-<p>Here is the histogram for <span class="math inline">\(\hat{p}_{MLE}\)</span>.</p>
+<section id="comparing-estimators" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="comparing-estimators"><span class="header-section-number">2.5</span> Comparing Estimators</h2>
+<p>Now, let’s compare the bias and variance of the two estimators.</p>
+<p>In my dataset, there are <span class="math inline">\(807\)</span> patients. After 10,000 simulations, the bias and variance of our estimators is:</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Here is the histogram for <span class="math inline">\(\hat{p}_{PM}\)</span>.</p>
+<p><span class="math inline">\(\hat{p}_{MLE}\)</span> has positive bias while <span class="math inline">\(\hat{p}_{PM}\)</span> is biased toward the prior distribution (which in this case leads to positive bias).</p>
+<p><span class="math inline">\(\hat{p}_{PM}\)</span> has less slightly less variance. This is more apparent if you make <code>n_obs</code> smaller in the code.</p>
+<p>Here is the histogram for <span class="math inline">\(\hat{p}_{MLE}\)</span>.</p>
 <div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Here is the histogram for <span class="math inline">\(\hat{p}_{PM}\)</span>.</p>
+<div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 
 
@@ -2562,8 +2575,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Week2.html" class="pagination-link" aria-label="Quick Proof &amp; Evaluating Estimators">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Quick Proof &amp; Evaluating Estimators</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Week2.html" class="pagination-link" aria-label="Futher Evaluating Estimators">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Futher Evaluating Estimators</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

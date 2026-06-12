@@ -372,7 +372,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"dat <- read.csv(\"https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv\")","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"x <- as.vector(table(dat$infector_id)) - 1","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"r = 0.5\nn = length(x)\nx_bar = sum(x) / n \np_mle = r / (r + x_bar)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"p.pboot <- replicate(10000, {\n    # Generate dataset\n    x.pboot = rnbinom(n, r, p_mle)\n    \n    # Calculate new MLE\n    x.pboot.bar = sum(x.pboot) / n\n    p.pboot.mle = r / (r + x.pboot.bar)\n    p.pboot.mle\n  }\n)\n\nhist(p.pboot)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"quantile(p.pboot, c(.025, .975))","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"p.npboot <- replicate(10000, {\n  \n    # Generate new sample (with replacement) from our above sample\n    x.npboot <- sample(x, size=n, replace=TRUE)\n    \n    # Calculate new MLE\n    x.npboot.bar = sum(x.npboot) / n\n    p.npboot.mle = r / (r + x.npboot.bar)\n    p.npboot.mle\n  }\n)\n\nhist(p.npboot)","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"quantile(p.npboot, c(.025, .975))","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# This function calculates the posterior probability (without accounting for the constant term).\n# To avoid numerical underflow, we will first calculate the log, and then do e ^ (log(prob))\npost <- function(p) {\n  # calculate log posterior (for numerical stability)\n  log.p.post <- log(p) * (n * r) +  sum(x) * log(1-p)\n  exp(log.p.post)\n}\n\n# Start with an arbitrary value of p.\np.post <- c(0.5)\n\n# Run Metropolis-Hastings for 15000 steps\nfor(i in 1:15000) {\n\n  p.curr <- p.post[length(p.post)]\n  \n  # Propose a new value of p. Let's choose from uniform(0,1). Let's call this q.\n  p.prop <- runif(1)\n  \n  # calculate probability of choosing new_p.\n  # This is (post(new) * q(old)) / (post(old) ( q(new)))\n  prob <- min(1,\n    (post(p.prop) * dunif(p.curr, 0, 1) /\n      (post(p.curr) * dunif(p.prop, 0, 1)))\n  )\n\n  # add new p value to list\n  p.new <- sample(c(p.prop, p.curr),\n                      size=1, prob=c(prob, 1-prob))\n  p.post <- c(p.post, p.new)\n}\n\n# Keep the latter 10,000 samples\nlate.p.post <- p.post[5001:15000]\n\n# We can estimate the posterior mean by taking the mean of these samples.\nmean(late.p.post)","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"hist(late.p.post)","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"quantile(late.p.post, c(.025, .975))","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"dat <- read.csv(\"https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/main/transmission_pairs_covid_v2.csv\")\nx <- as.vector(table(dat$infector_id)) - 1","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"r = 0.5\nn = length(x)\nx_bar = sum(x) / n \np_mle = r / (r + x_bar)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"p.pboot <- replicate(10000, {\n    # Generate dataset\n    x.pboot = rnbinom(n, r, p_mle)\n    \n    # Calculate new MLE\n    x.pboot.bar = sum(x.pboot) / n\n    p.pboot.mle = r / (r + x.pboot.bar)\n    p.pboot.mle\n  }\n)\n\nhist(p.pboot)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"quantile(p.pboot, c(.025, .975))","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"p.npboot <- replicate(10000, {\n  \n    # Generate new sample (with replacement) from our above sample\n    x.npboot <- sample(x, size=n, replace=TRUE)\n    \n    # Calculate new MLE\n    x.npboot.bar = sum(x.npboot) / n\n    p.npboot.mle = r / (r + x.npboot.bar)\n    p.npboot.mle\n  }\n)\n\nhist(p.npboot)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"quantile(p.npboot, c(.025, .975))","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# This function calculates the posterior probability (without accounting for the constant term).\n# To avoid numerical underflow, we will first calculate the log, and then do e ^ (log(prob))\n\npost <- function(p) {\n  # calculate log posterior (for numerical stability)\n  log.p.post <- log(p) * (n * r) +  sum(x) * log(1-p)\n  exp(log.p.post)\n}\n\n# Start with an arbitrary value of p.\np.post <- c(0.5)\n\n# Run Metropolis-Hastings for 15000 steps\nfor(i in 1:15000) {\n\n  p.curr <- p.post[length(p.post)]\n  \n  # Propose a new value of p. Let's choose from uniform(0,1). Let's call this q.\n  p.prop <- runif(1)\n  \n  # calculate probability of choosing new_p.\n  # This is (post(new) * q(old)) / (post(old) ( q(new)))\n  prob <- min(1,\n    (post(p.prop) * dunif(p.curr, 0, 1) /\n      (post(p.curr) * dunif(p.prop, 0, 1)))\n  )\n\n  # add new p value to list\n  p.new <- sample(c(p.prop, p.curr),\n                      size=1, prob=c(prob, 1-prob))\n  p.post <- c(p.post, p.new)\n}\n\n# Keep the latter 10,000 samples\nlate.p.post <- p.post[5001:15000]\n\n# We can estimate the posterior mean by taking the mean of these samples.\nmean(late.p.post)","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"hist(late.p.post)","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"quantile(late.p.post, c(.025, .975))","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1707,7 +1707,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Quick Proof &amp; Evaluating Estimators</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Futher Evaluating Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -1768,13 +1768,14 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#bootstrapping" id="toc-bootstrapping" class="nav-link active" data-scroll-target="#bootstrapping"><span class="header-section-number">6.1</span> Bootstrapping</a>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">6.1</span> Background</a></li>
+  <li><a href="#bootstrapping" id="toc-bootstrapping" class="nav-link" data-scroll-target="#bootstrapping"><span class="header-section-number">6.2</span> Bootstrapping</a>
   <ul class="collapse">
-  <li><a href="#parametric-bootstrap" id="toc-parametric-bootstrap" class="nav-link" data-scroll-target="#parametric-bootstrap"><span class="header-section-number">6.1.1</span> Parametric Bootstrap</a></li>
-  <li><a href="#nonparametric-bootstrap" id="toc-nonparametric-bootstrap" class="nav-link" data-scroll-target="#nonparametric-bootstrap"><span class="header-section-number">6.1.2</span> Nonparametric Bootstrap</a></li>
-  <li><a href="#comparing-confidence-intervals" id="toc-comparing-confidence-intervals" class="nav-link" data-scroll-target="#comparing-confidence-intervals"><span class="header-section-number">6.1.3</span> Comparing Confidence Intervals</a></li>
+  <li><a href="#parametric-bootstrap" id="toc-parametric-bootstrap" class="nav-link" data-scroll-target="#parametric-bootstrap"><span class="header-section-number">6.2.1</span> Parametric Bootstrap</a></li>
+  <li><a href="#nonparametric-bootstrap" id="toc-nonparametric-bootstrap" class="nav-link" data-scroll-target="#nonparametric-bootstrap"><span class="header-section-number">6.2.2</span> Nonparametric Bootstrap</a></li>
+  <li><a href="#comparing-confidence-intervals" id="toc-comparing-confidence-intervals" class="nav-link" data-scroll-target="#comparing-confidence-intervals"><span class="header-section-number">6.2.3</span> Comparing Confidence Intervals</a></li>
   </ul></li>
-  <li><a href="#metropolis-hastings" id="toc-metropolis-hastings" class="nav-link" data-scroll-target="#metropolis-hastings"><span class="header-section-number">6.2</span> Metropolis Hastings</a></li>
+  <li><a href="#metropolis-hastings" id="toc-metropolis-hastings" class="nav-link" data-scroll-target="#metropolis-hastings"><span class="header-section-number">6.3</span> Metropolis Hastings</a></li>
   </ul>
 </nav>
     </div>
@@ -2084,45 +2085,50 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
+<section id="background" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="background"><span class="header-section-number">6.1</span> Background</h2>
+<p>In the prevous chapter, we talked about using confidence and credible intervals. For the frequentist calculation, we assumed large <span class="math inline">\(n\)</span> and used a Normal approximation for <span class="math inline">\(\hat{p}_{MLE}\)</span>. For our credible interval, we chose a conjugate prior so we knew the posterior distribution.</p>
+<p>However, what if we didn’t want to resort to using a Normal approximate our confidence interval? Additionally, what if we don’t know the our posterior distribution for the credible interval?</p>
+<p>So, statisticians have had come up with computationally-intense mechanisms to work around these issues. For frequentists, this involves the parametric and nonparametric bootstrap. In the former, you assume your population follows a certain distribution, then use that the MLE from your sample to generate more datasets In the latter, you re-sample more datasets from your original sample with replacement. For both, you then look at the MLEs of your many generated datasets.</p>
+<p>The Bayesian Process involves a Metropolis-Hastings Markov Chain Monte Carlo. Let’s say we want to come up with estimator for <span class="math inline">\(\theta\)</span> in Distribution B. To do this, we first, pick a starting Distribution A and continuously sample from it. However, after each sample, we establish a probability based on the likelihood that they can be generated by Distributions A &amp; B. We then keep each sample with this probability. The idea, is after a burn-in period, despite being generated from Distribution A, the kept samples will actually resemble Distribution B. I will explain the intricacies in more detail later in the chapter.</p>
+</section>
+<section id="bootstrapping" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="bootstrapping"><span class="header-section-number">6.2</span> Bootstrapping</h2>
 <p>First, let’s bring my hospital dataset into R.</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Now, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values).</p>
+<section id="parametric-bootstrap" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="parametric-bootstrap"><span class="header-section-number">6.2.1</span> Parametric Bootstrap</h3>
+<p>If we say <span class="math inline">\(X \sim \text{NegBin}(p, r)\)</span>, and we have <span class="math inline">\(r = 0.5\)</span>, then as I calculated in Homework 1, <span class="math inline">\(\hat{p}_{MLE} = \frac{r}{r + \bar{x}} = \frac{0.5}{0.5 + 0.7435} = 0.402\)</span>.</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="bootstrapping" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="bootstrapping"><span class="header-section-number">6.1</span> Bootstrapping</h2>
-<section id="parametric-bootstrap" class="level3" data-number="6.1.1">
-<h3 data-number="6.1.1" class="anchored" data-anchor-id="parametric-bootstrap"><span class="header-section-number">6.1.1</span> Parametric Bootstrap</h3>
-<p>If we say <span class="math inline">\(X \sim \text{NegBin}(p, r)\)</span>, and we have <span class="math inline">\(r = 0.5\)</span>, then as I calculated in Homework 1, <span class="math inline">\(\hat{p}_{MLE} = \frac{r}{r + \bar{x}} = \frac{0.5}{0.5 + 0.7435} = 0.402\)</span>.</p>
+<p>So, using a parametric bootstrap, we can simulate many new datasets from the Negabtive Binomial with my <span class="math inline">\(\hat{p}_MLE\)</span>. Then, we can calculate the MLE of each of these datasets. A histogram of the MLE values of these datasets can be seen in the code block below.</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>So, using a parametric bootstrap, we can simulate:</p>
+<p>A <span class="math inline">\(95\%\)</span> confidence interval from in generated in the code block below.</p>
 <div id="qwebr-insertion-location-4"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>So, our approximate 95% confidence interval for <span class="math inline">\(p\)</span> using Parametric Bootstrapping is about <span class="math inline">\([0.3738, 0.4336]\)</span>, depending on the simulation.</p>
 </section>
-<section id="nonparametric-bootstrap" class="level3" data-number="6.1.2">
-<h3 data-number="6.1.2" class="anchored" data-anchor-id="nonparametric-bootstrap"><span class="header-section-number">6.1.2</span> Nonparametric Bootstrap</h3>
-<p>Here, we will just re-sample from our sample.</p>
-<p>So, using a nonparametric bootstrap, we can simulate:</p>
-<div id="qwebr-insertion-location-6"></div>
+<section id="nonparametric-bootstrap" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="nonparametric-bootstrap"><span class="header-section-number">6.2.2</span> Nonparametric Bootstrap</h3>
+<p>Here, we just re-sample new datasets from our sample with replacement, and take the MLE from each of these simulated datasets. A histogram of the MLE values of these datasets can be seen in the code block below.</p>
+<div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-7"></div>
+<p>A <span class="math inline">\(95\%\)</span> confidence interval from in generated in the code block below.</p>
+<div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>So, our approximate 95% confidence interval for <span class="math inline">\(p\)</span> using Nonparametric Bootstrapping is about <span class="math inline">\([0.3714, 0.4360]\)</span>, depending on the simulation.</p>
 </section>
-<section id="comparing-confidence-intervals" class="level3" data-number="6.1.3">
-<h3 data-number="6.1.3" class="anchored" data-anchor-id="comparing-confidence-intervals"><span class="header-section-number">6.1.3</span> Comparing Confidence Intervals</h3>
+<section id="comparing-confidence-intervals" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="comparing-confidence-intervals"><span class="header-section-number">6.2.3</span> Comparing Confidence Intervals</h3>
 <p>Combining last week and this week, I have now computed four different 95% confidence intervals for <span class="math inline">\(p\)</span>.</p>
 <p>They are listed below:</p>
 <ol type="1">
 <li>Using CLT with <span class="math inline">\(\hat{p}\)</span> plug in for <span class="math inline">\(p\)</span> in <span class="math inline">\(I(p)\)</span>: <span class="math inline">\([0.3711, 0.4331]\)</span></li>
 <li>Using CLT with direct computation for <span class="math inline">\(p\)</span> in <span class="math inline">\(I(p)\)</span>: <span class="math inline">\([0.3727, 0.4346]\)</span></li>
-<li>Parametric Bootstrap: <span class="math inline">\([0.3738, 0.4336]\)</span></li>
-<li>Nonparametric Bootstrap: <span class="math inline">\([0.3714, 0.4360]\)</span></li>
+<li>Parametric Bootstrap: <span class="math inline">\([0.3738, 0.4336]\)</span> (with volatility depending on simulation)</li>
+<li>Nonparametric Bootstrap: <span class="math inline">\([0.3714, 0.4360]\)</span> (with volatility depending on simulation)</li>
 </ol>
 <p>Computing for the <strong>range</strong> of the 95% confidence interval, we have:</p>
 <p>Using CLT with <span class="math inline">\(p_hat\)</span> plug in for <span class="math inline">\(p\)</span> in <span class="math inline">\(I(p)\)</span>: <span class="math inline">\(0.0620\)</span></p>
@@ -2132,31 +2138,37 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>The parametric bootstrap 95% confidence interval has the smallest range, while the nonparametric bootstrap has the largest range.</p>
 </section>
 </section>
-<section id="metropolis-hastings" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="metropolis-hastings"><span class="header-section-number">6.2</span> Metropolis Hastings</h2>
-<p>In Homework 1, I calculated a Bayesian posterior mean for my data using a Beta<span class="math inline">\((1,1)\)</span> (Uniform) prior. I solved that:</p>
+<section id="metropolis-hastings" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="metropolis-hastings"><span class="header-section-number">6.3</span> Metropolis Hastings</h2>
+<p>In Chapter 1, I calculated a Bayesian posterior mean for my data using a Beta<span class="math inline">\((1,1)\)</span> (Uniform) prior. I solved that:</p>
 <p><span class="math inline">\(f(p | x) \propto p^{\alpha + nr - 1} (1-p)^{\beta + \sum x_i - 1}\)</span>.</p>
 <p>For my uniform prior, this means that:</p>
 <p><span class="math inline">\(f(p | x) \propto p^{1 + nr - 1} (1-p)^{1 + \sum x_i - 1}\)</span></p>
 <p><span class="math inline">\(f(p | x) \propto p^{nr} (1-p)^{\sum x_i}\)</span>.</p>
-<p>Instead of recognizing the beta distribution, let’s instead run the Metropolis Hastings Algorithm.</p>
+<p>Now, instead of recognizing the beta distribution, let’s instead run the Metropolis Hastings Algorithm.</p>
+<p>The algorithm will work like this. Imagine we start with a list of length one that contains one random sample from my prior distribution (the uniform in my case). I will then generate another sample from my prior distribution and compare it to the last element in my list (which in this case would just be the first generated smaple). With a certain likelihood (that I will explain in a second), I will add this new generated sample to my list. With probability [<span class="math inline">\(1 - \text{that_likelihood}\)</span>], I will just add that last value in my list to the to my list again. I will then continue this process over and over.</p>
+<p>To write out the probability from earlier, imagine <span class="math inline">\(f\)</span> is the prior distribution, <span class="math inline">\(g\)</span> is the distribution we are interested in, and we are comparing new sample <span class="math inline">\(x_j\)</span> and previous sample <span class="math inline">\(x_{j-1}\)</span>. The likelihood of adding generated sample <span class="math inline">\(x_j\)</span> to the list is <span class="math inline">\(\frac{g(x_j)}{g(x_{j-1})} \cdot \frac{f(x_{j-1})}{f(x_j)}\)</span>. The likelihood of adding <span class="math inline">\(x_{j-1}\)</span> again is <span class="math inline">\(1 - \Big( \frac{g(x_j)}{g(x_{j-1})} \cdot \frac{f(x_{j-1})}{f(x_j)} \Big)\)</span></p>
+<p>However, as I am using a <span class="math inline">\(\text{Uniform}(0,1)\)</span> prior, <span class="math inline">\(f(x) = 1\)</span> for every <span class="math inline">\(x\)</span>. This means that the we keep a generated sample with likelihood <span class="math inline">\(\frac{g(x_j)}{g(x_{j-1})}\)</span>, and of keeping the sample simplifies to <span class="math inline">\(\frac{g(x_j)}{g(x_{j-1})}\)</span>.</p>
+<p>After generating enough samples, my list after moving the first chunk of samples (called a burn-in period) should resemble the <span class="math inline">\(g\)</span>, which is the Negative Binomial in my case.</p>
 <p>To avoid numerical underflow, we will compute <span class="math inline">\(e^{log(f(p | x))}\)</span>.</p>
 <p><span class="math inline">\(f(p | x) \propto e^{ nr \log (p) + {\sum x_i} \log (1-p) + C}\)</span>.</p>
+<p>I will generate <span class="math inline">\(15000\)</span> samples and have a burn-in period of <span class="math inline">\(5000\)</span>.</p>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Here, from running the code above, my Metropolis-Hastings posterior mean is around <span class="math inline">\(0.401\)</span>, depending on the simulation.</p>
+<p>In Homework 1, instead of using a simulation, I recognized the <span class="math inline">\(\text{Beta}(1 + nr, 1+ \sum_{i=1}^n x_i)\)</span> distribution. In that situation, my posterior mean was <span class="math inline">\(0.401\)</span>.</p>
+<p>Now, let’s look at the distribution of my Metropolis-Hastings <span class="math inline">\(\hat{p}\)</span> in the code block below.</p>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Here, my Metropolis-Hastings posterior mean is around <span class="math inline">\(0.401\)</span>, depending on the simulation.</p>
-<p>In Homework 1, instead of using a simulation, I recognized the <span class="math inline">\(\text{Beta}(1 + nr, 1+ \sum_{i=1}^n x_i)\)</span> distribution. In that situation, my posterior mean was <span class="math inline">\(0.401\)</span>.</p>
-<p>Now, let’s look at the distribution of my Metropolis-Hastings <span class="math inline">\(\hat{p}\)</span>.</p>
+<p>Also, let’s generate a credible interval from my Metropolis-Hastings data from the code block below.</p>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-10"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Here, my Metropolis-Hastings approximate 95% credible interval is around <span class="math inline">\([0.3701, 0.4283]\)</span>, depending on the simulation.</p>
-<p>When I did this from the Beta function in Homework 4 using the ‘qbeta’ function, my 95% credible interval was <span class="math inline">\([0.3722, 0.4328]\)</span>.</p>
-<p>Here are some statistics about these 95% credible intervals:</p>
+<p>When I did this from the Beta function in Chapter 4 using the ‘qbeta’ function, my 95% credible interval was <span class="math inline">\([0.3722, 0.4328]\)</span>.</p>
+<p>So let’s further compare about these 95% credible intervals:</p>
 <p><strong>Range</strong>:</p>
-<p>Metropolis-Hastings: <span class="math inline">\(0.0582\)</span></p>
 <p>Direct computation of the posterior distribution: <span class="math inline">\(0.0606\)</span></p>
+<p>Metropolis-Hastings: <span class="math inline">\(0.0582\)</span></p>
 <p>So, my approximate M-H 95% credible interval has a slightly smaller spread.</p>
 
 

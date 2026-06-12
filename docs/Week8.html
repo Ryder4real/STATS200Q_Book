@@ -1707,7 +1707,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Quick Proof &amp; Evaluating Estimators</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Futher Evaluating Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -2078,12 +2078,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
+<section id="bayesian-hypothesis-test" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="bayesian-hypothesis-test"><span class="header-section-number">9.1</span> Bayesian Hypothesis Test</h2>
 <p>First, let’s bring my hospital dataset into R.</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="bayesian-hypothesis-test" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="bayesian-hypothesis-test"><span class="header-section-number">9.1</span> Bayesian Hypothesis Test</h2>
-<p>I mention this in Homework 6, but as a reminder:</p>
+<p>I mention this in Chapter 6, but as a reminder:</p>
 <p>In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
 <p>I isolated for <span class="math inline">\(p\)</span> in Homework 6, and got that <span class="math inline">\(p = 0.6\)</span>:</p>
 <p>Let’s say our null hypothesis is <span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span>. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that <span class="math inline">\(E[X] \neq 0.5\)</span>, and and <span class="math inline">\(p \neq 0.6\)</span>.</p>

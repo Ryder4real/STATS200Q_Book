@@ -1707,7 +1707,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Quick Proof &amp; Evaluating Estimators</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Futher Evaluating Estimators</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -1768,7 +1768,8 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#hypothesis-testing" id="toc-hypothesis-testing" class="nav-link active" data-scroll-target="#hypothesis-testing"><span class="header-section-number">7.1</span> Hypothesis Testing</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">7.1</span> Background</a></li>
+  <li><a href="#uniformly-most-powerful-test" id="toc-uniformly-most-powerful-test" class="nav-link" data-scroll-target="#uniformly-most-powerful-test"><span class="header-section-number">7.2</span> Uniformly Most Powerful Test</a></li>
   </ul>
 </nav>
     </div>
@@ -2078,12 +2079,24 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<p>First, let’s bring my hospital dataset into R.</p>
+<section id="background" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="background"><span class="header-section-number">7.1</span> Background</h2>
+<p>We have previously covered solving for <span class="math inline">\(\hat{p}_{MLE}\)</span> and <span class="math inline">\(\hat{p}_{PM}\)</span>, evaluating them, and setting up confidence and credible intervals. Now, we will talk about a new topic: hypothesis testing.</p>
+<p>This chapter is the first of three about hypothesis testing. The idea is that we have a default hypothesis about a parameter <span class="math inline">\(\theta\)</span>. Let’s say, for example, it is that <span class="math inline">\(\theta_0 = 10\)</span>. Maybe this represents the number of symptoms per day of medical patients.</p>
+<p>Now, let’s say we are trying out a new drug, and want to see if is effective. So, maybe our alternative hypothesis is that <span class="math inline">\(\theta_A = 5\)</span>. Hypothesis testing is seeing whether, based on the data, we can reject the null hypothesis and accept the alternative.</p>
+<p>Unlike when we solved for <span class="math inline">\(\hat{p}_{MLE}\)</span> and <span class="math inline">\(\hat{p}_{PM}\)</span>, the result of a hypothesis test is strictly binary. It is where we accept/reject the null hypothesis.</p>
+<p>Frequentist hypothesis Testing is all about the Neyman-Person lemma. This says that if we have a distribution <span class="math inline">\(f_\theta(x)\)</span>, and <span class="math inline">\(H_0: \theta = \theta_0\)</span> and <span class="math inline">\(H_A: \theta = \theta_A\)</span>, then we want to reject <span class="math inline">\(H_0\)</span> when <span class="math inline">\(\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}\)</span> is maximized. This is in order to maximize the power of our hypothesis test.</p>
+<p>To understand why this works, let’s look at hypothesis testing as a constrained optimization problem. Theoretically we would want our test to never makes a mistake, and only accept the null when <span class="math inline">\(H_0\)</span> is true and only reject when <span class="math inline">\(H_0\)</span> is false. In reality, there is a strict trade-off between committing a Type I error (rejecting the <span class="math inline">\(H_0\)</span> despite <span class="math inline">\(H_0\)</span> being true). and maximizing power (the probability of correctly detecting <span class="math inline">\(H_A\)</span>). We handle this by setting a hard cap on our Type I error (which is refered to as <span class="math inline">\(\alpha\)</span>), typically at <span class="math inline">\(\alpha = 0.05\)</span>. Type I error can be very harmful, for example leading us to deem a drug as effective, even if it isn’t. This is why we cap it at <span class="math inline">\(0.05\)</span>.</p>
+<p>Once this budget is locked in, the Neyman-Pearson lemma tells us exactly how to get the maximize our power (correctly rejecting <span class="math inline">\(H_0\)</span> out of our <span class="math inline">\(\alpha\)</span> allocation. You can think of the likelihood ratio <span class="math inline">\(\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}\)</span> as a benefit-to-cost efficiency metric for every possible data outcome. The numerator represents the “benefit” (gaining power if <span class="math inline">\(H_A\)</span> is true), while the denominator represents the “cost” (eating away at our fixed <span class="math inline">\(\alpha\)</span> budget if <span class="math inline">\(H_0\)</span> is true). By sorting our outcomes and choosing to reject <span class="math inline">\(H_0\)</span> only when this ratio is at its highest, the lemma mathematically guarantees that we have constructed the most powerful test possible for our chosen significance level.</p>
+<p>In class, we showed that this principle extends into one-sided hypothesis testing. This means that as opposed to saying <span class="math inline">\(H_A: \theta = 5\)</span>, we say <span class="math inline">\(H_A: \theta &lt; 10\)</span>. To solve for this, we want to find a ratio that maximizes the power for every possible theta below <span class="math inline">\(10\)</span>. What we showed in class is that we can just choose any number below <span class="math inline">\(10\)</span> (let’s say <span class="math inline">\(2\)</span> for this example), and the values the maximize <span class="math inline">\(\frac{f_{\theta_A = 2}(x)}{f_{\theta_0}(x)}\)</span> are the same values that maximize <span class="math inline">\(\frac{f_{\theta_A = 7}(x)}{f_{\theta_0}(x)}\)</span> or <span class="math inline">\(\frac{f_{\theta_A = 9}(x)}{f_{\theta_0}(x)}\)</span>, or any value below 10. So, we can just choose one value to set up the ratio for <span class="math inline">\(H_A: \theta &lt; 10\)</span>.</p>
+<p>Because this single ratio maximizes the power across the entire range of possible alternative values simultaneously, the resulting test is called a Uniformly Most Powerful (UMP) test.</p>
+</section>
+<section id="uniformly-most-powerful-test" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="uniformly-most-powerful-test"><span class="header-section-number">7.2</span> Uniformly Most Powerful Test</h2>
+<p>Let’s apply this to my dataset. First, let’s bring my hospital dataset into R.</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="hypothesis-testing" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="hypothesis-testing"><span class="header-section-number">7.1</span> Hypothesis Testing</h2>
-<p>In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
+<p>In my hospital dataset, remember that the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
 <p>Isolating for <span class="math inline">\(p\)</span>, we get:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -2098,9 +2111,9 @@ p &amp;= \frac{r}{\mathbb{E}[X] + r}
 <p>So, we set <span class="math inline">\(\mathbb{E}\)</span> to be 0.5. Let’s say for the sake of this example that we set <span class="math inline">\(r\)</span> to be <span class="math inline">\(0.75\)</span>. In this scenario, we get <span class="math inline">\(p = \frac{0.75}{0.5+0.75} = 0.6\)</span>.</p>
 <p>Let’s say our null hypothesis is <span class="math inline">\(H_0\)</span> :<span class="math inline">\(p = 0.6\)</span>. Now, we are curious if maybe COVID is more infectious than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that <span class="math inline">\(E[X]\)</span> is greater than 0.5, and as <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p}\)</span>, a smaller <span class="math inline">\(p\)</span> leads to a larger <span class="math inline">\(E[X]\)</span>.</p>
 <p>This means that:</p>
-<p><span class="math inline">\(H_0\)</span> :<span class="math inline">\(p = 0.6\)</span></p>
-<p><span class="math inline">\(H_A\)</span> :<span class="math inline">\(p &lt; 0.6\)</span></p>
-<p>As we learned in class, to figure out the best X values to reject when <span class="math inline">\(p&lt;0.6\)</span>, all we need to do is choose one <span class="math inline">\(p&lt;0.6\)</span>, and the same will hold true for rest. Let’s proceed with <span class="math inline">\(p=0.3\)</span>.</p>
+<p><span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span></p>
+<p><span class="math inline">\(H_A\)</span>: <span class="math inline">\(p &lt; 0.6\)</span></p>
+<p>As mentioned in the Background section, to figure out the best X values to reject when <span class="math inline">\(p&lt;0.6\)</span>, all we need to do is choose one <span class="math inline">\(p&lt;0.6\)</span>, and the same will hold true for rest. Let’s proceed with <span class="math inline">\(p=0.3\)</span>.</p>
 <p>Again, let’s proceed with <span class="math inline">\(r=0.75\)</span>.</p>
 <p>NegBin<span class="math inline">\((p, r)\)</span> follows the distribution <span class="math inline">\(\binom{x + r - 1}{x} p^r (1 - p)^x\)</span>:</p>
 <p>So, our <span class="math inline">\(H_0\)</span> gives us NegBin<span class="math inline">\((p=0.6, r)\)</span>, which follows the distribution: <span class="math inline">\(f_0(x) = \prod \binom{x + r - 1}{x} 0.6^r (1 - 0.6)^x\)</span>.</p>

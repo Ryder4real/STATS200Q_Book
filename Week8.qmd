@@ -2,7 +2,7 @@
 title: "Bayesian Hypothesis Testing"
 ---
 
-
+## Background
 
 ## Bayesian Hypothesis Test
 
