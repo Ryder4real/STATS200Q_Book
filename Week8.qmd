@@ -6,6 +6,8 @@ title: "Bayesian Hypothesis Testing"
 
 In the previous two chapters, we have talked about frequentist hypothesis testing. We now turn our heads to Bayesian hypothesis testing. For Bayesian hypothesis testing, we can compare the posterior likelihoods of $H_0$ and $H_A$. This is called the Bayes Factor. If the Bayes Factor is above 20, then we are considered to have "strong evidence" to reject the null per @kass1995.
 
+For Bayesian hypothesis testing, we are not concerned with limiting Type I error. This is because Type I and Type II errors are frequentist concepts, since they are defined in terms of running the experiment an infinite number of times. That is not relevant to a Bayesian. Instead, Bayesians focus on the posterior probabilities of the null and alternative hypotheses. 
+
 Similar to our previous Bayesian metrics, we first need some priors. There are three priors we will need to come up with. The first two are the prior likelihoods of $H_0$ and $H_A$, which naturally need to sum to 1. The third is a prior distribution for $\theta$.
 
 Bayesian and frequentist hypothesis testing do not always give the same conclusion. Despite having the same data, the frequentist hypothesis test may reject the null while the Bayesian test accepts. This is known as Lindley's Paradox.
