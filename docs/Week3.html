@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Asymptotic Distribution of MLE</title>
+<title>3&nbsp; Asymptotic Distribution of the MLE</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -1667,7 +1667,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Asymptotic Distribution of MLE</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Asymptotic Distribution of the MLE</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1708,7 +1708,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week3.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Asymptotic Distribution of MLE</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Asymptotic Distribution of the MLE</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -2060,7 +2060,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Asymptotic Distribution of MLE</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Asymptotic Distribution of the MLE</span></h1>
 </div>
 
 
@@ -2079,7 +2079,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <section id="background" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="background"><span class="header-section-number">3.1</span> Background</h2>
-<p>This chapter will dive into the Asymptotic Distribution of the MLE we calculated in Chapter 1. One of the most famous statistical concepts is the central limit theorem, which establishes that as <span class="math inline">\(n\)</span> approaches infinity, every distribution approaches the Normal distribution. The original CLT can be manipulated to show that the MLE follows a Normal distribution for large <span class="math inline">\(n\)</span> (I show the proof behind this later in the chapter). It is kind of wild to think about no matter the original distribution, the distribution of the MLE approaches the Normal distribution!</p>
+<p>This chapter will dive into the Asymptotic Distribution of the MLE we calculated in Chapter 1. This is interesting because calculating the bias and variance of the MLE by hand can be difficult.</p>
+<p>However, this can be made easier when dealing with large sample sizes by knowing that the distribution of the MLE approximates to a Normal as <span class="math inline">\(n \rightarrow \infty\)</span> It is kind of wild to think about no matter the original distribution, the distribution of the MLE approaches the Normal distribution!</p>
+<p>I will first simulate my distribution and look at a histogram of <span class="math inline">\(\hat{p}_MLE\)</span> as <span class="math inline">\(n\)</span> grows large. Then, I will prove that the MLE approximates to a Normal as <span class="math inline">\(n \rightarrow \infty\)</span>, and then apply that to my distribution.</p>
 </section>
 <section id="simulating-distribution" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="simulating-distribution"><span class="header-section-number">3.2</span> Simulating Distribution</h2>

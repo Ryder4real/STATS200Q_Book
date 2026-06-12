@@ -66,9 +66,9 @@ x_bar  <- mean(x)
 n      <- length(x)
 x_sum  <- sum(x)
 
-cat("x_bar is :", x_bar, "\n")
-cat("n is     :", n, "\n")
-cat("x_sum is :", x_sum, "\n")
+cat("x_bar:", x_bar, "\n")
+cat("n:", n, "\n")
+cat("x_sum:", x_sum, "\n")
 ```
 
 As we can see from the code above, in my dataset, $\bar{x} = 0.7435, n=807, \sum(x) = 600$.

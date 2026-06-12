@@ -457,9 +457,9 @@ Now, let's compute the two estimators on my dataset.
 \NormalTok{n      \textless{}{-} length(x)}
 \NormalTok{x\_sum  \textless{}{-} sum(x)}
 
-\NormalTok{cat("x\_bar is :", x\_bar, "\textbackslash{}n")}
-\NormalTok{cat("n is     :", n, "\textbackslash{}n")}
-\NormalTok{cat("x\_sum is :", x\_sum, "\textbackslash{}n")}
+\NormalTok{cat("x\_bar:", x\_bar, "\textbackslash{}n")}
+\NormalTok{cat("n:", n, "\textbackslash{}n")}
+\NormalTok{cat("x\_sum:", x\_sum, "\textbackslash{}n")}
 \end{Highlighting}
 \end{Shaded}
 
@@ -529,9 +529,9 @@ bias and variance of our estimators is:
 \end{Highlighting}
 \end{Shaded}
 
-\(\hat{p}_{MLE}\) has positive bias while \(\hat{p}_{PM}\) is biased
-toward the prior distribution (which in this case leads to positive
-bias).
+As we can see from the table produced by the code, \(\hat{p}_{MLE}\) has
+positive bias while \(\hat{p}_{PM}\) is biased toward the prior
+distribution (which in this case leads to positive bias).
 
 \(\hat{p}_{PM}\) has less slightly less variance. This is more apparent
 if you make \texttt{n\_obs} smaller in the code.
@@ -754,20 +754,25 @@ provide a strict lower bound for their variance.
 
 \bookmarksetup{startatroot}
 
-\chapter{Asymptotic Distribution of
-MLE}\label{asymptotic-distribution-of-mle}
+\chapter{Asymptotic Distribution of the
+MLE}\label{asymptotic-distribution-of-the-mle}
 
 \section{Background}\label{background-3}
 
 This chapter will dive into the Asymptotic Distribution of the MLE we
-calculated in Chapter 1. One of the most famous statistical concepts is
-the central limit theorem, which establishes that as \(n\) approaches
-infinity, every distribution approaches the Normal distribution. The
-original CLT can be manipulated to show that the MLE follows a Normal
-distribution for large \(n\) (I show the proof behind this later in the
-chapter). It is kind of wild to think about no matter the original
-distribution, the distribution of the MLE approaches the Normal
+calculated in Chapter 1. This is interesting because calculating the
+bias and variance of the MLE by hand can be difficult.
+
+However, this can be made easier when dealing with large sample sizes by
+knowing that the distribution of the MLE approximates to a Normal as
+\(n \rightarrow \infty\) It is kind of wild to think about no matter the
+original distribution, the distribution of the MLE approaches the Normal
 distribution!
+
+I will first simulate my distribution and look at a histogram of
+\(\hat{p}_MLE\) as \(n\) grows large. Then, I will prove that the MLE
+approximates to a Normal as \(n \rightarrow \infty\), and then apply
+that to my distribution.
 
 \section{Simulating Distribution}\label{simulating-distribution}
 

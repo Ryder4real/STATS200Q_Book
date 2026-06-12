@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.21.0 (TeX Live 2025)  (format=lualatex 2025.3.8)  12 JUN 2026 11:44
+This is LuaHBTeX, Version 1.21.0 (TeX Live 2025)  (format=lualatex 2025.3.8)  12 JUN 2026 11:58
  restricted system commands enabled.
 **index.tex
 (./index.tex
@@ -1103,7 +1103,7 @@ chapter 5.
 ! Missing $ inserted.
 <inserted text> 
 $
-l.1383 {[}\(1 - \text{that_likelihood}
+l.1388 {[}\(1 - \text{that_likelihood}
                                     \){]}, I will just add that last value in
 
 Here is how much of LuaTeX's memory you used:
@@ -1114,9 +1114,9 @@ Here is how much of LuaTeX's memory you used:
  kern, 26 penalty, 1 choice, 3 noad, 3 math_char, 5 sub_mlist, 9 margin_kern, 97
 7 glyph, 147 attribute, 70 glue_spec, 147 attribute_list, 5 temp, 2 write, 1 pdf
 _dest, 4 pdf_colorstack nodes
-   avail lists: 1:2,2:1152,3:168,4:548,5:370,6:22,7:4339,8:72,9:1262,10:10,11:31
+   avail lists: 1:2,2:1152,3:168,4:548,5:370,6:20,7:4339,8:72,9:1262,10:10,11:31
 9,12:1
  47725 multiletter control sequences out of 65536+600000
- 69 fonts using 19959839 bytes
- 108i,15n,114p,10918b,388s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 69 fonts using 19959763 bytes
+ 108i,15n,114p,10918b,386s stack positions out of 10000i,1000n,20000p,200000b,200000s
 !  ==> Fatal error occurred, no output PDF file produced!
