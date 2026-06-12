@@ -6,9 +6,9 @@ title: "Further Evaluating Estimators"
 
 This chapter covers a variety of topics. First, I will dive into some cool properties regarding the score, which is the derivative of the log likelihood. One integration technique I will use for this is "Differentiation Under the Integral Sign". It is a cool trick that allows you to move a derivative outside of the integral.
 
-Then, we will take a nice short break from proofs, and I will then dive into another way to evaluate estimators. In Chapter 1, we looked at the bias and variance of $\hat{p}_{MLE}$ and $\hat{p}_{PM}$, but this time I will use frequentist Mean Squared Error to compare them. This is defined as MSE = $\mathbb{E}[(\hat{\theta} - \theta)^2]$. The MSE can famously be decomposed as the (Bias$^2$ + Variance). So, while last chapter we looked at bias and variance, MSE serves as an all-encompassing metric. So, I will compare the MSE of my MLE and Posterior Mean from Chapter 1.
+Then, we will take a nice short break from proofs, and I will mention another way to evaluate estimators. In Chapter 1, we looked at the bias and variance of $\hat{p}_{MLE}$ and $\hat{p}_{PM}$, but this time I will use frequentist Mean Squared Error to compare them. This is defined as MSE = $\mathbb{E}[(\hat{\theta} - \theta)^2]$. The MSE can famously be decomposed as the (Bias$^2$ + Variance). So, while last chapter we looked at bias and variance, MSE serves as an all-encompassing metric. So, I will compare the MSE of my MLE and Posterior Mean from Chapter 1.
 
-Alas, after discussing MSE, our short break from proofs will have concluded. I will next prove the Cramer-Rao Lower Bound (CRLB), evaluate the CRLB for my distribution, and see if it is relevant to the MLE and Posterior Mean I calculated in Chapter 1. In class, we learned that the CRLB is a lower bound to the variance of an unbiased estimator. This means of all unbiased estimators, if one reaches the CRLB, then it is the best unbiased estimator. This is very insightful. It means once we've reached that bound, there is no point evaluating other unbiased estimators, as there cannot be a unbiased estimator with a lower variance that the one that reaches the CRLB.
+Alas, after discussing MSE, our short break from proofs will have concluded. I will next prove the Cramer-Rao Lower Bound (CRLB), evaluate the CRLB for my distribution, and see if it is relevant to the MLE and Posterior Mean I calculated in Chapter 1. In class, we learned that the CRLB is a lower bound to the variance of an unbiased estimator. This means that of all unbiased estimators, if one reaches the CRLB, then it is the best unbiased estimator, as it would have the lowest MSE. This is very insightful. It means once we've reached that bound, there is no point evaluating other unbiased estimators, as there cannot be a unbiased estimator with a lower variance and MSE that the one that reaches the CRLB.
 
 As an extra note, the CRLB is defined as $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the variance of the score (which is the derivative of the log-likelihood). I will prove this later on in this chapter. It is important to note that some of the equations I derive in the first part of this chapter will make it easier to solve for the CRLB for my distribution.
 
@@ -43,7 +43,7 @@ $$
 &= \frac{d}{d \theta} (1) = 0
 \end{aligned}
 $$
-The fact that $\mathbb{E}[\ell'_x(\theta)] = 0$ is an important result and I use in again later on in this chapter.
+The fact that $\mathbb{E}[\ell'_x(\theta)] = 0$ is an important result and I use it again later on in this chapter.
 
 Now, let's solve for $\text{Var}(\ell'(\theta))$.
 
@@ -84,11 +84,13 @@ So, we have just shown that $\text{Var}(\ell'(\theta)) = - \mathbb{E}[\ell''_x(\
 
 ## MSE
 
-In Chapter 1, I derived that if $X \sim \text{NegBin}(r, p)$, then: $\hat{p}_{MLE} = \frac{r}{r + \bar{x}}$ and $\hat{p}_{PM}$ = $\frac{1 + nr}{2 + nr + \sum x_i}$.
+In Chapter 1, I derived that if $X_1,...,X_n \sim \text{NegBin}(r, p)$, then: $\hat{p}_{MLE} = \frac{r}{r + \bar{x}}$ and $\hat{p}_{PM}$ = $\frac{1 + nr}{2 + nr + \sum x_i}$.
 
-To show that  $\hat{p}_{MLE}$ and $\hat{p}_{PM}$ have different MSE for different $p$, below is a simulation that prints out Mean Squared Error for different $p$, for when $n=50$ and $r=0.5$.
+We previously analyzed the bias and variance of these estimators. Now, let's analyze their MSE, which is $\mathbb{E}[(\hat{p} - p)^2]$. As mentioned in the Background section, this can be rewritten as Bias$^2$ + Variance.
 
-```{r}
+Bbelow is a simulation that prints out Mean Squared Error for different $p$, for when $n=50$ and $r=0.5$.
+
+```{webr-r}
 n <- 50 
 true_size <- 0.5 #r
 
@@ -131,7 +133,7 @@ legend("topright",
        cex = 0.6)
 ```
 
-As we can see, at different true $p$ values, one estimator may be better than the other. This is an interesting result, as we cannot declare one estimator to be better than the other using frequentist MSE.
+As we can see, at different true $p$ values, one estimator may be better than the other. This is an interesting result, and means that we cannot declare one officially estimator to be better than the other using frequentist MSE.
 
 ## Proving the Cramer-Rao Lower Bound
 
@@ -142,7 +144,6 @@ First, let $t(x)$ be any unbiased estimator of $\theta$. Now let's solve for $\t
 $$
 \begin{aligned}
 \text{Cov}(t(x), \ell'(x)) &= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - \mathbb{E}[t(x)] \mathbb{E}[\ell'_x(\theta)] \\
-&= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - \mathbb{E}[t(x)] \mathbb{E}[\ell'_x(\theta)]
 \end{aligned}
 $$
 Now, in the first section of this Chapter, we showed that $\mathbb{E}[\ell'_x(\theta)] = 0$. So, let's apply that and continue to manipulate.
@@ -182,7 +183,7 @@ CRLB: $\frac{1}{\text{Var}(\ell'_x(\theta))} = \frac{1}{I(\theta)} = \frac{1}{-\
 
 ## Finding the CRLB
 
-As described above, the CRLB for unbiased estimators is $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the Variance of the Score. However, we proved above that the variance of the score, $\text{Var}(\ell'(\theta))$ is actually equivalent to $-\mathbb{E}[\ell''(\theta)]$
+As described above, the CRLB for unbiased estimators is $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the variance of the score. However, we proved above that the variance of the score, $\text{Var}(\ell'(\theta))$ is actually equivalent to $-\mathbb{E}[\ell''(\theta)]$
 
 So, this means that the CRLB for unbiased estimators is $\frac{1}{-\mathbb{E}[\ell''(\theta)]}$. 
 

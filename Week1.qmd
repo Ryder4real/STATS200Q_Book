@@ -4,7 +4,7 @@ title: "MLE & Posterior Mean"
 
 ## Background
 
-This chapter covers the Bayesian v Frequentist methods for estimating parameters. Imagine you flip a potentially weighted coin N times, and X are heads. How would you about estimating the true probability that the coin lands on heads? This is an interesting question, and Bayesians and frequentists would take different approaches.
+This chapter covers the Bayesianand frequentist method for estimating a parameter. Imagine you flip a potentially weighted coin N times, and X are heads. How would you about estimating the true probability that the coin lands on heads? This is an interesting question, and Bayesians and frequentists would take different approaches.
 
 This serves as a motivation for estimating parameters. Below, I will estimate $p$ in the Negative Binomial Distribution.
 
@@ -35,7 +35,7 @@ $$
 
 ## Posterior Mean
 
-For the Bayesian method, we need a prior distribution that we will then have the data update. Let's use a Beta Prior with $\alpha=1, \beta = 1$ (which is actually just a uniform).
+For the Bayesian method, we need a prior distribution that we will then have the data update. Let's use a Beta$(\alpha, \beta)$ prior.
 
 $$
 \begin{aligned}
@@ -46,6 +46,8 @@ $$
 $$
 
 This results in $f(p | x) \sim \text{Beta}(\alpha + nr, \beta + \sum_{i=1}^n x_i)$.
+
+If we set up our Beta prior with $\alpha=1, \beta = 1$ (which is actually just a uniform), we get:
 
 $$
 \begin{aligned}

@@ -1747,12 +1747,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -2077,7 +2071,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <section id="background" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="background"><span class="header-section-number">6.1</span> Background</h2>
 <p>We have previously covered solving for <span class="math inline">\(\hat{p}_{MLE}\)</span> and <span class="math inline">\(\hat{p}_{PM}\)</span>, evaluating them, and setting up confidence and credible intervals. Now, we will talk about a new topic: hypothesis testing.</p>
-<p>This chapter is the first of three about hypothesis testing. The idea is that we have a default hypothesis about a parameter <span class="math inline">\(\theta\)</span>. Let’s say, for example, it is that <span class="math inline">\(\theta_0 = 10\)</span>. Maybe this represents the number of symptoms per day of medical patients.</p>
+<p>This chapter is the first of three about hypothesis testing. The idea is that we have a default hypothesis about a parameter <span class="math inline">\(\theta\)</span>. Let’s say, for example, our null hypothesis is that <span class="math inline">\(\theta_0 = 10\)</span>. Maybe this represents the number of symptoms per day of medical patients.</p>
 <p>Now, let’s say we are trying out a new drug and want to see if it is effective. So, maybe our alternative hypothesis is that <span class="math inline">\(\theta_A = 5\)</span>, thus lowering the number of symptoms per day. Hypothesis testing is seeing whether, based on the data, we can reject the null hypothesis and accept the alternative.</p>
 <p>Unlike when we solved for <span class="math inline">\(\hat{p}_{MLE}\)</span> and <span class="math inline">\(\hat{p}_{PM}\)</span>, the result of a hypothesis test is strictly binary. It is only where we accept/reject the null hypothesis.</p>
 <p>Frequentist hypothesis testing is all about the Neyman-Person lemma. This says that if we have a distribution <span class="math inline">\(f_\theta(x)\)</span>, and <span class="math inline">\(H_0: \theta = \theta_0\)</span> and <span class="math inline">\(H_A: \theta = \theta_A\)</span>, then we want to reject <span class="math inline">\(H_0\)</span> when <span class="math inline">\(\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}\)</span> is maximized. This is in order to maximize the power of our hypothesis test.</p>
@@ -2142,11 +2136,11 @@ p &amp;= \frac{r}{\mathbb{E}[X] + r}
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>So, <span class="math inline">\(c = 448\)</span></p>
-<p>So, we reject if <span class="math inline">\(H_0\)</span> <span class="math inline">\(\sum x_i \ge 448\)</span>.</p>
-<p>Now, let’s see how often we would reject in my dataset.</p>
+<p>So, we reject if <span class="math inline">\(H_0\)</span> when <span class="math inline">\(\sum x_i \ge 448\)</span>.</p>
+<p>Now, let’s see if reject <span class="math inline">\(H_0\)</span> in my dataset.</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>As <span class="math inline">\(600 &gt; c\)</span> (which was <span class="math inline">\(448\)</span>), for my COVID hospital dataset, we reject <span class="math inline">\(H_0\)</span>. This implies that we accept the alternative hypothesis that COVID is more contagious than the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least <span class="math inline">\(1\)</span> person, so I do not want to extrapolate too much).</p>
+<p>As <span class="math inline">\(600 &gt; c\)</span> (which was <span class="math inline">\(448\)</span>) in my COVID hospital dataset, we reject <span class="math inline">\(H_0\)</span>. This implies that we accept the alternative hypothesis that COVID is more contagious than the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least 1 person, so I do not want to extrapolate too much).</p>
 
 
 </section>

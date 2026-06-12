@@ -23,7 +23,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -1747,12 +1766,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -2076,8 +2089,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <section id="background" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="background"><span class="header-section-number">8.1</span> Background</h2>
-<p>In the previous two chapters, we have talked about frequentist hypothesis testing. We now turn our heads to Bayesian hypothesis testing. For Bayesian hypothesis testing, we can compare the posterior likelihoods of <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_A\)</span>. This is called the Bayes Factor. If the Bayes Factor is above 20, then we are considered to have “strong evidence” to reject the null.</p>
+<p>In the previous two chapters, we have talked about frequentist hypothesis testing. We now turn our heads to Bayesian hypothesis testing. For Bayesian hypothesis testing, we can compare the posterior likelihoods of <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_A\)</span>. This is called the Bayes Factor. If the Bayes Factor is above 20, then we are considered to have “strong evidence” to reject the null per <span class="citation" data-cites="kass1995">Kass and Raftery (<a href="#ref-kass1995" role="doc-biblioref">1995</a>)</span>.</p>
 <p>Similar to our previous Bayesian metrics, we first need some priors. There are three priors we will need to come up with. The first two are the prior likelihoods of <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_A\)</span>, which naturally need to sum to 1. The third is a prior distribution for <span class="math inline">\(\theta\)</span>.</p>
+<p>Bayesian and frequentist hypothesis testing do not always give the same conclusion. Despite having the same data, the frequentist hypothesis test may reject the null while the Bayesian test accepts. This is known as Lindley’s Paradox.</p>
 </section>
 <section id="bayesian-hypothesis-test" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="bayesian-hypothesis-test"><span class="header-section-number">8.2</span> Bayesian Hypothesis Test</h2>
@@ -2091,7 +2105,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>So, this gives us:</p>
 <p><span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span></p>
 <p><span class="math inline">\(H_A\)</span>: <span class="math inline">\(p \neq 0.6\)</span></p>
-<p>Now, for Bayesian Hypothesis Testing, we need to assign prior probabilities to both the null hypothesis and the alternative hypothesis. As I do not have a great intuition, let’s follow the Rule of Insufficient Reason and say both are <span class="math inline">\(0.5\)</span>.</p>
+<p>Now, for Bayesian Hypothesis Testing, we need to assign prior probabilities to both the null hypothesis and the alternative hypothesis. As I do not have a great intuition, let’s follow the Rule of Insufficient Reason, as described in <span class="citation" data-cites="efron2026">Efron (<a href="#ref-efron2026" role="doc-biblioref">2026</a>)</span>, and say both are <span class="math inline">\(0.5\)</span>.</p>
 <p>So, we have:</p>
 <p><span class="math inline">\(P(H_0) = 0.5\)</span></p>
 <p><span class="math inline">\(P(H_A) = 0.5\)</span></p>
@@ -2138,10 +2152,18 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \]</span></p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>My Bayes Factor is <span class="math inline">\(607815364\)</span>, meaning there is very strong evidence to reject the null hypothesis per the criteria in <span class="citation" data-cites="Kass1995">(<a href="#ref-Kass1995" role="doc-biblioref"><strong>Kass1995?</strong></a>)</span>.</p>
+<p>My Bayes Factor is <span class="math inline">\(607815364\)</span>, meaning there is very strong evidence to reject the null hypothesis.</p>
 <p>In Chapter 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected <span class="math inline">\(H_0\)</span> (we reject the hypothesis that COVID has the same contagious level as the flu). As my Bayesian and frequenist hypothesis tests both come to the same conclusion, I did not encounter Lindley’s paradox.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-efron2026" class="csl-entry" role="listitem">
+Efron, Bradley. 2026. <em>To Think Like a Statistician</em>. Princeton University Press.
+</div>
+<div id="ref-kass1995" class="csl-entry" role="listitem">
+Kass, Robert E., and Adrian E. Raftery. 1995. <span>“Bayes Factors.”</span> <em>Journal of the American Statistical Association</em> 90 (430): 773–95. <a href="https://doi.org/10.1080/01621459.1995.10476572">https://doi.org/10.1080/01621459.1995.10476572</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

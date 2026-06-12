@@ -1747,12 +1747,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -2081,7 +2075,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <section id="background" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="background"><span class="header-section-number">7.1</span> Background</h2>
 <p>Last chapter, we talked about hypothesis testing and the Uniformly Most Powerful Test. Tests like these are possible when our <span class="math inline">\(H_A\)</span> is a greater than or less than, like <span class="math inline">\(H_A: \theta &lt; 1\)</span>. However, what if we had <span class="math inline">\(H_A: \theta \neq 1\)</span>.</p>
-<p>What maximizes power for <span class="math inline">\(\theta = 0.5\)</span> is different than what maximizes power for <span class="math inline">\(\theta = 1.5\)</span>. So, we cannot have Uniformly Most Powerful Test. Instead, we set up the Generalized Likelihood Ratio Test. The idea is still the same, where we still want to find the <span class="math inline">\(x\)</span> values that maximize <span class="math inline">\(\frac{f_{\text{Alternative Hypothesis}}(x)}{f_{\text{Null Hypothesis}}(x)}\)</span>. The problem is that if <span class="math inline">\(H_A: \theta \neq 1\)</span>, different values maximize <span class="math inline">\(f_\text{Alternative Hypothesis}(x)\)</span> depending on if <span class="math inline">\(\theta\)</span> is above or below <span class="math inline">\(1\)</span>.</p>
+<p>What maximizes power for <span class="math inline">\(\theta = 0.5\)</span> is different than what maximizes power for <span class="math inline">\(\theta = 1.5\)</span>. So, we cannot have a Uniformly Most Powerful Test. Instead, we set up the Generalized Likelihood Ratio Test. The idea is still the same, where we still want to find the <span class="math inline">\(x\)</span> values that maximize <span class="math inline">\(\frac{f_{\text{Alternative Hypothesis}}(x)}{f_{\text{Null Hypothesis}}(x)}\)</span>. The problem is that if <span class="math inline">\(H_A: \theta \neq 1\)</span>, different values maximize <span class="math inline">\(f_\text{Alternative Hypothesis}(x)\)</span> depending on if <span class="math inline">\(\theta\)</span> is above or below <span class="math inline">\(1\)</span>.</p>
 <p>So, our solution is to find a <span class="math inline">\(\theta\)</span> that maximizes the numerator. This means that we can re-write the ratio we want to maximize as: <span class="math inline">\(\frac{\max_\theta \mathcal{L}(\theta)}{\mathcal{L}(\theta_0)}\)</span>.</p>
 <p>The <span class="math inline">\(\theta\)</span> that maximizes the likelihood is the MLE. This means that we want to maximize the ratio <span class="math inline">\(\frac{f_{\hat{\theta}_{MLE}}(x)}{f_{\theta_0}(x)}\)</span>.</p>
 </section>
@@ -2099,7 +2093,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p><span class="math inline">\(H_A\)</span>: <span class="math inline">\(p \neq 0.6\)</span></p>
 <p>As we mentioned above, for this type of hypothesis test, we try to maximize the ratio:</p>
 <p><span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}\)</span></p>
-<p>We can rewrite this as:</p>
+<p>We can write this out as:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &amp;= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} p^r (1 - p)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
@@ -2120,7 +2114,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \]</span></p>
 <p>We want to reject when <span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \geq c\)</span>, where: <span class="math display">\[P(\texttt{test\_statistic} \geq c) = \alpha = 0.05\]</span></p>
 <p>However, this does not simplify to a distribution I recognize, so I cannot solve for <span class="math inline">\(c\)</span>.</p>
-<p>Still, we want to maximize this function. As log() is monotonic, we can take the logarithm of the fraction.</p>
+<p>Still, we want to maximize this function. As log is monotonic, we can take the logarithm of the fraction.</p>
 <p><span class="math display">\[
 \begin{aligned}
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &amp;= \log \Bigg( \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}} \Bigg)\\
@@ -2151,27 +2145,28 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </section>
 <section id="asymptotic" class="level3" data-number="7.2.2">
 <h3 data-number="7.2.2" class="anchored" data-anchor-id="asymptotic"><span class="header-section-number">7.2.2</span> Asymptotic</h3>
-<p>We learned in class that under Wilks’ Theorem, for large <span class="math inline">\(n\)</span>:</p>
+<p>We learned in class that under Wilks’ Theorem, when only solving for only one parameter and setting all the potential parameters as fixed, then for large <span class="math inline">\(n\)</span>:</p>
 <p><span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1\)</span>.</p>
-<p>As we want to reject when Remember, we want to reject when <span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)})\)</span> is large.</p>
+<p>Remember, we want to reject when <span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)})\)</span> is large.</p>
 <p>So, we set up our rejection bound as:</p>
 <p><span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \geq c\)</span>, where <span class="math inline">\(c\)</span> the <span class="math inline">\(95\%\)</span> percentile of the chi-squared distribution.</p>
 <p>So, let’s figure out our <span class="math inline">\(c\)</span>:</p>
 <p>We can run this in code:</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>So, form the code block above, <span class="math inline">\(c = 3.841459\)</span></p>
-<p>Now, let’s check our data. Let’s assume <span class="math inline">\(r = 0.75\)</span>. Remember that Wilks’ Theorem states that for large <span class="math inline">\(n\)</span>: <span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1\)</span>.</p>
+<p>So, from the code block above, <span class="math inline">\(c = 3.841459\)</span></p>
+<p>Now, let’s check our data. Let’s assume <span class="math inline">\(r = 0.75\)</span>. Remember that Wilks’ Theorem states that for large <span class="math inline">\(n\)</span> when there is only one unknown parameter.</p>
+<p><span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1\)</span>.</p>
 <p>For our Negative Binomial: <span class="math inline">\(\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)\)</span></p>
 <p>Let’s proceed with <span class="math inline">\(r=0.75\)</span>.</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>So, we can see from the code block that our dataset’s test statistic was 47.09489. If I just plug in the PDFs, I get the same value:</p>
+<p>So, we can see from the code block that our dataset’s test statistic was 47.09489. If I just plug in the PMFs, I get the same value:</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>As <span class="math inline">\(47.1 &gt; c\)</span> (which was <span class="math inline">\(3.841459\)</span>), for my COVID hospital dataset, we reject <span class="math inline">\(H_0\)</span>.</p>
 <p>This implies that we reject the hypothesis that COVID has the same contagious level as the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least <span class="math inline">\(1\)</span> person, so I do not want to extrapolate too much). Another way to say this is that we accept the hypothesis that COVID does not have the same contagious level as the flu.</p>
-<p>A power curve using Wilk’s Theorem would be:</p>
+<p>A power curve using Wilks’ Theorem would be:</p>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Again, I recommend going back in the code and seeing how changing <code>n</code> can effect your power curve.</p>

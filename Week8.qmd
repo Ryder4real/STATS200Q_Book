@@ -4,9 +4,11 @@ title: "Bayesian Hypothesis Testing"
 
 ## Background
 
-In the previous two chapters, we have talked about frequentist hypothesis testing. We now turn our heads to Bayesian hypothesis testing. For Bayesian hypothesis testing, we can compare the posterior likelihoods of $H_0$ and $H_A$. This is called the Bayes Factor. If the Bayes Factor is above 20, then we are considered to have "strong evidence" to reject the null.
+In the previous two chapters, we have talked about frequentist hypothesis testing. We now turn our heads to Bayesian hypothesis testing. For Bayesian hypothesis testing, we can compare the posterior likelihoods of $H_0$ and $H_A$. This is called the Bayes Factor. If the Bayes Factor is above 20, then we are considered to have "strong evidence" to reject the null per @kass1995.
 
 Similar to our previous Bayesian metrics, we first need some priors. There are three priors we will need to come up with. The first two are the prior likelihoods of $H_0$ and $H_A$, which naturally need to sum to 1. The third is a prior distribution for $\theta$.
+
+Bayesian and frequentist hypothesis testing do not always give the same conclusion. Despite having the same data, the frequentist hypothesis test may reject the null while the Bayesian test accepts. This is known as Lindley's Paradox.
 
 ## Bayesian Hypothesis Test
 
@@ -31,7 +33,7 @@ $H_0$: $p = 0.6$
 
 $H_A$: $p \neq 0.6$
 
-Now, for Bayesian Hypothesis Testing, we need to assign prior probabilities to both the null hypothesis and the alternative hypothesis. As I do not have a great intuition, let's follow the Rule of Insufficient Reason and say both are $0.5$.
+Now, for Bayesian Hypothesis Testing, we need to assign prior probabilities to both the null hypothesis and the alternative hypothesis. As I do not have a great intuition, let's follow the Rule of Insufficient Reason, as described in @efron2026, and say both are $0.5$.
 
 So, we have:
 
@@ -111,6 +113,6 @@ bayes_factor = exp(exponent)
 bayes_factor
 ```
 
-My Bayes Factor is $607815364$, meaning there is very strong evidence to reject the null hypothesis per the criteria in @Kass1995.
+My Bayes Factor is $607815364$, meaning there is very strong evidence to reject the null hypothesis.
 
 In Chapter 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected $H_0$ (we reject the hypothesis that COVID has the same contagious level as the flu). As my Bayesian and frequenist hypothesis tests both come to the same conclusion, I did not encounter Lindley's paradox.

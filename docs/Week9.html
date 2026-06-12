@@ -33,7 +33,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
 <link href="./Week8.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -194,12 +193,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -246,7 +239,7 @@ window.Quarto = {
 <h2 data-number="9.1" class="anchored" data-anchor-id="background"><span class="header-section-number">9.1</span> Background</h2>
 <p>We have finally finished covering both frequentist and Bayesian hypothesis testing. This means we moved onto the final topic of this book: sufficiency.</p>
 <p>A sufficient statistic <span class="math inline">\(T(x_1,...,x_n)\)</span>, means that <span class="math inline">\(T\)</span> contains all useful information with respect to the data. This means that once we have <span class="math inline">\(T\)</span>, we do not care how we got there. As a quick example, let’s say that <span class="math inline">\(T = \sum_{i=1}^n x_i\)</span> and it is a sufficient statistic for <span class="math inline">\(\theta\)</span>. This means that for properly estimating <span class="math inline">\(\theta\)</span>, we do not need to know <span class="math inline">\(x_1,...,x_n\)</span>. In fact, we only need to know <span class="math inline">\(T\)</span>.</p>
-<p>Furthermore, for a frequentist application, the Rao-Blackwell theorem says that for any unbiased estimator <span class="math inline">\(\hat{\theta}\)</span>, then <span class="math inline">\(\hat{\theta}_{RB} = \mathbb{E}[\hat{\theta}(T)]\)</span> is also unbiased and <span class="math inline">\(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\)</span>. So, this means that the best unbiased estimator only references the data with respect to the sufficient statistic <span class="math inline">\(T\)</span>.</p>
+<p>Furthermore, the Rao-Blackwell theorem says that for any unbiased estimator <span class="math inline">\(\hat{\theta}\)</span>, then <span class="math inline">\(\hat{\theta}_{RB} = \mathbb{E}[\hat{\theta}(T)]\)</span> is also unbiased and <span class="math inline">\(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\)</span>. So, this means that the best unbiased estimator only references the data with respect to the sufficient statistic <span class="math inline">\(T\)</span>.</p>
 <p>A quick proof is below. First, let’s show that if <span class="math inline">\(\hat{\theta}\)</span> is unbiased, then so is <span class="math inline">\(\hat{\theta}_{RB}\)</span>.</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -262,7 +255,7 @@ window.Quarto = {
 \end{aligned}
 \]</span></p>
 <p>So, we can see <span class="math inline">\(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\)</span>.</p>
-<p>This gives way to the sufficiency principle: “If you have a sufficient statistic, use it”.</p>
+<p>This gives way to the sufficiency principle: “If you have a sufficient statistic, use it.”</p>
 <p>The MLE and Posterior Mean are always both functions of a sufficient statistic. In general, our estimators are usually already functions of sufficient statistics, meaning we do not usually have to apply the Rao-Blackwell theorem to improve our estimator (this process is called Rao-Blackwellization).</p>
 </section>
 <section id="sufficient-statistic" class="level2" data-number="9.2">
@@ -279,7 +272,7 @@ window.Quarto = {
 <p>I will show that for my distribution, both definitions hold:</p>
 <section id="first-proof" class="level3" data-number="9.2.1">
 <h3 data-number="9.2.1" class="anchored" data-anchor-id="first-proof"><span class="header-section-number">9.2.1</span> First Proof</h3>
-<p>The PDF of my negative Binomial Distribution: <span class="math inline">\(X_1,...,X_n \sim \text{NegBin}(r, p)\)</span> is:</p>
+<p>The PMF of my negative Binomial Distribution: <span class="math inline">\(X_1,...,X_n \sim \text{NegBin}(r, p)\)</span> is:</p>
 <p><span class="math display">\[
 \begin{aligned}
     f_p(x_1,...,x_n) &amp;= \prod_{i=1}^n \binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i}
@@ -764,9 +757,6 @@ P(X_1=x_1,...,Xn=x_n | T=t) &amp;= \frac{  \prod_{i=1}^n \binom{x_i + r - 1}{x_i
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

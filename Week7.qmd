@@ -6,7 +6,7 @@ title: "Generalized Likelihood Ratio Test"
 
 Last chapter, we talked about hypothesis testing and the Uniformly Most Powerful Test. Tests like these are possible when our $H_A$ is a greater than or less than, like $H_A: \theta < 1$. However, what if we had $H_A: \theta \neq 1$.
 
-What maximizes power for $\theta = 0.5$ is different than what maximizes power for $\theta = 1.5$. So, we cannot have Uniformly Most Powerful Test. Instead, we set up the Generalized Likelihood Ratio Test. The idea is still the same, where we still want to find the $x$ values that maximize $\frac{f_{\text{Alternative Hypothesis}}(x)}{f_{\text{Null Hypothesis}}(x)}$. The problem is that if $H_A: \theta \neq 1$, different values maximize $f_\text{Alternative Hypothesis}(x)$ depending on if $\theta$ is above or below $1$.
+What maximizes power for $\theta = 0.5$ is different than what maximizes power for $\theta = 1.5$. So, we cannot have a Uniformly Most Powerful Test. Instead, we set up the Generalized Likelihood Ratio Test. The idea is still the same, where we still want to find the $x$ values that maximize $\frac{f_{\text{Alternative Hypothesis}}(x)}{f_{\text{Null Hypothesis}}(x)}$. The problem is that if $H_A: \theta \neq 1$, different values maximize $f_\text{Alternative Hypothesis}(x)$ depending on if $\theta$ is above or below $1$.
 
 So, our solution is to find a $\theta$ that maximizes the numerator. This means that we can re-write the ratio we want to maximize as: $\frac{\max_\theta \mathcal{L}(\theta)}{\mathcal{L}(\theta_0)}$.
 
@@ -39,7 +39,7 @@ As we mentioned above, for this type of hypothesis test, we try to maximize the 
 
 $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}$
 
-We can rewrite this as:
+We can write this out as:
 
 $$
 \begin{aligned}
@@ -68,7 +68,7 @@ We want to reject when $\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \geq c$
 
 However, this does not simplify to a distribution I recognize, so I cannot solve for $c$.
 
-Still, we want to maximize this function. As log() is monotonic, we can take the logarithm of the fraction.
+Still, we want to maximize this function. As log is monotonic, we can take the logarithm of the fraction.
 
 $$
 \begin{aligned}
@@ -212,11 +212,11 @@ I recommend going back in the code and seeing how changing `n` can effect your p
 
 ### Asymptotic
 
-We learned in class that under Wilks' Theorem, for large $n$:
+We learned in class that under Wilks' Theorem, when only solving for only one parameter and setting all the potential parameters as fixed, then for large $n$:
 
 $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1$.
 
-As we want to reject when Remember, we want to reject when $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)})$ is large.
+Remember, we want to reject when $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)})$ is large.
 
 So, we set up our rejection bound as:
 
@@ -233,9 +233,11 @@ c = qchisq(1-alpha, 1)
 c
 ```
 
-So, form the code block above, $c = 3.841459$
+So, from the code block above, $c = 3.841459$
 
-Now, let's check our data. Let's assume $r = 0.75$. Remember that Wilks' Theorem states that for large $n$: $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1$.
+Now, let's check our data. Let's assume $r = 0.75$. Remember that Wilks' Theorem states that for large $n$ when there is only one unknown parameter.
+
+$2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1$.
 
 For our Negative Binomial: $\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)$
 
@@ -253,7 +255,7 @@ test_stat = 2 * log_part
 test_stat
 ```
 
-So, we can see from the code block that our dataset's test statistic was 47.09489. If I just plug in the PDFs, I get the same value:
+So, we can see from the code block that our dataset's test statistic was 47.09489. If I just plug in the PMFs, I get the same value:
 
 ```{webr-r}
 log_L_mle  <- dnbinom(x_sum, size = n * r, prob = p_mle, log = TRUE)
@@ -267,7 +269,7 @@ As $47.1 > c$ (which was $3.841459$), for my COVID hospital dataset, we reject $
 
 This implies that we reject the hypothesis that COVID has the same contagious level as the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least $1$ person, so I do not want to extrapolate too much). Another way to say this is that we accept the hypothesis that COVID does not have the same contagious level as the flu.
 
-A power curve using Wilk's Theorem would be:
+A power curve using Wilks' Theorem would be:
 
 ```{webr-r}
 # Feel free to change this parameter (n) to see how it affects the curve

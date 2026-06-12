@@ -6,7 +6,7 @@ title: "Hypothesis Testing"
 
 We have previously covered solving for $\hat{p}_{MLE}$ and $\hat{p}_{PM}$, evaluating them, and setting up confidence and credible intervals. Now, we will talk about a new topic: hypothesis testing.
 
-This chapter is the first of three about hypothesis testing. The idea is that we have a default hypothesis about a parameter $\theta$. Let's say, for example, it is that $\theta_0 = 10$. Maybe this represents the number of symptoms per day of medical patients.
+This chapter is the first of three about hypothesis testing. The idea is that we have a default hypothesis about a parameter $\theta$. Let's say, for example, our null hypothesis is that $\theta_0 = 10$. Maybe this represents the number of symptoms per day of medical patients.
 
 Now, let's say we are trying out a new drug and want to see if it is effective. So, maybe our alternative hypothesis is that $\theta_A = 5$, thus lowering the number of symptoms per day. Hypothesis testing is seeing whether, based on the data, we can reject the null hypothesis and accept the alternative.
 
@@ -122,13 +122,13 @@ new_reject_val
 
 So, $c = 448$
 
-So, we reject if $H_0$ $\sum x_i \ge 448$.
+So, we reject if $H_0$ when $\sum x_i \ge 448$.
 
-Now, let's see how often we would reject in my dataset.
+Now, let's see if reject $H_0$ in my dataset.
 
 ```{webr-r}
 observed_sum <- sum(x)
 observed_sum
 ```
 
-As $600 > c$ (which was $448$), for my COVID hospital dataset, we reject $H_0$. This implies that we accept the alternative hypothesis that COVID is more contagious than the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least $1$ person, so I do not want to extrapolate too much).
+As $600 > c$ (which was $448$) in my COVID hospital dataset, we reject $H_0$. This implies that we accept the alternative hypothesis that COVID is more contagious than the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least 1 person, so I do not want to extrapolate too much).

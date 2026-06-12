@@ -4,7 +4,7 @@ title: "Confidence and Credible Intervals"
 
 ## Background
 
-So far, we have discussed solving for and evaluating $\hat{p}_{MLE}$ and $\hat{p}_{PM}$. But, these estimators are based only on the data w ehave, and neither is likely to be the true $p$ of the entire population.
+So far, we have discussed solving for and evaluating $\hat{p}_{MLE}$ and $\hat{p}_{PM}$. But, these estimators are based only on the data we have, and neither is likely to be the true $p$ of the entire population.
 
 So, this chapter is all about Confidence and Credible Intervals. The former is a frequentist method to display a region that they believe contains the true  $p$ of the entire population with a certain confidence. The latter is the Bayesian version that allows for slightly different wording that I will explain in the next paragraph. For these examples, we use a $95\%$ confidence and credible interval.
 
