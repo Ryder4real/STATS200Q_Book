@@ -20,7 +20,7 @@ We were each assigned a distribution to focus our analysis on. I chose the Negat
 
 Source: The original dataset is from this GitHub link: <https://github.com/linwangidd/covid19_transmissionPairs_China/blob/master/transmission_pairs_covid_v2.csv>.
 
-The PDF for the variant of the Negative Binomial I will be analyzing is:
+The PMF for the variant of the Negative Binomial I will be analyzing is:
 
 $$
 \begin{aligned}
@@ -53,7 +53,7 @@ $r$ seems to fit best below $1$, meaning there are many individuals who do not p
 sum(x == 0)
 ```
 
-It is important to note that the PDF I wrote out earlier includes $r$ in a choose function. Technically, this is not allowed, as $r$ is not necessarily an integer for my dataset. However, in practice, we can just use the gamma fraction to replace the choose function whenever computations are needed.
+It is important to note that the PMF I wrote out earlier includes $r$ in a choose function. Technically, this is not allowed, as $r$ is not necessarily an integer for my dataset. However, in practice, we can just use the gamma fraction to replace the choose function whenever computations are needed.
 
 For some quick context, there is a great 2005 paper by @lloydsmith2005 titled "Superspreading and the effect of individual variation on disease emergence", which found the negative binomial distribution to be a great fit for a 2002-2004 SARS epidemic in Singapore and Beijing, and their $\hat{r}$ was $0.16$.
 

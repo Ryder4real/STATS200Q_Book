@@ -2094,7 +2094,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h2 class="anchored" data-anchor-id="my-dataset-and-distribution">My Dataset and Distribution</h2>
 <p>We were each assigned a distribution to focus our analysis on. I chose the Negative Binomial distribution, and the variant that measures how many failures before a successful attempt. I focus my data analysis on a specific COVID hospital dataset, which keeps track of who infected who in that hospital. In my dataset, the data with the negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values).</p>
 <p>Source: The original dataset is from this GitHub link: <a href="https://github.com/linwangidd/covid19_transmissionPairs_China/blob/master/transmission_pairs_covid_v2.csv" class="uri">https://github.com/linwangidd/covid19_transmissionPairs_China/blob/master/transmission_pairs_covid_v2.csv</a>.</p>
-<p>The PDF for the variant of the Negative Binomial I will be analyzing is:</p>
+<p>The PMF for the variant of the Negative Binomial I will be analyzing is:</p>
 <p><span class="math display">\[
 \begin{aligned}
     P(X=x) &amp;= \binom{x + r- 1}{x} p^r (1 - p)^x \\
@@ -2111,7 +2111,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p><span class="math inline">\(r\)</span> seems to fit best below <span class="math inline">\(1\)</span>, meaning there are many individuals who do not pass the virus to anyone beyond the first person. This makes sense as, from the code below, we can see that <span class="math inline">\(507\)</span> of the individuals in the dataset have a value of <span class="math inline">\(0\)</span>, meaning they did not pass the virus to anyone beyond the first person.</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>It is important to note that the PDF I wrote out earlier includes <span class="math inline">\(r\)</span> in a choose function. Technically, this is not allowed, as <span class="math inline">\(r\)</span> is not necessarily an integer for my dataset. However, in practice, we can just use the gamma fraction to replace the choose function whenever computations are needed.</p>
+<p>It is important to note that the PMF I wrote out earlier includes <span class="math inline">\(r\)</span> in a choose function. Technically, this is not allowed, as <span class="math inline">\(r\)</span> is not necessarily an integer for my dataset. However, in practice, we can just use the gamma fraction to replace the choose function whenever computations are needed.</p>
 <p>For some quick context, there is a great 2005 paper by <span class="citation" data-cites="lloydsmith2005">Lloyd-Smith et al. (<a href="#ref-lloydsmith2005" role="doc-biblioref">2005</a>)</span> titled “Superspreading and the effect of individual variation on disease emergence”, which found the negative binomial distribution to be a great fit for a 2002-2004 SARS epidemic in Singapore and Beijing, and their <span class="math inline">\(\hat{r}\)</span> was <span class="math inline">\(0.16\)</span>.</p>
 <p>As a quick note, for this class, we mainly focused on analyzing one parameter. So, for many of these chapters, I will fix <span class="math inline">\(r\)</span>, and analyze <span class="math inline">\(p\)</span>.</p>
 

@@ -313,7 +313,7 @@ values).
 Source: The original dataset is from this GitHub link:
 \url{https://github.com/linwangidd/covid19_transmissionPairs_China/blob/master/transmission_pairs_covid_v2.csv}.
 
-The PDF for the variant of the Negative Binomial I will be analyzing is:
+The PMF for the variant of the Negative Binomial I will be analyzing is:
 
 \[
 \begin{aligned}
@@ -364,7 +364,7 @@ pass the virus to anyone beyond the first person.
 \end{Highlighting}
 \end{Shaded}
 
-It is important to note that the PDF I wrote out earlier includes \(r\)
+It is important to note that the PMF I wrote out earlier includes \(r\)
 in a choose function. Technically, this is not allowed, as \(r\) is not
 necessarily an integer for my dataset. However, in practice, we can just
 use the gamma fraction to replace the choose function whenever
@@ -576,38 +576,41 @@ Estimators}\label{further-evaluating-estimators}
 
 This chapter covers a variety of topics. First, I will dive into some
 cool properties regarding the score, which is the derivative of the log
-likelihood.
+likelihood. One integration technique I will use for this in
+``Differentiation Under the Integral Sign''. It is a cool trick that
+allows you to move a derivative outside of the integral.
 
 I will then dive into another way to evaluate estimators. In Chapter 1,
 we looked at the bias and variance of \(\hat{p}_{MLE}\) and
 \(\hat{p}_{PM}\), but this time I will use frequentist Mean Squared
-Error to compare them. This is defined as
-\(MSE = \mathbb{E}[(\hat{\theta} - \theta)^2]\). The MSE can famously be
-decomposed as the (Bias\(^2\) + Variance). So, while last chapter
-compared bias and variance, MSE serves as an all-encompassing metric.
+Error to compare them. This is defined as MSE =
+\(\mathbb{E}[(\hat{\theta} - \theta)^2]\). The MSE can famously be
+decomposed as the (Bias\(^2\) + Variance). So, while last chapter we
+looked at bias and variance, MSE serves as an all-encompassing metric.
 So, I will compare the MSE of my MLE and Posterior Mean from Chapter 1.
 
-Finally, I will evaluate the Cramer-Rao Lower Bound (CRLB) for my
-distribution and see if it is relevant to the MLE and Posterior Mean I
-calculated in Chapter 1. In class, we learned that the CRLB is a lower
-bound to the variance of an unbiased estimator. This means of all
-unbiased estimators, if one reaches the CRLB, then it is the best
-unbiased estimator. This is very insightful. It means once we've reached
-that bound, there is no point evaluating other unbiased estimators, as
-there cannot be a unbiased estimator with a lower variance that the one
-that reaches the CRLB.
+Next, I will prove the Cramer-Rao Lower Bound (CRLB), evaluate the
+Cramer-Rao Lower Bound (CRLB) for my distribution, and see if it is
+relevant to the MLE and Posterior Mean I calculated in Chapter 1. In
+class, we learned that the CRLB is a lower bound to the variance of an
+unbiased estimator. This means of all unbiased estimators, if one
+reaches the CRLB, then it is the best unbiased estimator. This is very
+insightful. It means once we've reached that bound, there is no point
+evaluating other unbiased estimators, as there cannot be a unbiased
+estimator with a lower variance that the one that reaches the CRLB.
 
 As an extra note, the CRLB is defined as \(\frac{1}{I(\theta)}\), where
-\(I(\theta)\) is defined as the Variance of the Score (which is the
+\(I(\theta)\) is defined as the variance of the score (which is the
 derivative of the log-likelihood). I will prove this later on in this
-chapter. It is important to note that my proof in the first section
-below will make it easier to solve for the CRLB for my distribution.
+chapter. It is important to note that some of the equations I derive in
+the first part of this chapter will make it easier to solve for the CRLB
+for my distribution.
 
 \section{\texorpdfstring{Proving
 \(\text{Var}(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]\)}{Proving \textbackslash text\{Var\}(\textbackslash ell\textquotesingle(\textbackslash theta)) = -\textbackslash mathbb\{E\}{[}\textbackslash ell\textquotesingle\textquotesingle(\textbackslash theta){]}}}\label{proving-textvarelltheta--mathbbeelltheta}
 
-For any PDF \(f_\theta(x)\), the log-likelihood of \(x\) can be written
-as \(\ell_x(\theta)\).
+For any PMF/PDF \(f_\theta(x)\), the log-likelihood of \(x\) can be
+written as \(\ell_x(\theta)\).
 
 Another name for the derivative of the log-likelihood is the score. The
 expected value of the score is defined as
@@ -637,9 +640,12 @@ Subbing this into our expectation:
 &= \frac{d}{d \theta} \int_{-\infty}^\infty f_\theta(x) dx \\
 &= \frac{d}{d \theta} (1) = 0
 \end{aligned}
-\]
+\] The fact that \(\mathbb{E}[\ell'_x(\theta)] = 0\) is an important
+result and I use in again later on in this chapter.
 
-Now, solving for \(\text{Var}(\ell'(\theta))\). We know:
+Now, let's solve for \(\text{Var}(\ell'(\theta))\).
+
+We know:
 \(\text{Var}(\ell'(\theta)) = \mathbb{E}[(\ell'(\theta))^2] - (\mathbb{E}[\ell'(\theta)])^2\).
 
 Since \(\mathbb{E}[\ell'_x(\theta)] = 0\):
@@ -660,7 +666,10 @@ Next, we relate \((\ell'_x(\theta))^2\) to the second derivative:
 
 Rearranging gives
 \((\ell'_x(\theta))^2 = \frac{\frac{d^2}{d \theta^2} f_\theta(x)}{f_\theta(x)} - \ell''_x(\theta)\).
-Integrating this against the PDF:
+
+Subbing this into
+\(\text{Var}(\ell'(\theta)) = \mathbb{E}[(\ell'(\theta))^2] = \int_{-\infty}^\infty (\ell'_x(\theta))^2 f_\theta(x) dx\),
+gives us:
 
 \[
 \begin{aligned}
@@ -673,15 +682,19 @@ Integrating this against the PDF:
 \end{aligned}
 \]
 
+So, we have just shown that
+\(\text{Var}(\ell'(\theta)) = - \mathbb{E}[\ell''_x(\theta)]\). This
+value is also known as the Fisher Information, or \(I(\theta)\).
+
 \section{MSE}\label{mse}
 
 In Chapter 1, I derived that if \(X \sim \text{NegBin}(r, p)\), then:
 \(\hat{p}_{MLE} = \frac{r}{r + \bar{x}}\) and \(\hat{p}_{PM}\) =
 \(\frac{1 + nr}{2 + nr + \sum x_i}\).
 
-To show their different curves MSE for different \(p\), below is a
-simulation that prints out Mean Squared Error for different \(p\), for
-when \(n=50\) and \(r=0.5\).
+To show that \(\hat{p}_{MLE}\) and \(\hat{p}_{PM}\) have different MSE
+for different \(p\), below is a simulation that prints out Mean Squared
+Error for different \(p\), for when \(n=50\) and \(r=0.5\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -759,7 +772,7 @@ to manipulate.
 \]
 
 Now, in the first section we also showed that:
-\(\ell'_x(\theta) &= \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)}\)
+\(\ell'_x(\theta) = \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)}\)
 
 Using this, we can say that:
 
@@ -772,7 +785,7 @@ Using this, we can say that:
 &= \frac{d}{d \theta} \theta \text{ [NOTE: This is because t(x) is unbiased]} \\
 &= 1
 \end{aligned}
-\] So, using Cauchy-Schwarz Inequality, we can say that
+\] So, using the Cauchy-Schwarz Inequality, we can say that
 
 \(1 = \text{Cov}^2(t(x), \ell'(x)) \leq \text{Var}(t(x)) \text{Var}(\ell'_x(\theta))\)
 
@@ -780,7 +793,7 @@ So, this means that:
 
 \(\frac{1}{\text{Var}(\ell'_x(\theta))} \leq \text{Var}(t(x))\).
 
-So, this means that the Variance of any unbiased estimator \(t(x)\) must
+So, this means that the variance of any unbiased estimator \(t(x)\) must
 be greater than or equal to \(\frac{1}{\text{Var}(\ell'_x(\theta))}\).
 And, if you remember earlier, this can be written as:
 
