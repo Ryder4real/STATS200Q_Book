@@ -10,7 +10,7 @@ I will then dive into another way to evaluate estimators. In Chapter 1, I mentio
 
 Finally, I will evaluate the Cramer-Rao Lower Bound (CRLB) for my distribution and see if it is relavant to the MLE and Posterior Mean I calculated in Chapter 1. In class, we learned that the CRLB is a lower bound to the variance of an unbiased estimator. This means of all unbiased estimators, if one reaches the CRLB, then it is the best unbiased estimator. This is very insightful. It means once we've reached that bound, there is no point evaluating other unbiased estimators, as there cannot be a unbiased estimator with a lower variance that the one that reaches the CRLB.
 
-As an extra note, the CRLB is $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the Variance of the Score (which is the derivative of the log-likelihood). My proof in the first section below will make it easier to solve for the CRLB.
+As an extra note, the CRLB is defined as $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the Variance of the Score (which is the derivative of the log-likelihood). My proof in the first section below will make it easier to solve for the CRLB.
 
 
 ## Proving $\text{Var}(\ell'(\theta)) = -\mathbb{E}[\ell''(\theta)]$

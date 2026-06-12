@@ -1,16 +1,12 @@
----
-title: "Introduction"
-number-offset: -1
----
-
+# "Introduction" {.unnumbered}
 
 ## Background
 
 This past spring, I have been enrolled in STATS200Q: Philosophical Foundations of Statistics with Professor Sun. It is a small class, with about twelve people, allowing Professor Sun to dive into the material while maintain a level of connection with the students. I have greatly appreciated this element, as it is has allowed me to ask many questions along the way!
 
-For me, in my statistical journal, this class served as follow-up to STATS118, which i took in the Fall wiht Professor Gene Kim. Put simply, that class was very difficult. It involved a lot of mathematical computation and required students to pick up patterns and manioputalte expressions into known distributions.
+For me, in my statistical journal, this class served as follow-up to STATS118, which i took in the Fall wiht Professor Gene Kim. Put simply, that class was very difficult. It involved a lot of mathematical computation and required students to pick up patterns and manipulate expressions into known distributions.
 
-As mentioned in the title, STATS200Q feels much more philosphical. It is no doubt still a math class, it opts for less computation than 118 and more answering of the "Why"? Looking back it, many if the strateges I learned in 118 were "Frequentist". However, even after taking that final exam, I would not have been able to explain what that meant.
+As mentioned in the title, STATS200Q feels much more philosophical. It is no doubt still a math class, it opts for less computation than 118 and more answering of the "Why"? Looking back it, many if the strateges I learned in 118 were "Frequentist". However, even after taking that final exam, I would not have been able to explain what that meant.
 
 In STATS200Q, we learned about the differences between Frquentist and Bayesian Statistics and how they approach problems differently. Each week throughout the quarter, we had a small homework assignment. This final book is an extension of that. Each assignment is its own chapter, and I have added background to each chapter. This introduction chapter is no different. This is the end of the "Background" section. Below I will explain the distribution and dataset I focused my assignments on. I hope you enjoy!
 

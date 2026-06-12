@@ -1,6 +1,34 @@
 ---
-title: "Suffiency"
+title: "Sufficency"
 ---
+
+## Background
+
+We have finally finished covering hypothesis testing, and have moved onto our final topic: sufficiency. A sufficient statistic $T(x_1,...,x_n)$, means that $T$ contains all useful information with respect to the data. This means that once we have $T$, we do not care how we got there. As a quick example, let's say that $T = \sum_{i=1}^n x_i$, and it is a sufficient statistic for $\theta$. This means that for properly estimating $\theta$, we do not need to know $x_1,...,x_n$. In fact, we only need to know $T$. 
+
+Furthermore, for a frequentist application, the Rao-Blackwell theorem says that for any unbiased estimator $\hat{\theta}$, then $\hat{\theta}_{RB} = \mathbb{E}[\hat{\theta}(T)]$ is also unbiased and $\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})$. So, this means that the best unbiased estimator only references the data with respect to the sufffcient statistics $T$.
+
+A quick proof is below. First, let's show that if $\hat{\theta}$ is unbiased, then so is $\hat{\theta}_{RB}$.
+
+$$
+\begin{aligned}
+  \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\mathbb{E}[\hat{\theta} | T]]  \\
+  \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\hat{\theta} | T] \text{   [NOTE: From the Law of Total Exectation]}
+  
+\end{aligned}
+$$
+So, this means that the expected value of both estimators is the same, so they have the same bias. Next, let's show the variance part.
+
+$$
+\begin{aligned}
+\text{Var}(\hat{\theta}) &= \mathbb{E}[(\text{Var}(\hat{\theta}|T)] + \text{Var}(\mathbb{E}[\hat{\theta}|T]) \text{   [NOTE: From the Law of Total Variance]} \\
+\text{Var}(\hat{\theta}) &= (\text{value}> 0) + \text{Var}(\hat{\theta}_{RB})
+\end{aligned}
+$$
+
+So, we can see $\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})$.
+
+This gives way to the sufficiency principle, "If you have a sufficient statistic, use it". The MLE and Posterior Mean are always both functions of a sufficient statistic. In general, our estimators are usually already sufficient statistics, meaning we do not usually have to apply the Rao-Blackwell theorem to improve our estimator (this process is called Rao-Blackwellization).
 
 ## Sufficient Statistic
 
@@ -92,4 +120,20 @@ P(X_1=x_1,...,Xn=x_n | T=t) &= \frac{  \prod_{i=1}^n \binom{x_i + r - 1}{x_i}}{\
 \end{aligned}
 $$
 
-As we can see, this does not depend on $p$, proving once again that $T(X_1,...x_n) = \sum_{i=1}^n x_i$ is a sufficient statistic.
+As we can see, this does not depend on $p$, proving once again that $T(x_1,...x_n) = \sum_{i=1}^n x_i$ is a sufficient statistic.
+
+## Seeing This in My MLE and Psoterior Mean
+
+As I mentioned earlier, the MLE and Posterior Mean are both always functions of a Suffcient Statistic. From Chapter 1, we have that:
+
+$$
+\hat{p}_{MLE} = \frac{r}{r + \bar{x}} \\
+\hat{p}_{posterior} = \frac{1 + nr}{2 + nr + \sum_{i=1}^n x_i}
+$$
+
+As $T(x_1,...x_n) = \sum_{i=1}^n x_i$, we can rewrite our MLE and Posterior Mean as functions of T:
+
+$$
+\hat{p}_{MLE} = \frac{r}{r + \frac{T}{n}} \\
+\hat{p}_{posterior} = \frac{1 + nr}{2 + nr + T}
+$$

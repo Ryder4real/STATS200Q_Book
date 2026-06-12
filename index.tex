@@ -229,7 +229,6 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Introduction},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -238,11 +237,9 @@
   pdfcreator={LaTeX via pandoc}}
 
 
-\title{Introduction}
 \author{}
 \date{}
 \begin{document}
-\maketitle
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -252,9 +249,15 @@
 
 \bookmarksetup{startatroot}
 
-\chapter{Introduction}\label{introduction}
+\chapter*{``Introduction''}\label{introduction}
+\addcontentsline{toc}{chapter}{``Introduction''}
 
-\section{Background}\label{background}
+\markboth{``Introduction''}{``Introduction''}
+
+\section*{Background}\label{background}
+\addcontentsline{toc}{section}{Background}
+
+\markright{Background}
 
 This past spring, I have been enrolled in STATS200Q: Philosophical
 Foundations of Statistics with Professor Sun. It is a small class, with
@@ -266,14 +269,15 @@ along the way!
 For me, in my statistical journal, this class served as follow-up to
 STATS118, which i took in the Fall wiht Professor Gene Kim. Put simply,
 that class was very difficult. It involved a lot of mathematical
-computation and required students to pick up patterns and manioputalte
+computation and required students to pick up patterns and manipulate
 expressions into known distributions.
 
-As mentioned in the title, STATS200Q feels much more philosphical. It is
-no doubt still a math class, it opts for less computation than 118 and
-more answering of the ``Why''? Looking back it, many if the strateges I
-learned in 118 were ``Frequentist''. However, even after taking that
-final exam, I would not have been able to explain what that meant.
+As mentioned in the title, STATS200Q feels much more philosophical. It
+is no doubt still a math class, it opts for less computation than 118
+and more answering of the ``Why''? Looking back it, many if the
+strateges I learned in 118 were ``Frequentist''. However, even after
+taking that final exam, I would not have been able to explain what that
+meant.
 
 In STATS200Q, we learned about the differences between Frquentist and
 Bayesian Statistics and how they approach problems differently. Each
@@ -288,7 +292,11 @@ NOTE: I have chapters that have multiple R blocks that may rely on
 variables established earlier in that chapter. So, make sure to run the
 R code in order for each chapter.
 
-\section{My Dataset and Distribution}\label{my-dataset-and-distribution}
+\section*{My Dataset and
+Distribution}\label{my-dataset-and-distribution}
+\addcontentsline{toc}{section}{My Dataset and Distribution}
+
+\markright{My Dataset and Distribution}
 
 We were each assigned a distribution to focus our analysis on. I chose
 the Negative Binomial distribution, and the variant that measures how
@@ -367,7 +375,7 @@ As a quick note, for this class, we mianly focused on analyzing one
 parameter. So, for many of these chapters, I will fix \(r\), and analyze
 \(p\).
 
-\part{Statistical Concepts}
+\bookmarksetup{startatroot}
 
 \chapter{MLE \& Posterior Mean}\label{mle-posterior-mean}
 
@@ -552,6 +560,8 @@ Here is the histogram for \(\hat{p}_{PM}\).
 \end{Highlighting}
 \end{Shaded}
 
+\bookmarksetup{startatroot}
+
 \chapter{Futher Evaluating
 Estimators}\label{futher-evaluating-estimators}
 
@@ -579,7 +589,7 @@ that bound, there is no point evaluating other unbiased estimators, as
 there cannot be a unbiased estimator with a lower variance that the one
 that reaches the CRLB.
 
-As an extra note, the CRLB is \(\frac{1}{I(\theta)}\), where
+As an extra note, the CRLB is defined as \(\frac{1}{I(\theta)}\), where
 \(I(\theta)\) is defined as the Variance of the Score (which is the
 derivative of the log-likelihood). My proof in the first section below
 will make it easier to solve for the CRLB.
@@ -742,6 +752,8 @@ learned that the \(\hat{p}_{PM}\) is always biased toward the prior.
 Since the MLE and Posterior Mean are both biased, the CRLB does not
 provide a strict lower bound for their variance.
 
+\bookmarksetup{startatroot}
+
 \chapter{Asymptotic Distribution of
 MLE}\label{asymptotic-distribution-of-mle}
 
@@ -868,6 +880,8 @@ curve displaying the asymptotically normal distribution of
 \NormalTok{       col="red", lwd=2, lty = 1, cex = 0.6)}
 \end{Highlighting}
 \end{Shaded}
+
+\bookmarksetup{startatroot}
 
 \chapter{Confidence and Credible
 Intervals}\label{confidence-and-credible-intervals}
@@ -1094,6 +1108,8 @@ Again, we will use the same values from my hospital dataset, as before.
 From the computation in the code above, conditional on my uniform prior,
 the credible interval states that there is a 95\% chance \(p\) is in
 \([0.3722, 0.4328]\).
+
+\bookmarksetup{startatroot}
 
 \chapter{Simulating Confidence
 Intervals}\label{simulating-confidence-intervals}
@@ -1404,6 +1420,8 @@ Metropolis-Hastings: \(0.0582\)
 So, my approximate M-H 95\% credible interval has a slightly smaller
 spread.
 
+\bookmarksetup{startatroot}
+
 \chapter{Hypothesis Testing}\label{hypothesis-testing}
 
 \section{Background}\label{background-6}
@@ -1638,6 +1656,8 @@ reject \(H_0\). This implies that we accept the hypothesis that COVID is
 more contagious than the flu (though this dataset is not perfect as it
 only consists of people already in the hospital who infected at least
 \(1\) person, so I do not want to extrapolate too much).
+
+\bookmarksetup{startatroot}
 
 \chapter{Generalized Likelihood Ratio
 Test}\label{generalized-likelihood-ratio-test}
@@ -2018,6 +2038,8 @@ A power curve using Wilk's Theorem would be:
 I recommend going back in the code and seeing how changing \(n\) can
 effect your power curve.
 
+\bookmarksetup{startatroot}
+
 \chapter{Bayesian Hypothesis Testing}\label{bayesian-hypothesis-testing}
 
 \section{Background}\label{background-8}
@@ -2181,7 +2203,58 @@ conclusion, in that we rejected \(H_0\) (we reject the hypothesis that
 COVID has the same contagious level as the flu). This means that I did
 not encounter Lindley's paradox.
 
-\chapter{Suffiency}\label{suffiency}
+\bookmarksetup{startatroot}
+
+\chapter{Sufficency}\label{sufficency}
+
+\section{Background}\label{background-9}
+
+We have finally finished covering hypothesis testing, and have moved
+onto our final topic: sufficiency. A sufficient statistic
+\(T(x_1,...,x_n)\), means that \(T\) contains all useful information
+with respect to the data. This means that once we have \(T\), we do not
+care how we got there. As a quick example, let's say that
+\(T = \sum_{i=1}^n x_i\), and it is a sufficient statistic for
+\(\theta\). This means that for properly estimating \(\theta\), we do
+not need to know \(x_1,...,x_n\). In fact, we only need to know \(T\).
+
+Furthermore, for a frequentist application, the Rao-Blackwell theorem
+says that for any unbiased estimator \(\hat{\theta}\), then
+\(\hat{\theta}_{RB} = \mathbb{E}[\hat{\theta}(T)]\) is also unbiased and
+\(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\). So,
+this means that the best unbiased estimator only references the data
+with respect to the sufffcient statistics \(T\).
+
+A quick proof is below. First, let's show that if \(\hat{\theta}\) is
+unbiased, then so is \(\hat{\theta}_{RB}\).
+
+\$\$
+
+\begin{aligned}
+  \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\mathbb{E}[\hat{\theta} | T]]  \\
+  \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\hat{\theta} | T] \text{   [NOTE: From the Law of Total Exectation]}
+  
+\end{aligned}
+
+\$\$ So, this means that the expected value of both estimators is the
+same, so they have the same bias. Next, let's show the variance part.
+
+\[
+\begin{aligned}
+\text{Var}(\hat{\theta}) &= \mathbb{E}[(\text{Var}(\hat{\theta}|T)] + \text{Var}(\mathbb{E}[\hat{\theta}|T]) \text{   [NOTE: From the Law of Total Variance]} \\
+\text{Var}(\hat{\theta}) &= (\text{value}> 0) + \text{Var}(\hat{\theta}_{RB})
+\end{aligned}
+\]
+
+So, we can see
+\(\text{Var}(\hat{\theta}_{RB}) \leq \text{Var}(\hat{\theta})\).
+
+This gives way to the sufficiency principle, ``If you have a sufficient
+statistic, use it''. The MLE and Posterior Mean are always both
+functions of a sufficient statistic. In general, our estimators are
+usually already sufficient statistics, meaning we do not usually have to
+apply the Rao-Blackwell theorem to improve our estimator (this process
+is called Rao-Blackwellization).
 
 \section{Sufficient Statistic}\label{sufficient-statistic}
 
@@ -2299,7 +2372,28 @@ P(X_1=x_1,...,Xn=x_n | T=t) &= \frac{  \prod_{i=1}^n \binom{x_i + r - 1}{x_i}}{\
 \]
 
 As we can see, this does not depend on \(p\), proving once again that
-\(T(X_1,...x_n) = \sum_{i=1}^n x_i\) is a sufficient statistic.
+\(T(x_1,...x_n) = \sum_{i=1}^n x_i\) is a sufficient statistic.
+
+\section{Seeing This in My MLE and Psoterior
+Mean}\label{seeing-this-in-my-mle-and-psoterior-mean}
+
+As I mentioned earlier, the MLE and Posterior Mean are both always
+functions of a Suffcient Statistic. From Chapter 1, we have that:
+
+\[
+\hat{p}_{MLE} = \frac{r}{r + \bar{x}} \\
+\hat{p}_{posterior} = \frac{1 + nr}{2 + nr + \sum_{i=1}^n x_i}
+\]
+
+As \(T(x_1,...x_n) = \sum_{i=1}^n x_i\), we can rewrite our MLE and
+Posterior Mean as functions of T:
+
+\[
+\hat{p}_{MLE} = \frac{r}{r + \frac{T}{n}} \\
+\hat{p}_{posterior} = \frac{1 + nr}{2 + nr + T}
+\]
+
+\bookmarksetup{startatroot}
 
 \chapter*{References}\label{references}
 \addcontentsline{toc}{chapter}{References}
