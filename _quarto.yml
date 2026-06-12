@@ -11,6 +11,7 @@ book:
   title: "Stats200Q Book"
   author: "Ryder Fried"
   date: "6/8/2026"
+
   chapters:
     - index.qmd
     - Week1.qmd
