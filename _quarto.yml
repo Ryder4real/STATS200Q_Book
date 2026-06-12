@@ -2,11 +2,6 @@ project:
   type: book
   output-dir: docs
 
-engine: knitr
-
-filters:
-  - webr
-
 book:
   chapters:
     - index.qmd
@@ -22,23 +17,14 @@ book:
     - references.qmd
 
 bibliography: references.bib
-
-# CRITICAL FIX: Tell Quarto's citation processor to only output a global bibliography
 citeproc: true
-
-execute:
-  freeze: false
-  cache: false
+link-citations: true
 
 format:
   html:
     theme: cosmo
-    # This option forces page citations into the margin or hides them if a global bib exists
-    reference-location: margin
+    reference-location: document
   pdf:
     toc: true
     number-sections: true
     colorlinks: true
-    knitr:
-      opts_chunk:
-        dev: "pdf" # Fixed the trailing "?" syntax error here

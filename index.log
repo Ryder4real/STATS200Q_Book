@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.21.0 (TeX Live 2025)  (format=lualatex 2025.3.8)  12 JUN 2026 12:07
+This is LuaHBTeX, Version 1.21.0 (TeX Live 2025)  (format=lualatex 2025.3.8)  12 JUN 2026 12:12
  restricted system commands enabled.
 **index.tex
 (./index.tex
@@ -998,6 +998,11 @@ No file index.toc.
 
 ]
 
+LaTeX Warning: Citation `ref-lloydsmith2005' on page 3 undefined on input line 
+369.
+
+
+
 [3]
 
 [4]
@@ -1017,23 +1022,23 @@ chapter 1.
 [9]
 chapter 2.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 14.4pt on input line 598.
+(Font)              scaled to size 14.4pt on input line 599.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 598.
+(Font)              scaled to size 10.0pt on input line 599.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 598.
+(Font)              scaled to size 7.0pt on input line 599.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 14.4pt on input line 598.
+(Font)              scaled to size 14.4pt on input line 599.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 598.
+(Font)              scaled to size 10.0pt on input line 599.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 598.
+(Font)              scaled to size 7.0pt on input line 599.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 14.4pt on input line 598.
+(Font)              scaled to size 14.4pt on input line 599.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 598.
+(Font)              scaled to size 10.0pt on input line 599.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 598.
+(Font)              scaled to size 7.0pt on input line 599.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
@@ -1046,16 +1051,16 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 
 [11]
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 682.
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 683.
 
 
 [12]
-<Week2_files/figure-pdf/unnamed-chunk-1-1.pdf, id=75, 363.3575pt x 211.79124pt>
+<Week2_files/figure-pdf/unnamed-chunk-1-1.pdf, id=76, 363.3575pt x 211.79124pt>
 
 File: Week2_files/figure-pdf/unnamed-chunk-1-1.pdf Graphic file (type pdf)
 <use Week2_files/figure-pdf/unnamed-chunk-1-1.pdf>
 Package luatex.def Info: Week2_files/figure-pdf/unnamed-chunk-1-1.pdf  used on 
-input line 721.
+input line 722.
 (luatex.def)             Requested size: 363.3566pt x 211.79073pt.
 
 
@@ -1103,7 +1108,7 @@ chapter 5.
 ! Missing $ inserted.
 <inserted text> 
 $
-l.1388 {[}\(1 - \text{that_likelihood}
+l.1389 {[}\(1 - \text{that_likelihood}
                                     \){]}, I will just add that last value in
 
 Here is how much of LuaTeX's memory you used:
@@ -1114,9 +1119,9 @@ Here is how much of LuaTeX's memory you used:
  kern, 26 penalty, 1 choice, 3 noad, 3 math_char, 5 sub_mlist, 9 margin_kern, 97
 7 glyph, 147 attribute, 70 glue_spec, 147 attribute_list, 5 temp, 2 write, 1 pdf
 _dest, 4 pdf_colorstack nodes
-   avail lists: 1:2,2:1152,3:168,4:548,5:370,6:20,7:4339,8:72,9:1262,10:10,11:31
+   avail lists: 1:2,2:1152,3:168,4:548,5:370,6:20,7:4347,8:72,9:1262,10:10,11:31
 9,12:1
  47725 multiletter control sequences out of 65536+600000
- 69 fonts using 19959915 bytes
+ 69 fonts using 19959611 bytes
  108i,15n,114p,10918b,386s stack positions out of 10000i,1000n,20000p,200000b,200000s
 !  ==> Fatal error occurred, no output PDF file produced!
