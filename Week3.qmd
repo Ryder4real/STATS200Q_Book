@@ -1,10 +1,14 @@
 ---
-title: "Asymptotic Distribution of MLE"
+title: "Asymptotic Distribution of the MLE"
 ---
 
 ## Background
 
-This chapter will dive into the Asymptotic Distribution of the MLE we calculated in Chapter 1. One of the most famous statistical concepts is the central limit theorem, which establishes that as $n$ approaches infinity, every distribution approaches the Normal distribution. The original CLT can be manipulated to show that the MLE follows a Normal distribution for large $n$ (I show the proof behind this later in the chapter). It is kind of wild to think about no matter the original distribution, the distribution of the MLE approaches the Normal distribution!
+This chapter will dive into the Asymptotic Distribution of the MLE we calculated in Chapter 1. This is interesting because calculating the bias and variance of the MLE by hand can be difficult. 
+
+However, this can be made easier when dealing with large sample sizes by knowing that the distribution of the MLE approximates to a Normal as $n \rightarrow \infty$ It is kind of wild to think about no matter the original distribution, the distribution of the MLE approaches the Normal distribution!
+
+I will first simulate my distribution and look at a histogram of $\hat{p}_MLE$ as $n$ grows large. Then, I will prove that the MLE approximates to a Normal as $n \rightarrow \infty$, and then apply that to my distribution.
 
 ## Simulating Distribution
 

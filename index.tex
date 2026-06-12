@@ -259,7 +259,7 @@
 
 \markright{Background}
 
-his past spring, I have been enrolled in STATS200Q: Philosophical
+This past spring, I have been enrolled in STATS200Q: Philosophical
 Foundations of Statistics with Professor Dennis Sun. It is a small
 class, with about twelve people, allowing Professor Sun to dive into the
 material while maintaining a level of connection with the students. I
@@ -287,11 +287,12 @@ Put together, this should make it feel like a tightly-knit narrative.
 
 This introduction chapter is no different. Sadly, this is the end of the
 ``Background'' section. Below I will explain the distribution and
-dataset I focused my assignments on. I hope you enjoy!
+dataset I focused my studies on. I hope you enjoy!
 
-NOTE: I have chapters that have multiple R blocks that may rely on
-variables established earlier in that chapter. So, make sure to run the
-R code in order for each chapter.
+NOTE: There are chapters in the book with multiple R blocks. Some R
+blocks call on variables that were defined in a separate block earlier
+in that chapter. So, please make sure to run the R code in order for
+each chapter.
 
 \section*{My Dataset and
 Distribution}\label{my-dataset-and-distribution}
@@ -332,7 +333,7 @@ binomial distribution.
 \end{Highlighting}
 \end{Shaded}
 
-here are 807 patients in my dataset, as seen in the code below.
+There are 807 patients in my dataset, as seen in the code below.
 
 Traditionally, in this version of the Negative Binomial distribution,
 \(p\) is meant to be the probability of success for each trial and \(r\)
@@ -505,9 +506,9 @@ bias and variance of our estimators is:
 \NormalTok{  x\_avg = mean(x)}
 \NormalTok{  p.mle \textless{}{-} true\_size / (true\_size + x\_avg)}
   
-\NormalTok{  p.mod \textless{}{-} (1 + n\_obs * true\_size) / (2 + n\_obs * true\_size + x\_sum)}
+\NormalTok{  p.pm \textless{}{-} (1 + n\_obs * true\_size) / (2 + n\_obs * true\_size + x\_sum)}
   
-\NormalTok{  c(mle = p.mle, mod = p.pm)}
+\NormalTok{  c(mle = p.mle, pm = p.pm)}
 \NormalTok{\})}
 
 \NormalTok{sims \textless{}{-} t(sims)}
@@ -551,7 +552,7 @@ Here is the histogram for \(\hat{p}_{PM}\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{hist\_mod \textless{}{-} hist(sims[, "mod"], }
+\NormalTok{hist\_pm \textless{}{-} hist(sims[, "pm"], }
 \NormalTok{     breaks = 30, }
 \NormalTok{     main = expression("Histogram of "* hat(p)[PM]), }
 \NormalTok{     xlab = expression(hat(p)[PM])}

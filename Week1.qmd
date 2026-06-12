@@ -110,9 +110,9 @@ sims <- replicate(10000, {
   x_avg = mean(x)
   p.mle <- true_size / (true_size + x_avg)
   
-  p.mod <- (1 + n_obs * true_size) / (2 + n_obs * true_size + x_sum)
+  p.pm <- (1 + n_obs * true_size) / (2 + n_obs * true_size + x_sum)
   
-  c(mle = p.mle, mod = p.pm)
+  c(mle = p.mle, pm = p.pm)
 })
 
 sims <- t(sims)
@@ -132,7 +132,7 @@ results <- data.frame(
 results
 ```
 
-$\hat{p}_{MLE}$ has positive bias while $\hat{p}_{PM}$ is biased toward the prior distribution (which in this case leads to positive bias).
+As we can see from the table produced by the code, $\hat{p}_{MLE}$ has positive bias while $\hat{p}_{PM}$ is biased toward the prior distribution (which in this case leads to positive bias).
 
 $\hat{p}_{PM}$ has less slightly less variance. This is more apparent if you make `n_obs` smaller in the code.
 
@@ -149,7 +149,7 @@ hist_mle <- hist(sims[, "mle"],
 Here is the histogram for $\hat{p}_{PM}$.
 
 ```{webr-r}
-hist_mod <- hist(sims[, "mod"], 
+hist_pm <- hist(sims[, "pm"], 
      breaks = 30, 
      main = expression("Histogram of "* hat(p)[PM]), 
      xlab = expression(hat(p)[PM])

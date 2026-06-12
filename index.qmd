@@ -2,7 +2,7 @@
 
 ## Background
 
-his past spring, I have been enrolled in STATS200Q: Philosophical Foundations of Statistics with Professor Dennis Sun. It is a small class, with about twelve people, allowing Professor Sun to dive into the material while maintaining a level of connection with the students. I have greatly appreciated this element as it has allowed me to ask many questions along the way!
+This past spring, I have been enrolled in STATS200Q: Philosophical Foundations of Statistics with Professor Dennis Sun. It is a small class, with about twelve people, allowing Professor Sun to dive into the material while maintaining a level of connection with the students. I have greatly appreciated this element as it has allowed me to ask many questions along the way!
 
 In my statistical journey, this class served as a follow-up to STATS118, which I took in the Fall with Professor Gene Kim. Put simply, that class was very difficult. It involved a lot of mathematical computation and required students to pick up patterns and manipulate expressions into known distributions.
 
@@ -10,9 +10,9 @@ As mentioned in the title, STATS200Q feels much more philosophical. It is no dou
 
 In STATS200Q, we have learned about the differences between Frequentist and Bayesian Statistics and how they approach problems separately. Each week throughout the quarter, we had a small homework assignment. This final book is an extension of that. Each assignment is its own chapter, and I have additionally added a "Background" section to each chapter. Put together, this should make it feel like a tightly-knit narrative. 
 
-This introduction chapter is no different. Sadly, this is the end of the "Background" section. Below I will explain the distribution and dataset I focused my assignments on. I hope you enjoy!
+This introduction chapter is no different. Sadly, this is the end of the "Background" section. Below I will explain the distribution and dataset I focused my studies on. I hope you enjoy!
 
-NOTE: I have chapters that have multiple R blocks that may rely on variables established earlier in that chapter. So, make sure to run the R code in order for each chapter.
+NOTE: There are chapters in the book with multiple R blocks. Some R blocks call on variables that were defined in a separate block earlier in that chapter. So, please make sure to run the R code in order for each chapter.
 
 ## My Dataset and Distribution
 
@@ -38,7 +38,7 @@ length(x)
 
 ```
 
-here are 807 patients in my dataset, as seen in the code below. 
+There are 807 patients in my dataset, as seen in the code below. 
 
 Traditionally, in this version of the Negative Binomial distribution, $p$ is meant to be the probability of success for each trial and $r$ is meant to be the fixed number of successes we are waiting for (which hypothetically would be $1$ in this case).However, in the real world, we have found that negative binomials can effectively model hospital datasets where the parameters have slightly altered meanings.
 
