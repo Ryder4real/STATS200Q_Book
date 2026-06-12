@@ -8,14 +8,9 @@ filters:
   - webr
 
 book:
-  chapters:
-    - part: "Introduction"
-      number: false
-      chapters:
-        - index.qmd
-
-    - part: "Statistical Content"
-      chapters:
+    chapters:
+        - href: index.qmd
+          text: "Introduction"
         - Week1.qmd
         - Week2.qmd
         - Week3.qmd
@@ -26,7 +21,6 @@ book:
         - Week8.qmd
         - Week9.qmd
         - references.qmd
-
 bibliography: references.bib
 
 execute:
