@@ -8,21 +8,20 @@ filters:
   - webr
 
 book:
-    chapters:
-        - index.qmd       # This stays outside the parts and becomes your clean "Introduction"
-        
-        - part: "Statistical Concepts"   # <-- Add this part line here
-          chapters:
-            - Week1.qmd    # This will now perfectly start at 1
-            - Week2.qmd
-            - Week3.qmd
-            - Week4.qmd
-            - Week5.qmd
-            - Week6.qmd
-            - Week7.qmd
-            - Week8.qmd
-            - Week9.qmd
-            - references.qmd
+  chapters:
+    - index.qmd
+    - part: "Statistical Concepts"
+      chapters:
+        - Week1.qmd
+        - Week2.qmd
+        - Week3.qmd
+        - Week4.qmd
+        - Week5.qmd
+        - Week6.qmd
+        - Week7.qmd
+        - Week8.qmd
+        - Week9.qmd
+        - references.qmd
 
 bibliography: references.bib
 
