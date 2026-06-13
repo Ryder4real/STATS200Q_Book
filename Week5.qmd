@@ -96,7 +96,7 @@ They are listed below:
 3.  Parametric Bootstrap: $[0.3738, 0.4336]$ (with volatility depending on simulation)
 4.  Nonparametric Bootstrap: $[0.3714, 0.4360]$ (with volatility depending on simulation)
 
-Computing for the range of the 95% confidence interval, we have:
+Computing for the width of the 95% confidence interval, we have:
 
 Using CLT with $\hat{p}_{MLE}$ plug in for $p$ in $I(p)$: $0.0620$
 
@@ -106,7 +106,7 @@ Parametric Bootstrap: $0.0598$
 
 Nonparametric Bootstrap: $0.0646$
 
-So, using the first simulations I ran, the parametric bootstrap's 95% confidence interval had the smallest range, while the nonparametric bootstrap had the largest range. I am not sure if this means anything, as this may have been strictly due to a weird simulation.
+So, using the first simulations I ran, the parametric bootstrap's 95% confidence interval had the smallest width, while the nonparametric bootstrap had the largest width I am not sure if this means anything, as this may have been strictly due to a weird simulation.
 
 ## Metropolis Hastings
 
@@ -202,10 +202,10 @@ When I did this from the Beta function in Chapter 4 using the `qbeta` function, 
 
 So let's further compare about these 95% credible intervals:
 
-Range:
+Width:
 
 Direct computation of the posterior distribution: $0.0606$
 
 Metropolis-Hastings: $0.0582$
 
-So, my approximate M-H 95% credible interval had a slightly smaller spread, though again, this may have just been because of a weird simulation.
+So, my approximate M-H 95% credible interval had a slightly smaller width, though again, this may have just been because of a weird simulation.

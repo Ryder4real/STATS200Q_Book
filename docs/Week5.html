@@ -2119,12 +2119,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>Parametric Bootstrap: <span class="math inline">\([0.3738, 0.4336]\)</span> (with volatility depending on simulation)</li>
 <li>Nonparametric Bootstrap: <span class="math inline">\([0.3714, 0.4360]\)</span> (with volatility depending on simulation)</li>
 </ol>
-<p>Computing for the range of the 95% confidence interval, we have:</p>
+<p>Computing for the width of the 95% confidence interval, we have:</p>
 <p>Using CLT with <span class="math inline">\(\hat{p}_{MLE}\)</span> plug in for <span class="math inline">\(p\)</span> in <span class="math inline">\(I(p)\)</span>: <span class="math inline">\(0.0620\)</span></p>
 <p>Using CLT with direct computation for <span class="math inline">\(p\)</span> in <span class="math inline">\(I(p)\)</span>: <span class="math inline">\(0.0619\)</span></p>
 <p>Parametric Bootstrap: <span class="math inline">\(0.0598\)</span></p>
 <p>Nonparametric Bootstrap: <span class="math inline">\(0.0646\)</span></p>
-<p>So, using the first simulations I ran, the parametric bootstrap’s 95% confidence interval had the smallest range, while the nonparametric bootstrap had the largest range. I am not sure if this means anything, as this may have been strictly due to a weird simulation.</p>
+<p>So, using the first simulations I ran, the parametric bootstrap’s 95% confidence interval had the smallest width, while the nonparametric bootstrap had the largest width I am not sure if this means anything, as this may have been strictly due to a weird simulation.</p>
 </section>
 </section>
 <section id="metropolis-hastings" class="level2" data-number="5.3">
@@ -2156,10 +2156,10 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>Here, my Metropolis-Hastings approximate 95% credible interval is around <span class="math inline">\([0.3701, 0.4283]\)</span>, depending on the simulation.</p>
 <p>When I did this from the Beta function in Chapter 4 using the <code>qbeta</code> function, my 95% credible interval was <span class="math inline">\([0.3722, 0.4328]\)</span>.</p>
 <p>So let’s further compare about these 95% credible intervals:</p>
-<p>Range:</p>
+<p>Width:</p>
 <p>Direct computation of the posterior distribution: <span class="math inline">\(0.0606\)</span></p>
 <p>Metropolis-Hastings: <span class="math inline">\(0.0582\)</span></p>
-<p>So, my approximate M-H 95% credible interval had a slightly smaller spread, though again, this may have just been because of a weird simulation.</p>
+<p>So, my approximate M-H 95% credible interval had a slightly smaller width, though again, this may have just been because of a weird simulation.</p>
 
 
 </section>
