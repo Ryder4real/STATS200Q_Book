@@ -4,11 +4,11 @@ title: "MLE & Posterior Mean"
 
 ## Background
 
-This chapter covers the Bayesianand frequentist method for estimating a parameter. Imagine you flip a potentially weighted coin N times, and X are heads. How would you about estimating the true probability that the coin lands on heads? This is an interesting question, and Bayesians and frequentists would take different approaches.
+This chapter covers the Bayesian and frequentist method for estimating a parameter. Imagine you flip a potentially weighted coin N times, and X are heads. How would you about estimating the true probability that the coin lands on heads? This is an interesting question, and Bayesians and frequentists would take different approaches.
 
 This serves as a motivation for estimating parameters. Below, I will estimate $p$ in the Negative Binomial Distribution.
 
-First, I will first use the Maximum Likelihood Estimation method to estimate $p$, which is the frequentist approach. Then, I will use a posterior mean, which is the Bayesian approach. Finally, I will compare them using my dataset.
+First, I will use the Maximum Likelihood Estimation method to estimate $p$, which is the frequentist approach. Then, I will use a posterior mean, which is the Bayesian approach. Finally, I will compare them using my dataset.
 
 ## Maximum Likelihood Estimation
 
@@ -22,9 +22,9 @@ $$
     L_{x_1,...,x_n}(p) &= \prod_{i=1}^n \binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i} \\
     L_{x_1,...,x_n}(p) &= p^{rn} \prod_{i=1}^n \binom{x_i + r- 1}{x_i}  (1 - p)^{x_i} \\
     L_{x_1,...,x_n}(p) &= p^{rn} \Bigg(\prod_{i=1}^n \binom{x_i + r- 1}{x_i} \Bigg) (1 - p)^{\sum_{i=1}^n x_i} \\
-    l_{x_1,...,x_n}(p) &= rn \log(p) + \sum_{i=1}^n \log \left(\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\right) + \left(\sum_{i=1}^n x_i\right) \log(1 - p) \\
-    \frac{d}{dp} l_{x_1,...,x_n}(p) &= \frac{d}{dp} \left( rn\log(p) + \sum_{i=1}^n \log \left(\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\right) + \left(\sum_{i=1}^n x_i\right) \log(1 - p) \right) \\
-    \frac{d}{dp} l_{x_1,...,x_n}(p) &= \left(\frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1 - p} \right) \\
+    \ell_{x_1,...,x_n}(p) &= rn \log(p) + \sum_{i=1}^n \log \left(\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\right) + \left(\sum_{i=1}^n x_i\right) \log(1 - p) \\
+    \frac{d}{dp} \ell_{x_1,...,x_n}(p) &= \frac{d}{dp} \left( rn\log(p) + \sum_{i=1}^n \log \left(\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\right) + \left(\sum_{i=1}^n x_i\right) \log(1 - p) \right) \\
+    \frac{d}{dp} \ell_{x_1,...,x_n}(p) &= \left(\frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1 - p} \right) \\
     0 &= \frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1-p} \\
     \frac{rn}{p} &= \frac{\sum_{i=1}^n x_i}{1-p}  \\
     \frac{1-p}{p} &= \frac{\sum_{i=1}^n x_i}{rn} \\
@@ -51,8 +51,8 @@ If we set up our Beta prior with $\alpha=1, \beta = 1$ (which is actually just a
 
 $$
 \begin{aligned}
-    \mathbb{E}[P] &= \frac{\alpha + nr}{\alpha + \beta + nr + \sum_{i=1}^n x_i} \\
-    \mathbb{E}[P] &= \frac{1 + nr}{2 + nr + \sum_{i=1}^n x_i}
+    \mathbb{E}[p] &= \frac{\alpha + nr}{\alpha + \beta + nr + \sum_{i=1}^n x_i} \\
+    \mathbb{E}[p] &= \frac{1 + nr}{2 + nr + \sum_{i=1}^n x_i}
 \end{aligned}
 $$
 
@@ -136,7 +136,7 @@ As we can see from the table produced by the code, $\hat{p}_{MLE}$ has positive 
 
 $\hat{p}_{PM}$ has less slightly less variance. This is more apparent if you make `n_obs` smaller in the code.
 
-Here is the the code for a histogram of $\hat{p}_{MLE}$ over many trials.
+Here is the code for a histogram of $\hat{p}_{MLE}$ over many trials.
 
 ```{webr-r}
 hist_mle <- hist(sims[, "mle"], 

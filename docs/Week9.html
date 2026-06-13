@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Sufficency</title>
+<title>9&nbsp; Sufficiency</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -113,7 +113,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week9.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Week9.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficiency</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -190,7 +190,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week9.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficiency</span></span></a>
   </div>
 </li>
     </ul>
@@ -218,7 +218,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficiency</span></h1>
 </div>
 
 
@@ -244,7 +244,7 @@ window.Quarto = {
 <p><span class="math display">\[
 \begin{aligned}
   \mathbb{E}[\hat{\theta}_{RB}] &amp;= \mathbb{E}[\mathbb{E}[\hat{\theta} | T]]  \\
-  \mathbb{E}[\hat{\theta}_{RB}] &amp;= \mathbb{E}[\hat{\theta}] \text{   [NOTE: From the Law of Total Exectation]}
+  \mathbb{E}[\hat{\theta}_{RB}] &amp;= \mathbb{E}[\hat{\theta}] \text{   [NOTE: From the Law of Total Expectation]}
 \end{aligned}
 \]</span></p>
 <p>So, this means that the expected value of both estimators is the same, so they have the same bias. Next, let’s show the variance part.</p>
@@ -261,7 +261,7 @@ window.Quarto = {
 <section id="sufficient-statistic" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="sufficient-statistic"><span class="header-section-number">9.2</span> Sufficient Statistic</h2>
 <p>In class, we learned that for data <span class="math inline">\(X_i,...X_n\)</span> and parameter <span class="math inline">\(\theta\)</span>, a statistic <span class="math inline">\(T(x_i,...x_n)\)</span> is sufficient if either of the following hold:</p>
-<p>1: <span class="math inline">\(f_\theta(x_i,...x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,,...x_n)\)</span>,</p>
+<p>1: <span class="math inline">\(f_\theta(x_i,...x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,...,x_n)\)</span>,</p>
 <p><span class="math inline">\(\quad\)</span> where:</p>
 <p><span class="math inline">\(\qquad g\Big( \theta, T(x_1,...,x_n)\Big)\)</span> depends on <span class="math inline">\(\theta\)</span> only through <span class="math inline">\(T\)</span></p>
 <p><span class="math inline">\(\qquad h(x_1,,...x_n)\)</span> depends only on <span class="math inline">\((x_1,,...x_n)\)</span> and not on <span class="math inline">\(\theta\)</span></p>

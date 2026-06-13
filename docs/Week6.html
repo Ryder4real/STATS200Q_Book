@@ -1744,7 +1744,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficiency</span></span></a>
   </div>
 </li>
     </ul>
@@ -2074,7 +2074,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>This chapter is the first of three about hypothesis testing. The idea is that we have a default hypothesis about a parameter <span class="math inline">\(\theta\)</span>. Let’s say, for example, our null hypothesis is that <span class="math inline">\(\theta_0 = 10\)</span>. Maybe this represents the number of symptoms per day of medical patients.</p>
 <p>Now, let’s say we are trying out a new drug and want to see if it is effective. So, maybe our alternative hypothesis is that <span class="math inline">\(\theta_A = 5\)</span>, thus lowering the number of symptoms per day. Hypothesis testing is seeing whether, based on the data, we can reject the null hypothesis and accept the alternative.</p>
 <p>Unlike when we solved for <span class="math inline">\(\hat{p}_{MLE}\)</span> and <span class="math inline">\(\hat{p}_{PM}\)</span>, the result of a hypothesis test is strictly binary. It is only where we accept/reject the null hypothesis.</p>
-<p>Frequentist hypothesis testing is all about the Neyman-Person lemma. This says that if we have a distribution <span class="math inline">\(f_\theta(x)\)</span>, and <span class="math inline">\(H_0: \theta = \theta_0\)</span> and <span class="math inline">\(H_A: \theta = \theta_A\)</span>, then we want to reject <span class="math inline">\(H_0\)</span> when <span class="math inline">\(\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}\)</span> is maximized. This is in order to maximize the power of our hypothesis test.</p>
+<p>Frequentist hypothesis testing is all about the Neyman-Pearson lemma. This says that if we have a distribution <span class="math inline">\(f_\theta(x)\)</span>, and <span class="math inline">\(H_0: \theta = \theta_0\)</span> and <span class="math inline">\(H_A: \theta = \theta_A\)</span>, then we want to reject <span class="math inline">\(H_0\)</span> when <span class="math inline">\(\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}\)</span> is maximized. This is in order to maximize the power of our hypothesis test.</p>
 <p>To understand why this works, let’s look at hypothesis testing as a constrained optimization problem. Theoretically we would want our test to never make a mistake. This means we would want it to only accept the null when <span class="math inline">\(H_0\)</span> is true and only reject when <span class="math inline">\(H_0\)</span> is false. In reality, there is a strict trade-off between committing a Type I error (rejecting <span class="math inline">\(H_0\)</span> despite <span class="math inline">\(H_0\)</span> being true) and maximizing power (correctly rejecting <span class="math inline">\(H_0\)</span>). We handle this by setting a hard cap on our Type I error (which is referred to as <span class="math inline">\(\alpha\)</span>), typically at <span class="math inline">\(\alpha = 0.05\)</span>. Type I error can be very harmful, for example leading us to deem a drug as effective even if it isn’t. This is why we cap it at <span class="math inline">\(0.05\)</span>.</p>
 <p>Once this budget is locked in, the Neyman-Pearson lemma tells us exactly we can maximize our power (correctly rejecting <span class="math inline">\(H_0\)</span>) while staying within our <span class="math inline">\(\alpha\)</span> allocation. You can think of the likelihood ratio <span class="math inline">\(\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}\)</span> as a benefit-to-cost efficiency metric for every possible data outcome. The numerator represents the “benefit” (gaining power if <span class="math inline">\(H_A\)</span> is true), while the denominator represents the “cost” (eating away at our fixed <span class="math inline">\(\alpha\)</span> budget if <span class="math inline">\(H_0\)</span> is true). By sorting our outcomes and choosing to reject <span class="math inline">\(H_0\)</span> only when this ratio is at its highest, the lemma mathematically guarantees that we have constructed the most powerful test possible for our chosen significance level.</p>
 <p>In class, we showed that this principle extends into one-sided hypothesis testing. Imagine instead of saying, <span class="math inline">\(H_A: \theta = 5\)</span>, we said <span class="math inline">\(H_A: \theta &lt; 10\)</span>. To solve for this, we want to find a ratio that maximizes the power for every possible <span class="math inline">\(\theta\)</span> below 10. What we showed in class is that we can just choose any number below 10 (let’s say 2 for this example), and the values the maximize <span class="math inline">\(\frac{f_{\theta_A = 2}(x)}{f_{\theta_0}(x)}\)</span> are the same values that maximize <span class="math inline">\(\frac{f_{\theta_A = 7}(x)}{f_{\theta_0}(x)}\)</span> or <span class="math inline">\(\frac{f_{\theta_A = 9}(x)}{f_{\theta_0}(x)}\)</span>, or any value below 10. So, we can just choose one one these values below 10 to set up the ratio for <span class="math inline">\(H_A: \theta &lt; 10\)</span>.</p>
@@ -2085,7 +2085,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>Let’s apply this to my dataset. First, let’s bring my hospital dataset into R.</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>In my dataset, remember that the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
+<p>In my dataset, remember that the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it reasonable to say the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
 <p>Isolating for <span class="math inline">\(p\)</span>, we get:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -2098,7 +2098,7 @@ p &amp;= \frac{r}{\mathbb{E}[X] + r}
 \end{aligned}
 \]</span></p>
 <p>So, we set <span class="math inline">\(\mathbb{E}[x]\)</span> to be 0.5. Let’s say for the sake of this example that we set <span class="math inline">\(r\)</span> to be <span class="math inline">\(0.75\)</span>. In this scenario, we get <span class="math inline">\(p = \frac{0.75}{0.5+0.75} = 0.6\)</span>.</p>
-<p>So, our null hypothesis is <span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span>. Now, we are curious if maybe COVID is infectious than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that <span class="math inline">\(E[X]\)</span> is greater than 0.5, and as <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p}\)</span>, a smaller <span class="math inline">\(p\)</span> leads to a larger <span class="math inline">\(E[X]\)</span>.</p>
+<p>So, our null hypothesis is <span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span>. Now, we are curious if maybe COVID is more infectious than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that <span class="math inline">\(E[X]\)</span> is greater than 0.5, and as <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p}\)</span>, a smaller <span class="math inline">\(p\)</span> leads to a larger <span class="math inline">\(E[X]\)</span>.</p>
 <p>This means that:</p>
 <p><span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span></p>
 <p><span class="math inline">\(H_A\)</span>: <span class="math inline">\(p &lt; 0.6\)</span></p>
@@ -2111,15 +2111,15 @@ p &amp;= \frac{r}{\mathbb{E}[X] + r}
 <p>So, let’s maximize:</p>
 <p><span class="math display">\[
 \begin{aligned}
-\frac{f_A(x)}{f_0(x)} &amp;= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} 0.3^r (1 - 0.3)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} 0.6^r (1 - 0.6)^{x_i}} \\
+\frac{f_A(x)}{f_0(x)} &amp;= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x_i} 0.3^r (1 - 0.3)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} 0.6^r (1 - 0.6)^{x_i}} \\
 \frac{f_A(x)}{f_0(x)} &amp;= \frac{ \Big( \prod _{i=1}^n \binom{x_i + r - 1}{x_i} \Big) 0.3^{nr} (1 - 0.3)^{\sum x_i}}{ \Big( \prod _{i=1}^n \binom{x_i + r - 1}{x_i} \Big) 0.6^{nr} (1 - 0.6)^{\sum x_i}} \\
 &amp;= \frac{0.3^{nr} (1 - 0.3)^{\sum_{i=1}^n x_i}}{ 0.6^{nr} (1 - 0.6)^{\sum_{i=1}^n x_i}} \\
 &amp;\propto \frac{0.7^{\sum_{i=1}^n x_i}}{0.4^{\sum_{i=1}^n x_i}} \\
-&amp;= \Big(\frac{0.7}{0.4}\Big)^ {\sum_{i=1}^n x_i} \\
+&amp;\propto \Big(\frac{0.7}{0.4}\Big)^ {\sum_{i=1}^n x_i} \\
 \end{aligned}
 \]</span></p>
 <p>To maximize, <span class="math inline">\(\Big(\frac{0.7}{0.4}\Big)^{\sum_{i=1}^n x_i}\)</span>, we want to reject when <span class="math inline">\(\sum_{i=1}^n x_i\)</span> is as large as possible.</p>
-<p>So, we this means we set up: <span class="math inline">\(P(\sum_{i=1}^n x_i \geq c) = 0.05\)</span>.</p>
+<p>So, this means we set up: <span class="math inline">\(P(\sum_{i=1}^n x_i \geq c) = 0.05\)</span>.</p>
 <p>The sum of many NegBin<span class="math inline">\((p, r)\)</span> random variables is NegBin<span class="math inline">\((n \cdot r, p)\)</span>, My COVID hospital dataset had 807 patients, so <span class="math inline">\(n = 807\)</span>.</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2140,7 +2140,7 @@ p &amp;= \frac{r}{\mathbb{E}[X] + r}
 <p>Now, let’s see if reject <span class="math inline">\(H_0\)</span> in my dataset.</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>As <span class="math inline">\(600 &gt; c\)</span> (which was <span class="math inline">\(448\)</span>) in my COVID hospital dataset, we reject <span class="math inline">\(H_0\)</span>. This implies that we accept the alternative hypothesis that COVID is more contagious than the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least 1 person, so I do not want to extrapolate too much).</p>
+<p>As <span class="math inline">\(600 &gt; c\)</span> (which was <span class="math inline">\(448\)</span> in my COVID hospital dataset), we reject <span class="math inline">\(H_0\)</span>. This implies that we accept the alternative hypothesis that COVID is more contagious than the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least 1 person, so I do not want to extrapolate too much).</p>
 
 
 </section>

@@ -12,7 +12,7 @@ Now, let's say we are trying out a new drug and want to see if it is effective. 
 
 Unlike when we solved for $\hat{p}_{MLE}$ and $\hat{p}_{PM}$, the result of a hypothesis test is strictly binary. It is only where we accept/reject the null hypothesis.
 
-Frequentist hypothesis testing is all about the Neyman-Person lemma. This says that if we have a distribution $f_\theta(x)$, and $H_0: \theta = \theta_0$ and $H_A: \theta = \theta_A$, then we want to reject $H_0$ when $\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}$ is maximized. This is in order to maximize the power of our hypothesis test.
+Frequentist hypothesis testing is all about the Neyman-Pearson lemma. This says that if we have a distribution $f_\theta(x)$, and $H_0: \theta = \theta_0$ and $H_A: \theta = \theta_A$, then we want to reject $H_0$ when $\frac{f_{\theta_A}(x)}{f_{\theta_0}(x)}$ is maximized. This is in order to maximize the power of our hypothesis test.
 
 To understand why this works, let's look at hypothesis testing as a constrained optimization problem. Theoretically we would want our test to never make a mistake. This means we would want it to only accept the null when $H_0$ is true and only reject when $H_0$ is false. In reality, there is a strict trade-off between committing a Type I error (rejecting $H_0$ despite $H_0$ being true) and maximizing power (correctly rejecting $H_0$). We handle this by setting a hard cap on our Type I error (which is referred to as $\alpha$), typically at $\alpha = 0.05$. Type I error can be very harmful, for example leading us to deem a drug as effective even if it isn't. This is why we cap it at $0.05$.
 
@@ -31,7 +31,7 @@ dat <- read.csv("https://raw.githubusercontent.com/Ryder4real/STATS200Q_Book/mai
 x <- as.vector(table(dat$infector_id)) - 1
 ```
 
-In my dataset, remember that the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
+In my dataset, remember that the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to say the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
 
 Isolating for $p$, we get:
 
@@ -48,7 +48,7 @@ $$
 
 So, we set $\mathbb{E}[x]$ to be 0.5. Let's say for the sake of this example that we set $r$ to be $0.75$. In this scenario, we get $p = \frac{0.75}{0.5+0.75} = 0.6$.
 
-So, our null hypothesis is $H_0$: $p = 0.6$. Now, we are curious if maybe COVID is infectious than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that $E[X]$ is greater than 0.5, and as $\mathbb{E}[X] = \frac{r(1-p)}{p}$, a smaller $p$ leads to a larger $E[X]$.
+So, our null hypothesis is $H_0$: $p = 0.6$. Now, we are curious if maybe COVID is more infectious than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that $E[X]$ is greater than 0.5, and as $\mathbb{E}[X] = \frac{r(1-p)}{p}$, a smaller $p$ leads to a larger $E[X]$.
 
 This means that:
 
@@ -72,17 +72,17 @@ So, let's maximize:
 
 $$
 \begin{aligned}
-\frac{f_A(x)}{f_0(x)} &= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} 0.3^r (1 - 0.3)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} 0.6^r (1 - 0.6)^{x_i}} \\
+\frac{f_A(x)}{f_0(x)} &= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x_i} 0.3^r (1 - 0.3)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} 0.6^r (1 - 0.6)^{x_i}} \\
 \frac{f_A(x)}{f_0(x)} &= \frac{ \Big( \prod _{i=1}^n \binom{x_i + r - 1}{x_i} \Big) 0.3^{nr} (1 - 0.3)^{\sum x_i}}{ \Big( \prod _{i=1}^n \binom{x_i + r - 1}{x_i} \Big) 0.6^{nr} (1 - 0.6)^{\sum x_i}} \\
 &= \frac{0.3^{nr} (1 - 0.3)^{\sum_{i=1}^n x_i}}{ 0.6^{nr} (1 - 0.6)^{\sum_{i=1}^n x_i}} \\
 &\propto \frac{0.7^{\sum_{i=1}^n x_i}}{0.4^{\sum_{i=1}^n x_i}} \\
-&= \Big(\frac{0.7}{0.4}\Big)^ {\sum_{i=1}^n x_i} \\
+&\propto \Big(\frac{0.7}{0.4}\Big)^ {\sum_{i=1}^n x_i} \\
 \end{aligned}
 $$
 
 To maximize, $\Big(\frac{0.7}{0.4}\Big)^{\sum_{i=1}^n x_i}$, we want to reject when $\sum_{i=1}^n x_i$ is as large as possible.
 
-So, we this means we set up: $P(\sum_{i=1}^n x_i \geq c) = 0.05$.
+So, this means we set up: $P(\sum_{i=1}^n x_i \geq c) = 0.05$.
 
 The sum of many NegBin$(p, r)$ random variables is NegBin$(n \cdot r, p)$, My COVID hospital dataset had 807 patients, so $n = 807$.
 
@@ -131,4 +131,4 @@ observed_sum <- sum(x)
 observed_sum
 ```
 
-As $600 > c$ (which was $448$) in my COVID hospital dataset, we reject $H_0$. This implies that we accept the alternative hypothesis that COVID is more contagious than the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least 1 person, so I do not want to extrapolate too much).
+As $600 > c$ (which was $448$ in my COVID hospital dataset), we reject $H_0$. This implies that we accept the alternative hypothesis that COVID is more contagious than the flu (though this dataset is not perfect as it only consists of people already in the hospital who infected at least 1 person, so I do not want to extrapolate too much).

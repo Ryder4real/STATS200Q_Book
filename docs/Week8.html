@@ -1763,7 +1763,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficiency</span></span></a>
   </div>
 </li>
     </ul>
@@ -2089,7 +2089,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <section id="background" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="background"><span class="header-section-number">8.1</span> Background</h2>
-<p>In the previous two chapters, we have talked about frequentist hypothesis testing. We now turn our heads to Bayesian hypothesis testing. For Bayesian hypothesis testing, we can compare the posterior likelihoods of <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_A\)</span>. This is called the Bayes Factor. If the Bayes Factor is above 20, then we are considered to have “strong evidence” to reject the null per <span class="citation" data-cites="kass1995">Kass and Raftery (<a href="#ref-kass1995" role="doc-biblioref">1995</a>)</span>.</p>
+<p>In the previous two chapters, we have talked about frequentist hypothesis testing. We now turn our heads to Bayesian hypothesis testing. For Bayesian hypothesis testing, we can compare the posterior probabilities of <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_A\)</span>. This is called the Bayes Factor. If the Bayes Factor is above 20, then we are considered to have “strong evidence” to reject the null per <span class="citation" data-cites="kass1995">Kass and Raftery (<a href="#ref-kass1995" role="doc-biblioref">1995</a>)</span>.</p>
 <p>For Bayesian hypothesis testing, we are not concerned with limiting Type I error. This is because Type I and Type II errors are frequentist concepts, since they are defined in terms of running the experiment an infinite number of times. That is not relevant to a Bayesian. Instead, Bayesians focus on the posterior probabilities of the null and alternative hypotheses.</p>
 <p>Similar to our previous Bayesian metrics, we first need some priors. There are three priors we will need to come up with. The first two are the prior likelihoods of <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_A\)</span>, which naturally need to sum to 1. The third is a prior distribution for <span class="math inline">\(\theta\)</span>.</p>
 <p>Bayesian and frequentist hypothesis testing do not always give the same conclusion. Despite having the same data, the frequentist hypothesis test may reject the null while the Bayesian test accepts. This is known as Lindley’s Paradox.</p>
@@ -2100,9 +2100,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>I mention this in Chapter 6, but as a reminder:</p>
-<p>In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
+<p>In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it is reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
 <p>I isolated for <span class="math inline">\(p\)</span> in Chapter 6, and got that <span class="math inline">\(p = 0.6\)</span>:</p>
-<p>Let’s say our null hypothesis is <span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span>. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that <span class="math inline">\(E[X] \neq 0.5\)</span>, and and <span class="math inline">\(p \neq 0.6\)</span>.</p>
+<p>Let’s say our null hypothesis is <span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span>. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that <span class="math inline">\(E[X] \neq 0.5\)</span>, and <span class="math inline">\(p \neq 0.6\)</span>.</p>
 <p>So, this gives us:</p>
 <p><span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span></p>
 <p><span class="math inline">\(H_A\)</span>: <span class="math inline">\(p \neq 0.6\)</span></p>
@@ -2123,7 +2123,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 &amp;= \frac{P(H_A) f(x_1,...,x_n|H_A)}{P(H_0) f(x_1,...,x_n|H_0)} \\
 &amp;= \frac{P(H_A)}{P(H_0)} \frac{f(x_1,...,x_n|H_A)}{f(x_1,...,x_n|H_0)} \\
 &amp;= \frac{0.5}{0.5} \frac{\int _0^1 f(p) f(x_1,...,x_n|p)dp}{\prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
-&amp;= \frac{\int _0^1 f(x_1,...,x_n|p)dp}{\prod_{i=1}^n \binom{x + r - 1}{x} (p_0)^r (1 - p_0)^{x_i}} \\
+&amp;= \frac{\int _0^1 f(x_1,...,x_n|p)dp}{\prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
 &amp;= \frac{\int _0^1 \prod_{i=1}^n \binom{x_i + r - 1}{x_i} p^r (1 - p)^{x_i} dp}{\prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
 &amp;= \frac{\int_0^1 \prod_{i=1}^n \binom{x_i + r - 1}{x_i} p^r (1 - p)^{x_i} \, dp}{\prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
 &amp;= \frac{\int_0^1 \left( \prod_{i=1}^n \binom{x_i + r - 1}{x_i} \right) p^{rn} (1 - p)^{\sum_{i=1}^n x_i} \, dp}{\left( \prod_{i=1}^n \binom{x_i + r - 1}{x_i} \right) (p_0)^{rn} (1 - p_0)^{\sum_{i=1}^n x_i}} \\
@@ -2140,7 +2140,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 \end{aligned}
 \]</span></p>
 <p>In my hospital dataset, the data seems to fit a negative binomial distribution in which <span class="math inline">\(r\)</span> is not necessarily an integer, meaning we cannot simplify this further with factorials.</p>
-<p>Instead, let’s plug our data this equation to find the Bayes Factor. Let’s say <span class="math inline">\(r = 0.75\)</span>, the same <span class="math inline">\(r\)</span> value I used in Chapter 7.</p>
+<p>Instead, let’s plug our data into this equation to find the Bayes Factor. Let’s say <span class="math inline">\(r = 0.75\)</span>, the same <span class="math inline">\(r\)</span> value I used in Chapter 7.</p>
 <p>Unfortunately, the denominator gets so small that the code thinks we are dividing by <span class="math inline">\(0\)</span>. So, let’s instead take <span class="math inline">\(e\)</span> to the power of [the <span class="math inline">\(\log\)</span> of the numerator subtracted by the <span class="math inline">\(log\)</span> of the denominator].</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -2154,7 +2154,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>My Bayes Factor is <span class="math inline">\(607815364\)</span>, meaning there is very strong evidence to reject the null hypothesis.</p>
-<p>In Chapter 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected <span class="math inline">\(H_0\)</span> (we reject the hypothesis that COVID has the same contagious level as the flu). As my Bayesian and frequenist hypothesis tests both come to the same conclusion, I did not encounter Lindley’s paradox.</p>
+<p>In Chapter 7, using Frequentist Hypothesis Testing methods, I also rejected the null hypothesis. So, both methods reached the same conclusion, in that we rejected <span class="math inline">\(H_0\)</span> (we reject the hypothesis that COVID has the same contagious level as the flu). As my Bayesian and frequentist hypothesis tests both come to the same conclusion, I did not encounter Lindley’s paradox.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
@@ -2575,8 +2575,8 @@ Kass, Robert E., and Adrian E. Raftery. 1995. <span>“Bayes Factors.”</span> 
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Week9.html" class="pagination-link" aria-label="Sufficency">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Week9.html" class="pagination-link" aria-label="Sufficiency">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficiency</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

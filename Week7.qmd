@@ -23,7 +23,7 @@ x <- as.vector(table(dat$infector_id)) - 1
 
 I mention this in Chapter 6, but as a reminder:
 
-In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
+In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting $E[X] = 0.5$ feels fair. In other words, for the flu, it is reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that $\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5$.
 
 I isolated for $p$ in Chapter 6, and got that $p = 0.6$:
 
@@ -43,7 +43,7 @@ We can write this out as:
 
 $$
 \begin{aligned}
-\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} p^r (1 - p)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
+\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x_i} p^r (1 - p)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
 \end{aligned}
 $$
 
@@ -75,7 +75,7 @@ $$
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= \log \Bigg( \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}} \Bigg)\\
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= nr \log(\frac{r}{r + \bar{x}}) + \sum_{i=1}^n x_i \log(1 - \frac{r}{r + \bar{x}})- \Big( nr \log(p_0)  + \sum_{i=1}^n x_i \log(1 - p_0) \Big)\\
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big) \\
-\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)
+
 \end{aligned}
 $$
 
@@ -138,7 +138,7 @@ log_lambda
 
 As $\log (\Lambda)$ is 23.55, which is $>c$, we reject $H_0$.
 
-A power curve stricly from simulation is generated in the code block below.
+A power curve strictly from simulation is generated in the code block below.
 
 Note, for the sake of runtime, I lowered `n` to 50 in the code. I recommend messing around and changing `n` to see how the power curve changes.
 
@@ -208,7 +208,7 @@ abline(v = p_0, col = "#e74c3c", lty = 2)
 abline(h = 0.05, col = "gray50", lty = 3) 
 ```
 
-I recommend going back in the code and seeing how changing `n` can effect your power curve.
+I recommend going back in the code and seeing how changing `n` can affect your power curve.
 
 ### Asymptotic
 
@@ -239,7 +239,7 @@ Now, let's check our data. Let's assume $r = 0.75$. Remember that Wilks' Theorem
 
 $2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1$.
 
-For our Negative Binomial: $\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)$
+For our Negative Binomial: $2\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = 2 \Bigg(nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \Big(\sum_{i=1}^n x_i \Big)\log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big) \Bigg)$
 
 Let's proceed with $r=0.75$.
 

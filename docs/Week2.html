@@ -372,7 +372,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"n <- 50 \ntrue_size <- 0.5 #r\n\np_grid <- seq(0.01, 0.99, length.out = 40)\nmse_results <- sapply(p_grid, function(p) {\n  \n  # Run simulations for each specific p in the grid\n  temp_sims <- replicate(10000, {\n    x <- rnbinom(n = n, size = true_size, prob = p)\n    x_avg = mean(x)\n    x_sum = sum(x)\n    \n    p.mle <- true_size / (true_size + x_avg)\n    p.pm <- (1 + n * true_size) / (2 + n * true_size + x_sum)\n    \n    c(mle = p.mle, pm = p.pm)\n  })\n  \n  # Calculate MSE for this specific p\n  mse_mle_p <- mean((temp_sims[\"mle\",] - p)^2)\n  mse_pm_p <- mean((temp_sims[\"pm\",] - p)^2)\n  \n  c(mse_mle = mse_mle_p, mse_mod = mse_pm_p)\n})\n\n# Plotting the curve\nplot(p_grid, mse_results[\"mse_mle\",], type = \"l\", col = \"blue\", lwd = 2,\n     main = \"MSE for Different Estimators\", \n     xlab = \"True p\", \n     ylab = \"MSE\",\n     cex.main = 0.9,  \n     cex.lab = 0.8,   \n     cex.axis = 0.7)\n\nlines(p_grid, mse_results[\"mse_mod\",], col = \"red\", lwd = 2, lty = 2)\nlegend(\"topright\", \n       legend = c(\"MLE\", \"Posterior Mean\"), \n       col = c(\"blue\", \"red\"), \n       lty = 1:2,\n       cex = 0.6)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"n <- 50 \ntrue_size <- 0.5 #r\n\np_grid <- seq(0.01, 0.99, length.out = 40)\nmse_results <- sapply(p_grid, function(p) {\n  \n  # Run simulations for each specific p in the grid\n  temp_sims <- replicate(10000, {\n    x <- rnbinom(n = n, size = true_size, prob = p)\n    x_avg = mean(x)\n    x_sum = sum(x)\n    \n    p.mle <- true_size / (true_size + x_avg)\n    p.pm <- (1 + n * true_size) / (2 + n * true_size + x_sum)\n    \n    c(mle = p.mle, pm = p.pm)\n  })\n  \n  # Calculate MSE for this specific p\n  mse_mle_p <- mean((temp_sims[\"mle\",] - p)^2)\n  mse_pm_p <- mean((temp_sims[\"pm\",] - p)^2)\n  \n  c(mse_mle = mse_mle_p, mse_pm = mse_pm_p)\n})\n\n# Plotting the curve\nplot(p_grid, mse_results[\"mse_mle\",], type = \"l\", col = \"blue\", lwd = 2,\n     main = \"MSE for Different Estimators\", \n     xlab = \"True p\", \n     ylab = \"MSE\",\n     cex.main = 0.9,  \n     cex.lab = 0.8,   \n     cex.axis = 0.7)\n\nlines(p_grid, mse_results[\"mse_pm\",], col = \"red\", lwd = 2, lty = 2)\nlegend(\"topright\", \n       legend = c(\"MLE\", \"Posterior Mean\"), \n       col = c(\"blue\", \"red\"), \n       lty = 1:2,\n       cex = 0.6)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1744,7 +1744,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficiency</span></span></a>
   </div>
 </li>
     </ul>
@@ -2076,7 +2076,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h2 data-number="2.1" class="anchored" data-anchor-id="background"><span class="header-section-number">2.1</span> Background</h2>
 <p>This chapter covers a variety of topics. First, I will dive into some cool properties regarding the score, which is the derivative of the log likelihood. One integration technique I will use for this is “Differentiation Under the Integral Sign”. It is a cool trick that allows you to move a derivative outside of the integral.</p>
 <p>Then, we will take a nice short break from proofs, and I will mention another way to evaluate estimators. In Chapter 1, we looked at the bias and variance of <span class="math inline">\(\hat{p}_{MLE}\)</span> and <span class="math inline">\(\hat{p}_{PM}\)</span>, but this time I will use frequentist Mean Squared Error to compare them. This is defined as MSE = <span class="math inline">\(\mathbb{E}[(\hat{\theta} - \theta)^2]\)</span>. The MSE can famously be decomposed as the (Bias<span class="math inline">\(^2\)</span> + Variance). So, while last chapter we looked at bias and variance, MSE serves as an all-encompassing metric. So, I will compare the MSE of my MLE and Posterior Mean from Chapter 1.</p>
-<p>Alas, after discussing MSE, our short break from proofs will have concluded. I will next prove the Cramer-Rao Lower Bound (CRLB), evaluate the CRLB for my distribution, and see if it is relevant to the MLE and Posterior Mean I calculated in Chapter 1. In class, we learned that the CRLB is a lower bound to the variance of an unbiased estimator. This means that of all unbiased estimators, if one reaches the CRLB, then it is the best unbiased estimator, as it would have the lowest MSE. This is very insightful. It means once we’ve reached that bound, there is no point evaluating other unbiased estimators, as there cannot be a unbiased estimator with a lower variance and MSE that the one that reaches the CRLB.</p>
+<p>Alas, after discussing MSE, our short break from proofs will have concluded. I will next prove the Cramer-Rao Lower Bound (CRLB), evaluate the CRLB for my distribution, and see if it is relevant to the MLE and Posterior Mean I calculated in Chapter 1. In class, we learned that the CRLB is a lower bound to the variance of an unbiased estimator. This means that of all unbiased estimators, if one reaches the CRLB, then it is the best unbiased estimator, as it would have the lowest MSE. This is very insightful. It means once we’ve reached that bound, there is no point evaluating other unbiased estimators, as there cannot be an unbiased estimator with a lower variance and MSE than the one that reaches the CRLB.</p>
 <p>As an extra note, the CRLB is defined as <span class="math inline">\(\frac{1}{I(\theta)}\)</span>, where <span class="math inline">\(I(\theta)\)</span> is defined as the variance of the score (which is the derivative of the log-likelihood). I will prove this later on in this chapter. It is important to note that some of the equations I derive in the first part of this chapter will make it easier to solve for the CRLB for my distribution.</p>
 </section>
 <section id="proving-textvarelltheta--mathbbeelltheta" class="level2" data-number="2.2">
@@ -2095,7 +2095,7 @@ L_x(\theta) &amp;= f_\theta(x) \\
 \ell'_x(\theta) &amp;= \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)}
 \end{aligned}
 \]</span></p>
-<p>Subbing this into our expectation:</p>
+<p>Substituting this into our expectation:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \mathbb{E}[\ell'_x(\theta)] &amp;= \int_{-\infty}^\infty \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} f_\theta(x) dx \\
@@ -2119,7 +2119,7 @@ L_x(\theta) &amp;= f_\theta(x) \\
 \end{aligned}
 \]</span></p>
 <p>Rearranging gives <span class="math inline">\((\ell'_x(\theta))^2 = \frac{\frac{d^2}{d \theta^2} f_\theta(x)}{f_\theta(x)} - \ell''_x(\theta)\)</span>.</p>
-<p>Subbing this into <span class="math inline">\(\text{Var}(\ell'(\theta)) = \mathbb{E}[(\ell'(\theta))^2] = \int_{-\infty}^\infty (\ell'_x(\theta))^2 f_\theta(x) dx\)</span>, gives us:</p>
+<p>Subbing this into <span class="math inline">\(\text{Var}(\ell'(\theta)) = \mathbb{E}[(\ell'(\theta))^2] = \int_{-\infty}^\infty (\ell'_x(\theta))^2 f_\theta(x) dx\)</span> gives us:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \text{Var}(\ell'(\theta)) &amp;= \int_{-\infty}^\infty f_\theta(x) \left( \frac{\frac{d^2}{d \theta^2} f_\theta(x)}{f_\theta(x)} - \ell''_x(\theta) \right) dx \\
@@ -2130,16 +2130,16 @@ L_x(\theta) &amp;= f_\theta(x) \\
 &amp;= - \mathbb{E}[\ell''_x(\theta)]
 \end{aligned}
 \]</span></p>
-<p>So, we have just shown that <span class="math inline">\(\text{Var}(\ell'(\theta)) = - \mathbb{E}[\ell''_x(\theta)]\)</span>. This value is also known as the Fisher Information, or <span class="math inline">\(I(\theta)\)</span>.</p>
+<p>So, we have just shown that <span class="math inline">\(\text{Var}(\ell'_x(\theta)) = -\mathbb{E}[\ell''_x(\theta)]\)</span>. This value is also known as the Fisher Information, or <span class="math inline">\(I(\theta)\)</span>.</p>
 </section>
 <section id="mse" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="mse"><span class="header-section-number">2.3</span> MSE</h2>
 <p>In Chapter 1, I derived that if <span class="math inline">\(X_1,...,X_n \sim \text{NegBin}(r, p)\)</span>, then: <span class="math inline">\(\hat{p}_{MLE} = \frac{r}{r + \bar{x}}\)</span> and <span class="math inline">\(\hat{p}_{PM}\)</span> = <span class="math inline">\(\frac{1 + nr}{2 + nr + \sum x_i}\)</span>.</p>
 <p>We previously analyzed the bias and variance of these estimators. Now, let’s analyze their MSE, which is <span class="math inline">\(\mathbb{E}[(\hat{p} - p)^2]\)</span>. As mentioned in the Background section, this can be rewritten as Bias<span class="math inline">\(^2\)</span> + Variance.</p>
-<p>Bbelow is a simulation that prints out Mean Squared Error for different <span class="math inline">\(p\)</span>, for when <span class="math inline">\(n=50\)</span> and <span class="math inline">\(r=0.5\)</span>.</p>
+<p>Below is a simulation that prints out Mean Squared Error for different <span class="math inline">\(p\)</span>, for when <span class="math inline">\(n=50\)</span> and <span class="math inline">\(r=0.5\)</span>.</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>As we can see, at different true <span class="math inline">\(p\)</span> values, one estimator may be better than the other. This is an interesting result, and means that we cannot declare one officially estimator to be better than the other using frequentist MSE.</p>
+<p>As we can see, at different true <span class="math inline">\(p\)</span> values, one estimator may be better than the other. This is an interesting result and means that we cannot declare one estimator to be universally better than the other using frequentist MSE.</p>
 </section>
 <section id="proving-the-cramer-rao-lower-bound" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="proving-the-cramer-rao-lower-bound"><span class="header-section-number">2.4</span> Proving the Cramer-Rao Lower Bound</h2>
@@ -2147,20 +2147,20 @@ L_x(\theta) &amp;= f_\theta(x) \\
 <p>First, let <span class="math inline">\(t(x)\)</span> be any unbiased estimator of <span class="math inline">\(\theta\)</span>. Now let’s solve for <span class="math inline">\(\text{Cov}(t(x), \ell'_x(\theta))\)</span>.</p>
 <p><span class="math display">\[
 \begin{aligned}
-\text{Cov}(t(x), \ell'(x)) &amp;= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - \mathbb{E}[t(x)] \mathbb{E}[\ell'_x(\theta)] \\
+\text{Cov}(t(x), \ell'_x(\theta)) &amp;= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - \mathbb{E}[t(x)] \mathbb{E}[\ell'_x(\theta)] \\
 \end{aligned}
 \]</span> Now, in the first section of this Chapter, we showed that <span class="math inline">\(\mathbb{E}[\ell'_x(\theta)] = 0\)</span>. So, let’s apply that and continue to manipulate.</p>
 <p><span class="math display">\[
 \begin{aligned}
-\text{Cov}(t(x), \ell'(x)) &amp;= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - 0 \\
-&amp;= \int_{-\infty}^\infty t(x) \ell'(x) f_\theta(x) dx
+\text{Cov}(t(x), \ell'_x(\theta)) &amp;= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - 0 \\
+&amp;= \int_{-\infty}^\infty t(x) \ell'_x(\theta) f_\theta(x) dx
 \end{aligned}
 \]</span></p>
 <p>Now, in the first section we also showed that: <span class="math inline">\(\ell'_x(\theta) = \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)}\)</span></p>
 <p>Using this, we can say that:</p>
 <p><span class="math display">\[
 \begin{aligned}
-\text{Cov}(t(x), \ell'(x)) &amp;= \int_{-\infty}^\infty t(x) \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} f_\theta(x) dx \\
+\text{Cov}(t(x), \ell'_x(\theta)) &amp;= \int_{-\infty}^\infty t(x) \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} f_\theta(x) dx \\
 &amp;= \int_{-\infty}^\infty t(x) \frac{d}{d \theta} f_\theta(x) dx \\
 &amp;= \frac{d}{d \theta}\int_{-\infty}^\infty t(x)  f_\theta(x) dx \\
 &amp;= \frac{d}{d \theta}\mathbb{E}[t(x)] \\
@@ -2168,7 +2168,7 @@ L_x(\theta) &amp;= f_\theta(x) \\
 &amp;= 1
 \end{aligned}
 \]</span> So, using the Cauchy-Schwarz Inequality, we can say that</p>
-<p><span class="math inline">\(1 = \text{Cov}^2(t(x), \ell'(x)) \leq \text{Var}(t(x)) \text{Var}(\ell'_x(\theta))\)</span></p>
+<p><span class="math inline">\(1 = \text{Cov}^2(t(x), \ell'_x(\theta)) \leq \text{Var}(t(x)) \text{Var}(\ell'_x(\theta))\)</span></p>
 <p>So, this means that:</p>
 <p><span class="math inline">\(\frac{1}{\text{Var}(\ell'_x(\theta))} \leq \text{Var}(t(x))\)</span>.</p>
 <p>So, this means that the variance of any unbiased estimator <span class="math inline">\(t(x)\)</span> must be greater than or equal to <span class="math inline">\(\frac{1}{\text{Var}(\ell'_x(\theta))}\)</span>. And, if you remember earlier, this can be written as:</p>
@@ -2177,8 +2177,8 @@ L_x(\theta) &amp;= f_\theta(x) \\
 <section id="finding-the-crlb" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="finding-the-crlb"><span class="header-section-number">2.5</span> Finding the CRLB</h2>
 <p>As described above, the CRLB for unbiased estimators is <span class="math inline">\(\frac{1}{I(\theta)}\)</span>, where <span class="math inline">\(I(\theta)\)</span> is defined as the variance of the score. However, we proved above that the variance of the score, <span class="math inline">\(\text{Var}(\ell'(\theta))\)</span> is actually equivalent to <span class="math inline">\(-\mathbb{E}[\ell''(\theta)]\)</span></p>
-<p>So, this means that the CRLB for unbiased estimators is <span class="math inline">\(\frac{1}{-\mathbb{E}[\ell''(\theta)]}\)</span>.</p>
-<p>In Chapter 1, I wrote For <span class="math inline">\(X_1,...,X_n \sim \text{NegBin}(r, p)\)</span>, then <span class="math inline">\(\ell'(p) = \frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1-p}\)</span>:</p>
+<p>So, this means that the CRLB for unbiased estimators is <span class="math inline">\(\frac{1}{-\mathbb{E}[\ell''_x(\theta)]}\)</span>.</p>
+<p>In Chapter 1, I wrote for <span class="math inline">\(X_1,...,X_n \sim \text{NegBin}(r, p)\)</span>, then <span class="math inline">\(\ell'(p) = \frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1-p}\)</span>:</p>
 <p>This means that <span class="math inline">\(\ell''(p) = -\frac{rn}{p^2} - \frac{\sum_{i=1}^n x_i}{(1-p)^2}\)</span></p>
 <p><span class="math display">\[
 \begin{aligned}

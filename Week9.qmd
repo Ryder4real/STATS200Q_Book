@@ -1,5 +1,5 @@
 ---
-title: "Sufficency"
+title: "Sufficiency"
 ---
 
 ## Background
@@ -15,7 +15,7 @@ A quick proof is below. First, let's show that if $\hat{\theta}$ is unbiased, th
 $$
 \begin{aligned}
   \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\mathbb{E}[\hat{\theta} | T]]  \\
-  \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\hat{\theta}] \text{   [NOTE: From the Law of Total Exectation]}
+  \mathbb{E}[\hat{\theta}_{RB}] &= \mathbb{E}[\hat{\theta}] \text{   [NOTE: From the Law of Total Expectation]}
 \end{aligned}
 $$
 
@@ -38,7 +38,7 @@ The MLE and Posterior Mean are always both functions of a sufficient statistic. 
 
 In class, we learned that for data $X_i,...X_n$ and parameter $\theta$, a statistic $T(x_i,...x_n)$ is sufficient if either of the following hold:
 
-1: $f_\theta(x_i,...x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,,...x_n)$,
+1: $f_\theta(x_i,...x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,...,x_n)$,
 
 $\quad$ where:
 

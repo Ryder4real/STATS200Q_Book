@@ -6,9 +6,9 @@ title: "Confidence and Credible Intervals"
 
 So far, we have discussed solving for and evaluating $\hat{p}_{MLE}$ and $\hat{p}_{PM}$. But, these estimators are based only on the data we have, and neither is likely to be the true $p$ of the entire population.
 
-So, this chapter is all about Confidence and Credible Intervals. The former is a frequentist method to display a region that they believe contains the true  $p$ of the entire population with a certain confidence. The latter is the Bayesian version that allows for slightly different wording that I will explain in the next paragraph. For these examples, we use a $95\%$ confidence and credible interval.
+So, this chapter is all about Confidence and Credible Intervals. The former is a frequentist method to display a region that they believe contains the true $p$ of the entire population with a certain confidence. The latter is the Bayesian version that allows for slightly different wording that I will explain in the next paragraph. For these examples, we use a $95\%$ confidence and credible interval.
 
-This is the topic that truly instilled in me the differences in frequentist v. Bayesian principles. As frequentists treat $p$ as a fixed but unknown parameter, once they have calculated their region, they do NOT say that there is a $95\%$ chance that $p$ is in the region. This is because $p$ is fixed. A fixed parameter cannot have a chance of being in a region, it either is or it isn't. So, they escape this by saying they are $95\%$ "confident" that $p$ is contained in the region. On the the other hand, as Bayesians treat $p$ is a random variable, they have no problems saying that there is a $95\%$ chance that $p$ is in their credible interval.
+This is the topic that truly instilled in me the differences in frequentist v. Bayesian principles. As frequentists treat $p$ as a fixed but unknown parameter, once they have calculated their region, they do NOT say that there is a $95\%$ chance that $p$ is in the region. This is because $p$ is fixed. A fixed parameter cannot have a chance of being in a region, it either is or it isn't. So, they escape this by saying they are $95\%$ "confident" that $p$ is contained in the region. On the other hand, as Bayesians treat $p$ as a random variable, they have no problems saying that there is a $95\%$ chance that $p$ is in their credible interval.
 
 ## Confidence Interval
 
@@ -84,7 +84,7 @@ Furthermore, we can say that:
 
 $\frac{\hat{p}_{MLE} - p}{\sqrt{ \frac{p^2(1-p)}{nr}}} \sim N(0, 1)$
 
-In the Normal distribution, $95\%$ of the mass is in the mean $\pm 1.96$ Standard deviations. As the Normal above has a standard deviation of 1, we can set up a 95% confidence interval that rounds to:
+In the Normal distribution, $95\%$ of the mass is in the mean $\pm 1.96$ Standard deviations, which we will round to 2 for algebraic simplicity. As the Normal above has a standard deviation of 1, we can set up a 95% confidence interval that rounds to:
 
 $-2 \leq \frac{\hat{p}_{MLE} - p}{\sqrt{ \frac{p^2(1-p)}{nr}}} \leq 2$
 
@@ -95,7 +95,7 @@ $$
 \frac{nr(\hat{p}_{MLE} - p)^2}{p^2(1-p)} &\leq 4 \\
 \hat{p}_{MLE}^2 -2\hat{p}_{MLE}p + p^2 &\leq \frac{4}{nr}p^2(1-p) \\
 \hat{p}_{MLE}^2 -2\hat{p}_{MLE}p + p^2- \frac{4p^2}{nr} + \frac{4p^3}{nr} &\leq 0 \\
-\frac{4}{nr}p^3 + (1- \frac{4}{nr})p^2 - 2\hat{p}_{MLE}p + \hat{p}_{MLE}^2&\leq 0 
+\frac{4}{nr}p^3 + (1- \frac{4}{nr})p^2 - 2\hat{p}_{MLE}p + \hat{p}_{MLE}^2 &\leq 0 
 \end{aligned}
 $$
 
@@ -114,7 +114,7 @@ cubic_f <- function(p) {
   (a * p^3) + (1 - a) * p^2 - (2 * p_hat) * p + p_hat^2
 }
 
-# roots of f(p) the windows [0, p_hat] and [p_hat, 1]
+# roots of f(p) in the windows [0, p_hat] and [p_hat, 1]
 lower_bound <- uniroot(cubic_f, interval = c(0, p_hat))$root
 upper_bound <- uniroot(cubic_f, interval = c(p_hat, 1))$root
 
@@ -122,7 +122,7 @@ upper_bound <- uniroot(cubic_f, interval = c(p_hat, 1))$root
 cat("95% Confidence Interval: [", round(lower_bound, 4), ",", round(upper_bound, 4), "]\n")
 ```
 
-From the computation in the code above, we are approximately 95% confident that $p$ is in $[0.3727, 0.4346]$
+From the computation in the code above, we are approximately 95% confident that $p$ is in $[0.3727, 0.4346].$
 
 ## Credible Interval
 

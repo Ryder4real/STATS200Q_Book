@@ -8,7 +8,7 @@ This chapter covers a variety of topics. First, I will dive into some cool prope
 
 Then, we will take a nice short break from proofs, and I will mention another way to evaluate estimators. In Chapter 1, we looked at the bias and variance of $\hat{p}_{MLE}$ and $\hat{p}_{PM}$, but this time I will use frequentist Mean Squared Error to compare them. This is defined as MSE = $\mathbb{E}[(\hat{\theta} - \theta)^2]$. The MSE can famously be decomposed as the (Bias$^2$ + Variance). So, while last chapter we looked at bias and variance, MSE serves as an all-encompassing metric. So, I will compare the MSE of my MLE and Posterior Mean from Chapter 1.
 
-Alas, after discussing MSE, our short break from proofs will have concluded. I will next prove the Cramer-Rao Lower Bound (CRLB), evaluate the CRLB for my distribution, and see if it is relevant to the MLE and Posterior Mean I calculated in Chapter 1. In class, we learned that the CRLB is a lower bound to the variance of an unbiased estimator. This means that of all unbiased estimators, if one reaches the CRLB, then it is the best unbiased estimator, as it would have the lowest MSE. This is very insightful. It means once we've reached that bound, there is no point evaluating other unbiased estimators, as there cannot be a unbiased estimator with a lower variance and MSE that the one that reaches the CRLB.
+Alas, after discussing MSE, our short break from proofs will have concluded. I will next prove the Cramer-Rao Lower Bound (CRLB), evaluate the CRLB for my distribution, and see if it is relevant to the MLE and Posterior Mean I calculated in Chapter 1. In class, we learned that the CRLB is a lower bound to the variance of an unbiased estimator. This means that of all unbiased estimators, if one reaches the CRLB, then it is the best unbiased estimator, as it would have the lowest MSE. This is very insightful. It means once we've reached that bound, there is no point evaluating other unbiased estimators, as there cannot be an unbiased estimator with a lower variance and MSE than the one that reaches the CRLB.
 
 As an extra note, the CRLB is defined as $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the variance of the score (which is the derivative of the log-likelihood). I will prove this later on in this chapter. It is important to note that some of the equations I derive in the first part of this chapter will make it easier to solve for the CRLB for my distribution.
 
@@ -33,7 +33,7 @@ L_x(\theta) &= f_\theta(x) \\
 \end{aligned}
 $$
 
-Subbing this into our expectation:
+Substituting this into our expectation:
 
 $$
 \begin{aligned}
@@ -42,8 +42,7 @@ $$
 &= \frac{d}{d \theta} \int_{-\infty}^\infty f_\theta(x) dx \\
 &= \frac{d}{d \theta} (1) = 0
 \end{aligned}
-$$
-The fact that $\mathbb{E}[\ell'_x(\theta)] = 0$ is an important result and I use it again later on in this chapter.
+$$ The fact that $\mathbb{E}[\ell'_x(\theta)] = 0$ is an important result and I use it again later on in this chapter.
 
 Now, let's solve for $\text{Var}(\ell'(\theta))$.
 
@@ -65,9 +64,9 @@ $$
 \end{aligned}
 $$
 
-Rearranging gives $(\ell'_x(\theta))^2 = \frac{\frac{d^2}{d \theta^2} f_\theta(x)}{f_\theta(x)} - \ell''_x(\theta)$. 
+Rearranging gives $(\ell'_x(\theta))^2 = \frac{\frac{d^2}{d \theta^2} f_\theta(x)}{f_\theta(x)} - \ell''_x(\theta)$.
 
-Subbing this into $\text{Var}(\ell'(\theta)) = \mathbb{E}[(\ell'(\theta))^2] = \int_{-\infty}^\infty (\ell'_x(\theta))^2 f_\theta(x) dx$, gives us:
+Subbing this into $\text{Var}(\ell'(\theta)) = \mathbb{E}[(\ell'(\theta))^2] = \int_{-\infty}^\infty (\ell'_x(\theta))^2 f_\theta(x) dx$ gives us:
 
 $$
 \begin{aligned}
@@ -78,9 +77,9 @@ $$
 &= \frac{d^2}{d\theta^2} (1) - \mathbb{E}[\ell''_x(\theta)] \\
 &= - \mathbb{E}[\ell''_x(\theta)]
 \end{aligned}
-$$ 
+$$
 
-So, we have just shown that $\text{Var}(\ell'(\theta)) = - \mathbb{E}[\ell''_x(\theta)]$. This value is also known as the Fisher Information, or $I(\theta)$.
+So, we have just shown that $\text{Var}(\ell'_x(\theta)) = -\mathbb{E}[\ell''_x(\theta)]$. This value is also known as the Fisher Information, or $I(\theta)$.
 
 ## MSE
 
@@ -88,7 +87,7 @@ In Chapter 1, I derived that if $X_1,...,X_n \sim \text{NegBin}(r, p)$, then: $\
 
 We previously analyzed the bias and variance of these estimators. Now, let's analyze their MSE, which is $\mathbb{E}[(\hat{p} - p)^2]$. As mentioned in the Background section, this can be rewritten as Bias$^2$ + Variance.
 
-Bbelow is a simulation that prints out Mean Squared Error for different $p$, for when $n=50$ and $r=0.5$.
+Below is a simulation that prints out Mean Squared Error for different $p$, for when $n=50$ and $r=0.5$.
 
 ```{webr-r}
 n <- 50 
@@ -113,7 +112,7 @@ mse_results <- sapply(p_grid, function(p) {
   mse_mle_p <- mean((temp_sims["mle",] - p)^2)
   mse_pm_p <- mean((temp_sims["pm",] - p)^2)
   
-  c(mse_mle = mse_mle_p, mse_mod = mse_pm_p)
+  c(mse_mle = mse_mle_p, mse_pm = mse_pm_p)
 })
 
 # Plotting the curve
@@ -125,7 +124,7 @@ plot(p_grid, mse_results["mse_mle",], type = "l", col = "blue", lwd = 2,
      cex.lab = 0.8,   
      cex.axis = 0.7)
 
-lines(p_grid, mse_results["mse_mod",], col = "red", lwd = 2, lty = 2)
+lines(p_grid, mse_results["mse_pm",], col = "red", lwd = 2, lty = 2)
 legend("topright", 
        legend = c("MLE", "Posterior Mean"), 
        col = c("blue", "red"), 
@@ -133,7 +132,7 @@ legend("topright",
        cex = 0.6)
 ```
 
-As we can see, at different true $p$ values, one estimator may be better than the other. This is an interesting result, and means that we cannot declare one officially estimator to be better than the other using frequentist MSE.
+As we can see, at different true $p$ values, one estimator may be better than the other. This is an interesting result and means that we cannot declare one estimator to be universally better than the other using frequentist MSE.
 
 ## Proving the Cramer-Rao Lower Bound
 
@@ -143,15 +142,14 @@ First, let $t(x)$ be any unbiased estimator of $\theta$. Now let's solve for $\t
 
 $$
 \begin{aligned}
-\text{Cov}(t(x), \ell'(x)) &= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - \mathbb{E}[t(x)] \mathbb{E}[\ell'_x(\theta)] \\
+\text{Cov}(t(x), \ell'_x(\theta)) &= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - \mathbb{E}[t(x)] \mathbb{E}[\ell'_x(\theta)] \\
 \end{aligned}
-$$
-Now, in the first section of this Chapter, we showed that $\mathbb{E}[\ell'_x(\theta)] = 0$. So, let's apply that and continue to manipulate.
+$$ Now, in the first section of this Chapter, we showed that $\mathbb{E}[\ell'_x(\theta)] = 0$. So, let's apply that and continue to manipulate.
 
 $$
 \begin{aligned}
-\text{Cov}(t(x), \ell'(x)) &= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - 0 \\
-&= \int_{-\infty}^\infty t(x) \ell'(x) f_\theta(x) dx
+\text{Cov}(t(x), \ell'_x(\theta)) &= \mathbb{E}[t(x) \cdot \ell'_x(\theta)] - 0 \\
+&= \int_{-\infty}^\infty t(x) \ell'_x(\theta) f_\theta(x) dx
 \end{aligned}
 $$
 
@@ -161,17 +159,16 @@ Using this, we can say that:
 
 $$
 \begin{aligned}
-\text{Cov}(t(x), \ell'(x)) &= \int_{-\infty}^\infty t(x) \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} f_\theta(x) dx \\
+\text{Cov}(t(x), \ell'_x(\theta)) &= \int_{-\infty}^\infty t(x) \frac{\frac{d}{d \theta} f_\theta(x)}{f_\theta(x)} f_\theta(x) dx \\
 &= \int_{-\infty}^\infty t(x) \frac{d}{d \theta} f_\theta(x) dx \\
 &= \frac{d}{d \theta}\int_{-\infty}^\infty t(x)  f_\theta(x) dx \\
 &= \frac{d}{d \theta}\mathbb{E}[t(x)] \\
 &= \frac{d}{d \theta} \theta \text{ [NOTE: This is because t(x) is unbiased]} \\
 &= 1
 \end{aligned}
-$$
-So, using the Cauchy-Schwarz Inequality, we can say that 
+$$ So, using the Cauchy-Schwarz Inequality, we can say that
 
-$1 = \text{Cov}^2(t(x), \ell'(x)) \leq \text{Var}(t(x)) \text{Var}(\ell'_x(\theta))$
+$1 = \text{Cov}^2(t(x), \ell'_x(\theta)) \leq \text{Var}(t(x)) \text{Var}(\ell'_x(\theta))$
 
 So, this means that:
 
@@ -185,9 +182,9 @@ CRLB: $\frac{1}{\text{Var}(\ell'_x(\theta))} = \frac{1}{I(\theta)} = \frac{1}{-\
 
 As described above, the CRLB for unbiased estimators is $\frac{1}{I(\theta)}$, where $I(\theta)$ is defined as the variance of the score. However, we proved above that the variance of the score, $\text{Var}(\ell'(\theta))$ is actually equivalent to $-\mathbb{E}[\ell''(\theta)]$
 
-So, this means that the CRLB for unbiased estimators is $\frac{1}{-\mathbb{E}[\ell''(\theta)]}$. 
+So, this means that the CRLB for unbiased estimators is $\frac{1}{-\mathbb{E}[\ell''_x(\theta)]}$.
 
-In Chapter 1, I wrote For $X_1,...,X_n \sim \text{NegBin}(r, p)$, then $\ell'(p) = \frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1-p}$:
+In Chapter 1, I wrote for $X_1,...,X_n \sim \text{NegBin}(r, p)$, then $\ell'(p) = \frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1-p}$:
 
 This means that $\ell''(p) = -\frac{rn}{p^2} - \frac{\sum_{i=1}^n x_i}{(1-p)^2}$
 
@@ -197,8 +194,7 @@ $$
 &= -\left(\frac{rn}{p^2} + \frac{rn(1-p)}{p(1-p)^2} \right) \\
 &= -\frac{rn}{p^2(1-p)}
 \end{aligned}
-$$
-So, the lowest possible variance for an unbiased estimator for $p$ is $\frac{p^2(1-p)}{rn}$. 
+$$ So, the lowest possible variance for an unbiased estimator for $p$ is $\frac{p^2(1-p)}{rn}$.
 
 ## Does it Apply?
 

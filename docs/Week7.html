@@ -1744,7 +1744,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficiency</span></span></a>
   </div>
 </li>
     </ul>
@@ -2085,7 +2085,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>I mention this in Chapter 6, but as a reminder:</p>
-<p>In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
+<p>In my hospital dataset, the data that has a negative binomial distribution is the number of people each person infected beyond the first person (This is because all infectors in the dataset infected at least one person, so we subtract one to have a healthy amount of zero values). Google says that for the Flu, the average person with the disease spreads it to 1-2 people. As our negative binomial distribution only counts the number of additional people each person infects after the first, then setting <span class="math inline">\(E[X] = 0.5\)</span> feels fair. In other words, for the flu, it is reasonable to stay the average person in a hospital with a disease infects 0.5 extra people. That would means that <span class="math inline">\(\mathbb{E}[X] = \frac{r(1-p)}{p} = 0.5\)</span>.</p>
 <p>I isolated for <span class="math inline">\(p\)</span> in Chapter 6, and got that <span class="math inline">\(p = 0.6\)</span>:</p>
 <p>Let’s say our null hypothesis is <span class="math inline">\(H_0\)</span>: <span class="math inline">\(p = 0.6\)</span>. Now, we are curious if maybe COVID has a different degree of infectiousness than the flu (not considering other considerations like how my dataset is limited to people only already at the hospital). This would mean that <span class="math inline">\(E[X] \neq 0.5\)</span>, and <span class="math inline">\(p \neq 0.6\)</span>.</p>
 <p>So, this gives us:</p>
@@ -2096,7 +2096,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>We can write this out as:</p>
 <p><span class="math display">\[
 \begin{aligned}
-\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &amp;= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x} p^r (1 - p)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
+\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} &amp;= \frac{\prod _{i=1}^n \binom{x_i + r - 1}{x_i} p^r (1 - p)^{x_i}}{ \prod_{i=1}^n \binom{x_i + r - 1}{x_i} (p_0)^r (1 - p_0)^{x_i}} \\
 \end{aligned}
 \]</span></p>
 <p>We know that for the numerator, the <span class="math inline">\(p\)</span> that gives the greatest likelihood is <span class="math inline">\(\hat{p}_{MLE}\)</span>. In Chapter 1, I calculate the <span class="math inline">\(\hat{p}_{MLE}\)</span> for multiple samples of the Negative Binomial distribution is <span class="math inline">\(\frac{r}{r + \bar{x}}\)</span>.</p>
@@ -2115,14 +2115,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>We want to reject when <span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \geq c\)</span>, where: <span class="math display">\[P(\texttt{test\_statistic} \geq c) = \alpha = 0.05\]</span></p>
 <p>However, this does not simplify to a distribution I recognize, so I cannot solve for <span class="math inline">\(c\)</span>.</p>
 <p>Still, we want to maximize this function. As log is monotonic, we can take the logarithm of the fraction.</p>
-<p><span class="math display">\[
-\begin{aligned}
+$$
+<span class="math display">\[\begin{aligned}
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &amp;= \log \Bigg( \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}} \Bigg)\\
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &amp;= nr \log(\frac{r}{r + \bar{x}}) + \sum_{i=1}^n x_i \log(1 - \frac{r}{r + \bar{x}})- \Big( nr \log(p_0)  + \sum_{i=1}^n x_i \log(1 - p_0) \Big)\\
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &amp;= nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big) \\
-\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &amp;= nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)
-\end{aligned}
-\]</span></p>
+
+\end{aligned}\]</span>
+<p>$$</p>
 <p>Once again, this also does not simplify to a distribution I recognize. So, we are left to either simulate or take the asymptotic distribution.</p>
 <section id="simulation" class="level3" data-number="7.2.1">
 <h3 data-number="7.2.1" class="anchored" data-anchor-id="simulation"><span class="header-section-number">7.2.1</span> Simulation</h3>
@@ -2137,11 +2137,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>As <span class="math inline">\(\log (\Lambda)\)</span> is 23.55, which is <span class="math inline">\(&gt;c\)</span>, we reject <span class="math inline">\(H_0\)</span>.</p>
-<p>A power curve stricly from simulation is generated in the code block below.</p>
+<p>A power curve strictly from simulation is generated in the code block below.</p>
 <p>Note, for the sake of runtime, I lowered <code>n</code> to 50 in the code. I recommend messing around and changing <code>n</code> to see how the power curve changes.</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>I recommend going back in the code and seeing how changing <code>n</code> can effect your power curve.</p>
+<p>I recommend going back in the code and seeing how changing <code>n</code> can affect your power curve.</p>
 </section>
 <section id="asymptotic" class="level3" data-number="7.2.2">
 <h3 data-number="7.2.2" class="anchored" data-anchor-id="asymptotic"><span class="header-section-number">7.2.2</span> Asymptotic</h3>
@@ -2157,7 +2157,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>So, from the code block above, <span class="math inline">\(c = 3.841459\)</span></p>
 <p>Now, let’s check our data. Let’s assume <span class="math inline">\(r = 0.75\)</span>. Remember that Wilks’ Theorem states that for large <span class="math inline">\(n\)</span> when there is only one unknown parameter.</p>
 <p><span class="math inline">\(2 \log(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)}) \sim \chi^2_1\)</span>.</p>
-<p>For our Negative Binomial: <span class="math inline">\(\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big)\)</span></p>
+<p>For our Negative Binomial: <span class="math inline">\(2\log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) = 2 \Bigg(nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \Big(\sum_{i=1}^n x_i \Big)\log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big) \Bigg)\)</span></p>
 <p>Let’s proceed with <span class="math inline">\(r=0.75\)</span>.</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>

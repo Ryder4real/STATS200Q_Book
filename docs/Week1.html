@@ -1744,7 +1744,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Week9.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficency</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sufficiency</span></span></a>
   </div>
 </li>
     </ul>
@@ -2073,9 +2073,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <section id="background" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="background"><span class="header-section-number">1.1</span> Background</h2>
-<p>This chapter covers the Bayesianand frequentist method for estimating a parameter. Imagine you flip a potentially weighted coin N times, and X are heads. How would you about estimating the true probability that the coin lands on heads? This is an interesting question, and Bayesians and frequentists would take different approaches.</p>
+<p>This chapter covers the Bayesian and frequentist method for estimating a parameter. Imagine you flip a potentially weighted coin N times, and X are heads. How would you about estimating the true probability that the coin lands on heads? This is an interesting question, and Bayesians and frequentists would take different approaches.</p>
 <p>This serves as a motivation for estimating parameters. Below, I will estimate <span class="math inline">\(p\)</span> in the Negative Binomial Distribution.</p>
-<p>First, I will first use the Maximum Likelihood Estimation method to estimate <span class="math inline">\(p\)</span>, which is the frequentist approach. Then, I will use a posterior mean, which is the Bayesian approach. Finally, I will compare them using my dataset.</p>
+<p>First, I will use the Maximum Likelihood Estimation method to estimate <span class="math inline">\(p\)</span>, which is the frequentist approach. Then, I will use a posterior mean, which is the Bayesian approach. Finally, I will compare them using my dataset.</p>
 </section>
 <section id="maximum-likelihood-estimation" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="maximum-likelihood-estimation"><span class="header-section-number">1.2</span> Maximum Likelihood Estimation</h2>
@@ -2087,9 +2087,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
     L_{x_1,...,x_n}(p) &amp;= \prod_{i=1}^n \binom{x_i + r- 1}{x_i} p^r (1 - p)^{x_i} \\
     L_{x_1,...,x_n}(p) &amp;= p^{rn} \prod_{i=1}^n \binom{x_i + r- 1}{x_i}  (1 - p)^{x_i} \\
     L_{x_1,...,x_n}(p) &amp;= p^{rn} \Bigg(\prod_{i=1}^n \binom{x_i + r- 1}{x_i} \Bigg) (1 - p)^{\sum_{i=1}^n x_i} \\
-    l_{x_1,...,x_n}(p) &amp;= rn \log(p) + \sum_{i=1}^n \log \left(\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\right) + \left(\sum_{i=1}^n x_i\right) \log(1 - p) \\
-    \frac{d}{dp} l_{x_1,...,x_n}(p) &amp;= \frac{d}{dp} \left( rn\log(p) + \sum_{i=1}^n \log \left(\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\right) + \left(\sum_{i=1}^n x_i\right) \log(1 - p) \right) \\
-    \frac{d}{dp} l_{x_1,...,x_n}(p) &amp;= \left(\frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1 - p} \right) \\
+    \ell_{x_1,...,x_n}(p) &amp;= rn \log(p) + \sum_{i=1}^n \log \left(\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\right) + \left(\sum_{i=1}^n x_i\right) \log(1 - p) \\
+    \frac{d}{dp} \ell_{x_1,...,x_n}(p) &amp;= \frac{d}{dp} \left( rn\log(p) + \sum_{i=1}^n \log \left(\frac{(x_i + r - 1)!}{{x_i}!(r - 1)!}\right) + \left(\sum_{i=1}^n x_i\right) \log(1 - p) \right) \\
+    \frac{d}{dp} \ell_{x_1,...,x_n}(p) &amp;= \left(\frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1 - p} \right) \\
     0 &amp;= \frac{rn}{p} - \frac{\sum_{i=1}^n x_i}{1-p} \\
     \frac{rn}{p} &amp;= \frac{\sum_{i=1}^n x_i}{1-p}  \\
     \frac{1-p}{p} &amp;= \frac{\sum_{i=1}^n x_i}{rn} \\
@@ -2112,8 +2112,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>If we set up our Beta prior with <span class="math inline">\(\alpha=1, \beta = 1\)</span> (which is actually just a uniform), we get:</p>
 <p><span class="math display">\[
 \begin{aligned}
-    \mathbb{E}[P] &amp;= \frac{\alpha + nr}{\alpha + \beta + nr + \sum_{i=1}^n x_i} \\
-    \mathbb{E}[P] &amp;= \frac{1 + nr}{2 + nr + \sum_{i=1}^n x_i}
+    \mathbb{E}[p] &amp;= \frac{\alpha + nr}{\alpha + \beta + nr + \sum_{i=1}^n x_i} \\
+    \mathbb{E}[p] &amp;= \frac{1 + nr}{2 + nr + \sum_{i=1}^n x_i}
 \end{aligned}
 \]</span></p>
 </section>
@@ -2146,7 +2146,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>As we can see from the table produced by the code, <span class="math inline">\(\hat{p}_{MLE}\)</span> has positive bias while <span class="math inline">\(\hat{p}_{PM}\)</span> is biased toward the prior distribution (which in this case leads to positive bias).</p>
 <p><span class="math inline">\(\hat{p}_{PM}\)</span> has less slightly less variance. This is more apparent if you make <code>n_obs</code> smaller in the code.</p>
-<p>Here is the the code for a histogram of <span class="math inline">\(\hat{p}_{MLE}\)</span> over many trials.</p>
+<p>Here is the code for a histogram of <span class="math inline">\(\hat{p}_{MLE}\)</span> over many trials.</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Here is the the code for a histogram of <span class="math inline">\(\hat{p}_{PM}\)</span> over many trials.</p>
