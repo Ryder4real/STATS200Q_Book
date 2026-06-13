@@ -196,6 +196,6 @@ $$
 \end{aligned}
 $$ So, the lowest possible variance for an unbiased estimator for $p$ is $\frac{p^2(1-p)}{rn}$.
 
-## Does it Apply?
+## Does CRLB Apply?
 
 In Week 1, we established from simulation that $\hat{p}_{MLE}$ is positively biased. Additionally, in class we learned that the $\hat{p}_{PM}$ is always biased toward the prior. Since the MLE and Posterior Mean are both biased in this case, the CRLB does not provide a strict lower bound for their variance.

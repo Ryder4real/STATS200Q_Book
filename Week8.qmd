@@ -53,7 +53,7 @@ $P(H_0|x) = \frac{P(H_0) f(x|H_0)}{f(x)}$
 
 NOTE: In the formula below, I will refer to $p$ in $H_0$ as $p_0$. I know we set this equal to $0.6$, but for clarity, I think it is easier to understand with $p_0$.
 
-Remember that $f(x_1,x_2,...x_n)$ is the product of Negative Binomial random variables.
+Remember that $f(x_1,x_2,...,x_n)$ is the product of Negative Binomial random variables.
 
 When taking their ratio, we get the Bayes Factor, which is:
 

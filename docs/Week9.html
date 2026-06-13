@@ -260,11 +260,11 @@ window.Quarto = {
 </section>
 <section id="sufficient-statistic" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="sufficient-statistic"><span class="header-section-number">9.2</span> Sufficient Statistic</h2>
-<p>In class, we learned that for data <span class="math inline">\(X_i,...X_n\)</span> and parameter <span class="math inline">\(\theta\)</span>, a statistic <span class="math inline">\(T(x_i,...x_n)\)</span> is sufficient if either of the following hold:</p>
-<p>1: <span class="math inline">\(f_\theta(x_i,...x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,...,x_n)\)</span>,</p>
+<p>In class we learned that for data <span class="math inline">\(X_i,...,X_n\)</span> and parameter <span class="math inline">\(\theta\)</span>, a statistic <span class="math inline">\(T(x_i,...,x_n)\)</span> is sufficient if either of the following hold:</p>
+<p>1: <span class="math inline">\(f_\theta(x_i,...,x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,...,x_n)\)</span>,</p>
 <p><span class="math inline">\(\quad\)</span> where:</p>
 <p><span class="math inline">\(\qquad g\Big( \theta, T(x_1,...,x_n)\Big)\)</span> depends on <span class="math inline">\(\theta\)</span> only through <span class="math inline">\(T\)</span></p>
-<p><span class="math inline">\(\qquad h(x_1,,...x_n)\)</span> depends only on <span class="math inline">\((x_1,,...x_n)\)</span> and not on <span class="math inline">\(\theta\)</span></p>
+<p><span class="math inline">\(\qquad h(x_1,,...,x_n)\)</span> depends only on <span class="math inline">\((x_1,,...,x_n)\)</span> and not on <span class="math inline">\(\theta\)</span></p>
 <ol start="2" type="1">
 <li><span class="math inline">\(P(X_i=x_1,...,X_n=x_n | T = t)\)</span> does not depend on <span class="math inline">\(\theta\)</span>.</li>
 </ol>
@@ -293,20 +293,20 @@ f_p(x_1,...,x_n) &amp;= p^{rn}(1 - p)^{\sum_{i=1}^n x_i} \cdot  \prod_{i=1}^n \b
 \end{aligned}
 \]</span></p>
 <p>Now, as we have been doing, let’s assume <span class="math inline">\(r\)</span> is fixed and <span class="math inline">\(p\)</span> is the parameter we are interested in estimating.</p>
-<p>Here, if we set <span class="math inline">\(T(X_1,...x_n) = \sum_{i=1}^n x_i\)</span>, then we can rewrite the equation as:</p>
+<p>Here, if we set <span class="math inline">\(T(X_1,...,x_n) = \sum_{i=1}^n x_i\)</span>, then we can rewrite the equation as:</p>
 <p><span class="math display">\[
 \begin{aligned}
 f_p(x_1,...,x_n) &amp;= p^{rn}(1 - p)^{\sum_{i=1}^n x_i} \cdot  \prod_{i=1}^n \binom{x_i + r- 1}{x_i} \\
 &amp;= p^{rn}(1 - p)^{T} \cdot  \prod_{i=1}^n \binom{x_i + r- 1}{x_i} \\
-&amp;= g\Big( p, T(x_1,...,x_n)\Big)  \cdot  h(x_1,,...x_n)
+&amp;= g\Big( p, T(x_1,...,x_n)\Big)  \cdot  h(x_1,,...,x_n)
 \end{aligned}
 \]</span></p>
 <p>where:</p>
 <ol type="1">
 <li><p><span class="math inline">\(g\Big( p, T(x_1,...,x_n)\Big) = p^{rn}(1 - p)^{T}\)</span></p></li>
-<li><p><span class="math inline">\(h(x_1,,...x_n) = \prod_{i=1}^n \binom{x_i + r- 1}{x_i}\)</span></p></li>
+<li><p><span class="math inline">\(h(x_1,,...,x_n) = \prod_{i=1}^n \binom{x_i + r- 1}{x_i}\)</span></p></li>
 </ol>
-<p>As we were able to write our PDF in terms of <span class="math inline">\(g\Big(p, T(x_1,...,x_n)\Big)  \cdot  h(x_1,,...x_n)\)</span>, then this means <span class="math inline">\(T(x_1,...,x_n)\)</span> is a sufficient statistic.</p>
+<p>As we were able to write our PDF in terms of <span class="math inline">\(g\Big(p, T(x_1,...,x_n)\Big)  \cdot  h(x_1,,...,x_n)\)</span>, then this means <span class="math inline">\(T(x_1,...,x_n)\)</span> is a sufficient statistic.</p>
 <p>So, for the Negative Binomial distribution, <span class="math inline">\(\sum_{i=1}^n x_i\)</span> is a sufficient statistic.</p>
 </section>
 <section id="second-proof" class="level3" data-number="9.2.2">
@@ -326,7 +326,7 @@ P(X_1=x_1,...,Xn=x_n | T=t) &amp;= \frac{p^{rn}(1 - p)^{t} \cdot  \prod_{i=1}^n 
 P(X_1=x_1,...,Xn=x_n | T=t) &amp;= \frac{  \prod_{i=1}^n \binom{x_i + r - 1}{x_i}}{\binom{t + nr - 1}{t} } \\
 \end{aligned}
 \]</span></p>
-<p>As we can see, this does not depend on <span class="math inline">\(p\)</span>, proving once again that <span class="math inline">\(T(x_1,...x_n) = \sum_{i=1}^n x_i\)</span> is a sufficient statistic.</p>
+<p>As we can see, this does not depend on <span class="math inline">\(p\)</span>, proving once again that <span class="math inline">\(T(x_1,...,x_n) = \sum_{i=1}^n x_i\)</span> is a sufficient statistic.</p>
 </section>
 </section>
 <section id="seeing-this-in-my-mle-and-posterior-mean" class="level2" data-number="9.3">
@@ -338,7 +338,7 @@ P(X_1=x_1,...,Xn=x_n | T=t) &amp;= \frac{  \prod_{i=1}^n \binom{x_i + r - 1}{x_i
 \hat{p}_{PM} &amp;= \frac{1 + nr}{2 + nr + \sum_{i=1}^n x_i}
 \end{aligned}
 \]</span></p>
-<p>As <span class="math inline">\(T(x_1,...x_n) = \sum_{i=1}^n x_i\)</span>, we can rewrite our MLE and Posterior Mean as functions of T:</p>
+<p>As <span class="math inline">\(T(x_1,...,x_n) = \sum_{i=1}^n x_i\)</span>, we can rewrite our MLE and Posterior Mean as functions of T:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \hat{p}_{MLE} &amp;= \frac{r}{r + \frac{T}{n}} \\

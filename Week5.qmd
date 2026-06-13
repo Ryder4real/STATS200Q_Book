@@ -200,9 +200,7 @@ Here, my Metropolis-Hastings approximate 95% credible interval is around $[0.370
 
 When I did this from the Beta function in Chapter 4 using the `qbeta` function, my 95% credible interval was $[0.3722, 0.4328]$.
 
-So let's further compare these 95% credible intervals:
-
-Width:
+So, let's compare the width of these 95% credible intervals:
 
 Direct computation of the posterior distribution: $0.0606$
 

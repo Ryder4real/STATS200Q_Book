@@ -75,7 +75,6 @@ $$
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= \log \Bigg( \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}} \Bigg)\\
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= nr \log(\frac{r}{r + \bar{x}}) + \sum_{i=1}^n x_i \log(1 - \frac{r}{r + \bar{x}})- \Big( nr \log(p_0)  + \sum_{i=1}^n x_i \log(1 - p_0) \Big)\\
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &= nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big) \\
-
 \end{aligned}
 $$
 

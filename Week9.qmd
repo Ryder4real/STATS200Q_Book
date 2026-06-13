@@ -36,15 +36,15 @@ The MLE and Posterior Mean are always both functions of a sufficient statistic. 
 
 ## Sufficient Statistic
 
-In class, we learned that for data $X_i,...X_n$ and parameter $\theta$, a statistic $T(x_i,...x_n)$ is sufficient if either of the following hold:
+In class we learned that for data $X_i,...,X_n$ and parameter $\theta$, a statistic $T(x_i,...,x_n)$ is sufficient if either of the following hold:
 
-1: $f_\theta(x_i,...x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,...,x_n)$,
+1: $f_\theta(x_i,...,x_n) = g\Big( \theta, T(x_1,...,x_n)\Big) \cdot h(x_1,...,x_n)$,
 
 $\quad$ where:
 
 $\qquad g\Big( \theta, T(x_1,...,x_n)\Big)$ depends on $\theta$ only through $T$
 
-$\qquad h(x_1,,...x_n)$ depends only on $(x_1,,...x_n)$ and not on $\theta$
+$\qquad h(x_1,,...,x_n)$ depends only on $(x_1,,...,x_n)$ and not on $\theta$
 
 2.  $P(X_i=x_1,...,X_n=x_n | T = t)$ does not depend on $\theta$.
 
@@ -82,13 +82,13 @@ $$
 
 Now, as we have been doing, let's assume $r$ is fixed and $p$ is the parameter we are interested in estimating.
 
-Here, if we set $T(X_1,...x_n) = \sum_{i=1}^n x_i$, then we can rewrite the equation as:
+Here, if we set $T(X_1,...,x_n) = \sum_{i=1}^n x_i$, then we can rewrite the equation as:
 
 $$
 \begin{aligned}
  f_p(x_1,...,x_n) &= p^{rn}(1 - p)^{\sum_{i=1}^n x_i} \cdot  \prod_{i=1}^n \binom{x_i + r- 1}{x_i} \\
 &= p^{rn}(1 - p)^{T} \cdot  \prod_{i=1}^n \binom{x_i + r- 1}{x_i} \\
-&= g\Big( p, T(x_1,...,x_n)\Big)  \cdot  h(x_1,,...x_n)
+&= g\Big( p, T(x_1,...,x_n)\Big)  \cdot  h(x_1,,...,x_n)
 \end{aligned}
 $$
 
@@ -96,9 +96,9 @@ where:
 
 1.  $g\Big( p, T(x_1,...,x_n)\Big) = p^{rn}(1 - p)^{T}$
 
-2.  $h(x_1,,...x_n) = \prod_{i=1}^n \binom{x_i + r- 1}{x_i}$
+2.  $h(x_1,,...,x_n) = \prod_{i=1}^n \binom{x_i + r- 1}{x_i}$
 
-As we were able to write our PDF in terms of $g\Big(p, T(x_1,...,x_n)\Big)  \cdot  h(x_1,,...x_n)$, then this means $T(x_1,...,x_n)$ is a sufficient statistic.
+As we were able to write our PDF in terms of $g\Big(p, T(x_1,...,x_n)\Big)  \cdot  h(x_1,,...,x_n)$, then this means $T(x_1,...,x_n)$ is a sufficient statistic.
 
 So, for the Negative Binomial distribution, $\sum_{i=1}^n x_i$ is a sufficient statistic.
 
@@ -124,7 +124,7 @@ P(X_1=x_1,...,Xn=x_n | T=t) &= \frac{  \prod_{i=1}^n \binom{x_i + r - 1}{x_i}}{\
 \end{aligned}
 $$
 
-As we can see, this does not depend on $p$, proving once again that $T(x_1,...x_n) = \sum_{i=1}^n x_i$ is a sufficient statistic.
+As we can see, this does not depend on $p$, proving once again that $T(x_1,...,x_n) = \sum_{i=1}^n x_i$ is a sufficient statistic.
 
 ## Seeing This in My MLE and Posterior Mean
 
@@ -137,7 +137,7 @@ $$
 \end{aligned}
 $$
 
-As $T(x_1,...x_n) = \sum_{i=1}^n x_i$, we can rewrite our MLE and Posterior Mean as functions of T:
+As $T(x_1,...,x_n) = \sum_{i=1}^n x_i$, we can rewrite our MLE and Posterior Mean as functions of T:
 
 $$
 \begin{aligned}

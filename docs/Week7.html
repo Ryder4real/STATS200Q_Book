@@ -2115,14 +2115,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>We want to reject when <span class="math inline">\(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \geq c\)</span>, where: <span class="math display">\[P(\texttt{test\_statistic} \geq c) = \alpha = 0.05\]</span></p>
 <p>However, this does not simplify to a distribution I recognize, so I cannot solve for <span class="math inline">\(c\)</span>.</p>
 <p>Still, we want to maximize this function. As log is monotonic, we can take the logarithm of the fraction.</p>
-$$
-<span class="math display">\[\begin{aligned}
+<p><span class="math display">\[
+\begin{aligned}
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &amp;= \log \Bigg( \frac{(\frac{r}{r + \bar{x}})^{nr} (1 - \frac{r}{r + \bar{x}})^{\sum_{i=1}^n x_i}}{(p_0)^{nr} (1 - p_0)^{\sum_{i=1}^n x_i}} \Bigg)\\
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &amp;= nr \log(\frac{r}{r + \bar{x}}) + \sum_{i=1}^n x_i \log(1 - \frac{r}{r + \bar{x}})- \Big( nr \log(p_0)  + \sum_{i=1}^n x_i \log(1 - p_0) \Big)\\
 \log \Big(\frac{\max_{p} \mathcal{L}(p)}{\mathcal{L}(p_0)} \Big) &amp;= nr \log \Big(\frac{\frac{r}{r + \bar{x}}}{p_0}\Big) + \sum_{i=1}^n x_i \log \Big( \frac{1-\frac{r}{r + \bar{x}}}{1-p_0} \Big) \\
-
-\end{aligned}\]</span>
-<p>$$</p>
+\end{aligned}
+\]</span></p>
 <p>Once again, this also does not simplify to a distribution I recognize. So, we are left to either simulate or take the asymptotic distribution.</p>
 <section id="simulation" class="level3" data-number="7.2.1">
 <h3 data-number="7.2.1" class="anchored" data-anchor-id="simulation"><span class="header-section-number">7.2.1</span> Simulation</h3>

@@ -1762,7 +1762,7 @@ window.Quarto = {
   <li><a href="#mse" id="toc-mse" class="nav-link" data-scroll-target="#mse"><span class="header-section-number">2.3</span> MSE</a></li>
   <li><a href="#proving-the-cramer-rao-lower-bound" id="toc-proving-the-cramer-rao-lower-bound" class="nav-link" data-scroll-target="#proving-the-cramer-rao-lower-bound"><span class="header-section-number">2.4</span> Proving the Cramer-Rao Lower Bound</a></li>
   <li><a href="#finding-the-crlb" id="toc-finding-the-crlb" class="nav-link" data-scroll-target="#finding-the-crlb"><span class="header-section-number">2.5</span> Finding the CRLB</a></li>
-  <li><a href="#does-it-apply" id="toc-does-it-apply" class="nav-link" data-scroll-target="#does-it-apply"><span class="header-section-number">2.6</span> Does it Apply?</a></li>
+  <li><a href="#does-crlb-apply" id="toc-does-crlb-apply" class="nav-link" data-scroll-target="#does-crlb-apply"><span class="header-section-number">2.6</span> Does CRLB Apply?</a></li>
   </ul>
 </nav>
     </div>
@@ -2188,8 +2188,8 @@ L_x(\theta) &amp;= f_\theta(x) \\
 \end{aligned}
 \]</span> So, the lowest possible variance for an unbiased estimator for <span class="math inline">\(p\)</span> is <span class="math inline">\(\frac{p^2(1-p)}{rn}\)</span>.</p>
 </section>
-<section id="does-it-apply" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="does-it-apply"><span class="header-section-number">2.6</span> Does it Apply?</h2>
+<section id="does-crlb-apply" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="does-crlb-apply"><span class="header-section-number">2.6</span> Does CRLB Apply?</h2>
 <p>In Week 1, we established from simulation that <span class="math inline">\(\hat{p}_{MLE}\)</span> is positively biased. Additionally, in class we learned that the <span class="math inline">\(\hat{p}_{PM}\)</span> is always biased toward the prior. Since the MLE and Posterior Mean are both biased in this case, the CRLB does not provide a strict lower bound for their variance.</p>
 
 
